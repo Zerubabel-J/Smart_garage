@@ -1,0 +1,26 @@
+Step-1, 
+Deal with the design 
+
+Step-2, 
+Get clear with the API documentation
+Step-3,
+Create the Github ropo and clone it to your local machine
+Step-4,
+-- Create the database
+CREATE DATABASE IF NOT EXISTS smartgarage;
+
+-- Switch to the newly created database
+USE smartgarage;
+
+-- Create a user with the specified username and password
+CREATE USER 'smartuser'@'localhost' IDENTIFIED BY 'focus@energy';
+
+-- Grant all privileges on the smartgarage database to the smartuser
+GRANT ALL PRIVILEGES ON smartgarage.* TO 'smartuser'@'localhost';
+
+-- Flush privileges to apply changes
+FLUSH PRIVILEGES;
+
+
+Step-5,
+Start with the backend
