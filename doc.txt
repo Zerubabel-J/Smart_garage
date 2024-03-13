@@ -23,4 +23,5 @@ FLUSH PRIVILEGES;
 
 
 Step-5,
-Start with the backend
+Start with the backend by sturucturing it in a stadard format 
+
