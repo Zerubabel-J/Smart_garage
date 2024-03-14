@@ -9,13 +9,14 @@ const cors = require("cors");
 // };
 
 const port = process.env.PORT;
-// const router = require("./routes");
+const router = require("./routes");
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 // app.use(sanitize.middleware);
-// app.use(router);
+
+app.use(router);
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
