@@ -2,7 +2,13 @@
 const installService = require("../services/install.service");
 
 function welcome(req, res, next) {
-  res.send("Hello & Welcome to the Smart Garage API");
+  let responseMsg = installService.yes();
+  console.log(responseMsg);
+  if (responseMsg) {
+    res.send("Yess there & Welcome to the Smart Garage API");
+  } else {
+    res.send("Visit us latter");
+  }
 }
 
 // Create a function to handle the install request

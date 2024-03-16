@@ -1,57 +1,49 @@
-// Import the query function from the db.config.js file 
 const conn = require("../config/db.config");
-// Import the fs module to read our sql file  
-const fs = require('fs');
-// Write a function to create the database tables  
+const fs = require("fs").promises;
+
 async function install() {
-  // Create a variable to hold the path to the sql file  
-  const queryfile = __dirname + '/sql/initial-queries.sql';
-  // console.log(queryfile);
-  // Temporary variable, used to store all queries, the return message and the current query
-  let queries = [];
-  let finalMessage = {};
-  let templine = '';
-  // Read the sql file 
-  const lines = await fs.readFileSync(queryfile, 'utf-8').split('\n');
-  // Create a promise to handle the asynchronous reading of the file and storing of the queries in the variables  
-  const executed = await new Promise((resolve, reject) => {
-    // Iterate over all lines
-    lines.forEach((line) => {
-      if (line.trim().startsWith('--') || line.trim() === '') {
-        // Skip if it's a comment or empty line
-        return;
-      }
-      templine += line;
-      if (line.trim().endsWith(';')) {
-        // If it has a semicolon at the end, it's the end of the query
-        // Prepare the individual query 
-        const sqlQuery = templine.trim();
-        // Add query to the list of queries 
-        queries.push(sqlQuery);
-        templine = '';
-      }
-    });
-    resolve("Queries are added to the list");
-  });
-  //Loop through the queries and execute them one by one asynchronously  
-  for (let i = 0; i < queries.length; i++) {
-    try {
-      const result = await conn.query(queries[i]);
+  try {
+    // Read SQL queries from file
+    const queries = await readSQLFile(__dirname + "/sql/user.sql");
+
+    // Execute each query
+    for (const query of queries) {
+      await executeQuery(query);
       console.log("Table created");
-    } catch (err) {
-      // console.log("Err Occurred - Table not created");
-      finalMessage.message = "Not all tables are created";
     }
+
+    // Return success message
+    return { message: "All tables are created", status: 200 };
+  } catch (error) {
+    // Return error message
+    console.error("Error during installation:", error);
+    return { message: "Failed to create tables", status: 500 };
   }
-  // Prepare the final message to return to the controller 
-  if (!finalMessage.message) {
-    finalMessage.message = "All tables are created";
-    finalMessage.status = 200;
-  } else {
-    finalMessage.status = 500;
-  }
-  // Return the final message
-  return finalMessage;
 }
-// Export the install function for use in the controller
+
+async function readSQLFile(filePath) {
+  // Read the SQL file asynchronously
+  const sqlFileContent = await fs.readFile(filePath, "utf-8");
+
+  // Split the content of the SQL file into individual queries
+  const queriesArray = sqlFileContent.split(";");
+
+  // Filter out any empty or whitespace-only queries
+  const nonEmptyQueries = queriesArray.filter((query) => query.trim() !== "");
+
+  // Return the array of non-empty SQL queries
+  return nonEmptyQueries;
+}
+
+async function executeQuery(query) {
+  // Execute a single SQL query
+  try {
+    await conn.query(query);
+  } catch (error) {
+    // Throw error if query execution fails
+    console.error("Error executing query:", query, error);
+    throw error;
+  }
+}
+
 module.exports = { install };

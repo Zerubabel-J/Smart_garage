@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `customer_identifier` (
   UNIQUE (customer_email)
 ) ENGINE=InnoDB;
 
+
 CREATE TABLE IF NOT EXISTS `customer_info` (
   `customer_info_id` int(11) NOT NULL AUTO_INCREMENT,
   `customer_id` int(11) NOT NULL, 
