@@ -31,7 +31,7 @@ async function logIn(employeeData) {
     }
     returnData = {
       status: "success",
-      data: employee[0],
+      data: employee[0], // this may lead to some repeatition with the built in data method of response object
     };
     return returnData;
   } catch (error) {

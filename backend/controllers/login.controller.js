@@ -12,6 +12,7 @@ async function logIn(req, res, next) {
     const employeeData = req.body;
     // Call the logIn method from the login service
     const employee = await loginService.logIn(employeeData);
+    console.log("employee info", employee);
     // If the employee is not found
     if (employee.status === "fail") {
       res.status(403).json({
@@ -34,6 +35,11 @@ async function logIn(req, res, next) {
     const sendBack = {
       employee_token: token,
     };
+    // console.log({
+    //   status: "success",
+    //   message: "Employee logged in successfully",
+    //   data: sendBack,
+    // });
     res.status(200).json({
       status: "success",
       message: "Employee logged in successfully",

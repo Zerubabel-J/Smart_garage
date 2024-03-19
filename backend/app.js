@@ -12,7 +12,7 @@ const port = process.env.PORT;
 const router = require("./routes");
 const app = express();
 const fs = require("fs").promises;
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(sanitize.middleware);
 
