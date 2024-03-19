@@ -53,6 +53,7 @@ const LoginForm = () => {
         // console.log(response.data.data.employee_token);
         if (response.data.data.employee_token) {
           localStorage.setItem("employee", JSON.stringify(response.data));
+          console.log(" Local Storage" + localStorage.getItem("employee"));
           // console.log(" Local Storage" + localStorage.getItem("employee"));
         }
 

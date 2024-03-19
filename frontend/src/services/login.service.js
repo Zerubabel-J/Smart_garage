@@ -12,7 +12,7 @@ const logIn = async (formData) => {
         },
       }
     );
-    console.log("Axios response :", response);
+    console.log("Axios response>>>>>>>>> :", response);
     return response;
   } catch (error) {
     // Handle error
@@ -21,6 +21,11 @@ const logIn = async (formData) => {
   }
 };
 
+const logOut = () => {
+  localStorage.removeItem("employee");
+};
+
 export default {
   logIn,
+  logOut,
 };
