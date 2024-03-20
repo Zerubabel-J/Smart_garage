@@ -5,13 +5,6 @@ const router = express.Router();
 // Import the install controller
 const installController = require("../controllers/install.controller");
 // Create a route to handle the install request on get
-router.get("/", (req, res) => {
-  res.send("Router, Welcome to the Smart Garage API");
-});
-router.get("/hi", (req, res) => {
-  res.send("Hi, Welcome to the Smart Garage API");
-});
-router.get("/yes", installController.welcome);
 
 router.get("/install", installController.install);
 // Export the router
