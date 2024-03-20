@@ -1,12 +1,15 @@
 import axios from "axios";
 
-const createEmployee = async (formData) => {
+const createEmployee = async (formData, loggedInEmployeeToken) => {
   try {
     const response = await axios.post(
       `http://localhost:8000/api/employee`,
       formData,
       {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": loggedInEmployeeToken,
+        },
       }
     );
     return response;

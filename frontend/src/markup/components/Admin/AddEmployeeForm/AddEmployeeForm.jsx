@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 // import employeeService
 import employeeService from "../../../../services/employee.service";
+import { useAuth } from "../../../../Contexts/AuthContext";
+
 const AddEmployeeForm = () => {
   const [employee_email, setEmail] = useState("");
   const [employee_first_name, setFirstName] = useState("");
@@ -18,6 +20,17 @@ const AddEmployeeForm = () => {
   const [passwordError, setPasswordError] = useState("");
   const [success, setSuccess] = useState(false);
   const [serverError, setServerError] = useState("");
+  // Create a variable to hold the user's token
+  let loggedInEmployeeToken = "";
+  // Destructure the auth hook and get the token
+  const { employee } = useAuth();
+  // If the user is logged in, get the token
+  if (employee) {
+    loggedInEmployeeToken = employee.data.employee_token;
+  }
+  // if (employee.data.employee_token) {
+  //   loggedInEmployeeToken = employee.data.employee_token;
+  // }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +52,10 @@ const AddEmployeeForm = () => {
     }
 
     try {
-      const response = await employeeService.createEmployee(formData);
+      const response = await employeeService.createEmployee(
+        formData,
+        loggedInEmployeeToken
+      );
       console.log(response);
       if (response.data.error) {
         console.log("Server Error");
