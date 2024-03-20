@@ -74,10 +74,21 @@ export const AuthProvider = ({ children }) => {
       // Retrieve the logged in user from local storage
       const loggedInEmployee = await getAuth();
       console.log("Logged Employeee", loggedInEmployee);
-      console.log(loggedInEmployee.data.employee_token);
-      if (loggedInEmployee) {
+      // console.log(loggedInEmployee.data.employee_token);
+
+      // ########### Error--code ################
+      // if (loggedInEmployee) {
+      //   setIsLogged(true);
+      //   // 3 is the employee_role for admin
+      //   if (loggedInEmployee.employee_role === 3) {
+      //     setIsAdmin(true);
+      //   }
+      //   setEmployee(loggedInEmployee);
+      // }
+      // #########################
+
+      if (Object.keys(loggedInEmployee).length > 0) {
         setIsLogged(true);
-        // 3 is the employee_role for admin
         if (loggedInEmployee.employee_role === 3) {
           setIsAdmin(true);
         }
