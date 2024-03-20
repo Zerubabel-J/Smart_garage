@@ -29,7 +29,7 @@ async function createEmployee(req, res, next) {
         });
       }
     } catch (error) {
-      console.log(err);
+      // console.log(err);
       res.status(400).json({
         error: "Something went wrong!",
       });

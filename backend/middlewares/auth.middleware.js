@@ -10,7 +10,7 @@ const employeeService = require("../services/employee.service");
 const verifyToken = async (req, res, next) => {
   let token = req.headers["x-access-token"];
   if (!token) {
-    console.log("No token provided!", res.status(403));
+    console.log("No token provided!");
     return res.status(403).send({
       status: "fail",
       message: "No token provided!",
@@ -19,7 +19,7 @@ const verifyToken = async (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-      console.log("Unauthorized!", res.status(401));
+      console.log("Unauthorized!");
       return res.status(401).send({
         status: "fail",
         message: "Unauthorized!",
@@ -41,10 +41,11 @@ const isAdmin = async (req, res, next) => {
   if (employee[0].company_role_id === 3) {
     next();
   } else {
-    console.log("Not an Admin!", res.status(403));
+    console.log("Not an Admin!");
     return res.status(403).send({
       status: "fail",
       error: "Not an Admin!",
+      message: "Only Admins can add employees",
     });
   }
 };

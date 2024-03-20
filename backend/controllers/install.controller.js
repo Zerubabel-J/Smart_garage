@@ -3,7 +3,7 @@ const installService = require("../services/install.service");
 
 function welcome(req, res, next) {
   let responseMsg = installService.yes();
-  console.log(responseMsg);
+  // console.log(responseMsg);
   if (responseMsg) {
     res.send("Yess there & Welcome to the Smart Garage API");
   } else {

@@ -17,12 +17,12 @@ app.use(express.json());
 app.use(sanitize.middleware);
 
 app.use(router); // handle all the request from the user
-async function show() {
-  const queries = await readSQLFile(
-    __dirname + "/services/sql/initial-queries.sql"
-  );
-  console.log(queries);
-}
+// async function show() {
+//   const queries = await readSQLFile(
+//     __dirname + "/services/sql/initial-queries.sql"
+//   );
+//   // console.log(queries);
+// }
 
 // show();
 app.listen(port, () => {
