@@ -3,6 +3,7 @@ import React from "react";
 import { useAuth } from "../../../Contexts/AuthContext";
 // Import the Login component
 import LoginForm from "../../components/LoginForm/LoginForm";
+import EmployeesList from "../../components/Admin/EmployeesList/EmployeesList";
 
 function Employees() {
   // Destructure the auth hook
@@ -13,7 +14,7 @@ function Employees() {
     if (isAdmin) {
       return (
         <div>
-          <h1>Employees Page</h1>
+          <EmployeesList />
         </div>
       );
     } else {
