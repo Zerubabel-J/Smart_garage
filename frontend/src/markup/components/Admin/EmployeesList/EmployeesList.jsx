@@ -1,6 +1,10 @@
 // Import the necessary components
 import React, { useState, useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
+import { MdDelete } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
+//import link
+import { Link } from "react-router-dom";
 // Import the auth hook
 import { useAuth } from "../../../../Contexts/AuthContext";
 // Import the date-fns library
@@ -57,7 +61,7 @@ const EmployeesList = () => {
     const fetchData = async () => {
       try {
         const allEmployees = await employeeService.getAllEmployees(token);
-        console.log(allEmployees);
+        // console.log("Got it, man", allEmployees);
 
         if (allEmployees.status !== "success") {
           console.log("heyyyyyyy");
@@ -74,6 +78,9 @@ const EmployeesList = () => {
         }
         // const data = await allEmployees.json();
         const data = allEmployees.data;
+        // console.log(data);
+        // console.log(data.length);
+
         if (data.length !== 0) {
           setEmployees(data);
         }
@@ -92,7 +99,7 @@ const EmployeesList = () => {
         <section className="contact-section">
           <div className="auto-container">
             <div className="contact-title">
-              <h2>{apiErrorMessage}</h2>
+              <h2 style={{ color: "red" }}>{apiErrorMessage}</h2>
             </div>
           </div>
         </section>
@@ -132,7 +139,21 @@ const EmployeesList = () => {
                       </td>
                       <td>{employee.company_role_name}</td>
                       <td>
-                        <div className="edit-delete-icons">edit | delete</div>
+                        <div className="edit-delete-icons">
+                          <Link
+                            style={{ color: "red" }}
+                            to={`/employee/${employee.employee_id}/delete`}
+                          >
+                            <MdDelete />
+                          </Link>
+                          |{" "}
+                          <Link
+                            style={{ color: "blue" }}
+                            to={`/employee/${employee.employee_id}/delete`}
+                          >
+                            <MdEdit />
+                          </Link>
+                        </div>
                       </td>
                     </tr>
                   ))}

@@ -1,3 +1,4 @@
 /node_modules
+/utils/backCode.js
 .env
 env.production

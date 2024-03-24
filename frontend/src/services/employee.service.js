@@ -30,6 +30,8 @@ const getAllEmployees = async (token) => {
         "x-access-token": token,
       },
     });
+    // console.log("It's me", response);
+    // console.log("It's data", response.data);
     return response.data;
   } catch (error) {
     // Handle error

@@ -18,5 +18,19 @@ router.get(
   [authMiddleware.verifyToken, authMiddleware.isAdmin],
   employeeController.getAllEmployees
 );
+
+// Create a route to handle deleting an employee
+// router.delete(
+//   "/api/employee/:id",
+//   [authMiddleware.verifyToken, authMiddleware.isAdmin],
+//   employeeController.deleteEmployee
+// );
+
+// Create a route to handle editing an employee
+// router.put(
+//   "/api/employee/:id",
+//   [authMiddleware.verifyToken, authMiddleware.isAdmin],
+//   employeeController.editEmployee
+// );
 // Export the router
 module.exports = router;

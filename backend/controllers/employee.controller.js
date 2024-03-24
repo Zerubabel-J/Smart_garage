@@ -50,9 +50,11 @@ async function getAllEmployees(req, res, next) {
     res.status(200).json({
       status: "success",
       data: employees,
+      user: "Zman",
     });
   }
 }
+
 // Export the createEmployee controller
 module.exports = {
   createEmployee,
