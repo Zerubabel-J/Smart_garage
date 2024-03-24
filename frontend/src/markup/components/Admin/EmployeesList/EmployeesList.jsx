@@ -11,16 +11,10 @@ import { useAuth } from "../../../../Contexts/AuthContext";
 import { format } from "date-fns"; // To properly format the date on the table
 // Import the getAllEmployees function
 import employeeService from "../../../../services/employee.service";
-import { all } from "axios";
-
 // Create the EmployeesList component
 const EmployeesList = () => {
-  // Create all the states we need to store the data
-  // Create the employees state to store the employees data
   const [employees, setEmployees] = useState([]);
-  // A state to serve as a flag to show the error message
   const [apiError, setApiError] = useState(false);
-  // A state to store the error message
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
   // To get the logged in employee token
   const { employee } = useAuth();
@@ -29,39 +23,21 @@ const EmployeesList = () => {
   if (employee) {
     token = employee.data.employee_token;
   }
+  // Handle delete
+  const handleDelete = async (employeeId) => {
+    try {
+      await employeeService.deleteEmployeeById(token, employeeId);
+      setEmployees(employees.filter((emp) => emp.employee_id !== employeeId)); // Remove the deleted employee from the state
+    } catch (error) {
+      console.error("Error deleting employee:", error);
+    }
+  };
 
-  // useEffect(() => {
-  //   // Call the getAllEmployees function
-  //   const allEmployees = employeeService.getAllEmployees(token);
-  //   allEmployees
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         console.log(res.status);
-  //         setApiError(true);
-  //         if (res.status === 401) {
-  //           setApiErrorMessage("Please login again");
-  //         } else if (res.status === 403) {
-  //           setApiErrorMessage("You are not authorized to view this page");
-  //         } else {
-  //           setApiErrorMessage("Please try again later");
-  //         }
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       if (data.data.length !== 0) {
-  //         setEmployees(data.data);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       // console.log(err);
-  //     });
-  // }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const allEmployees = await employeeService.getAllEmployees(token);
-        // console.log("Got it, man", allEmployees);
+        console.log("Got it, man", allEmployees.data[0].employee_id);
 
         if (allEmployees.status !== "success") {
           console.log("heyyyyyyy");
@@ -142,7 +118,7 @@ const EmployeesList = () => {
                         <div className="edit-delete-icons">
                           <Link
                             style={{ color: "red" }}
-                            to={`/employee/${employee.employee_id}/delete`}
+                            onClick={() => handleDelete(employee.employee_id)}
                           >
                             <MdDelete />
                           </Link>
