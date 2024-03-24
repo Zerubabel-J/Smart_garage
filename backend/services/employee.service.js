@@ -1,5 +1,7 @@
 // Import the query function from the db.config.js file
 const conn = require("../config/db.config");
+const { query, pool } = require("../config/db.config");
+
 // Import the bcrypt module
 const bcrypt = require("bcrypt");
 // A function to check if employee exists in the database
@@ -68,7 +70,7 @@ async function getEmployeeByEmail(employee_email) {
   const query =
     "SELECT * FROM employee INNER JOIN employee_info ON employee.employee_id = employee_info.employee_id INNER JOIN employee_pass ON employee.employee_id = employee_pass.employee_id INNER JOIN employee_role ON employee.employee_id = employee_role.employee_id WHERE employee.employee_email = ?";
   const rows = await conn.query(query, [employee_email]);
-  console.log("Rows of the data from inner join", rows);
+
   return rows;
 }
 // A function to get all employees
@@ -78,8 +80,120 @@ async function getAllEmployees() {
   const query =
     "SELECT * FROM employee INNER JOIN employee_info ON employee.employee_id = employee_info.employee_id  INNER JOIN employee_role ON employee.employee_id = employee_role.employee_id INNER JOIN company_roles ON employee_role.company_role_id = company_roles.company_role_id ORDER BY employee.employee_id DESC limit 10";
   const rows = await conn.query(query);
-  console.log("Rows here", rows);
+
   return rows;
+}
+
+// Function to delete an employee by ID
+// async function deleteEmployeeById(id) {
+//   const query = `DELETE employee, employee_info, employee_pass, employee_role
+//   FROM employee
+//   INNER JOIN employee_info ON employee.employee_id = employee_info.employee_id
+//   INNER JOIN employee_pass ON employee.employee_id = employee_pass.employee_id
+//   INNER JOIN employee_role ON employee.employee_id = employee_role.employee_id
+//   WHERE employee.employee_id = ?`;
+//   // const query1 = "DELETE FROM employee_pass WHERE employee_id = ?";
+//   // const query2 = "DELETE FROM employee_role WHERE employee_id = ?";
+//   // const query3 = "DELETE FROM employee WHERE employee_id = ?";
+//   const result = await conn.query(query, [id]);
+//   console.log("Affected rows: ", result.affectedRows);
+//   return result.affectedRows > 0;
+// }
+// async function deleteEmployeeById(id) {
+//   try {
+//     await conn.beginTransaction(); // Start a transaction
+
+//     // Delete rows from child tables first
+//     await conn.query("DELETE FROM employee_info WHERE employee_id = ?", [id]);
+//     await conn.query("DELETE FROM employee_pass WHERE employee_id = ?", [id]);
+//     await conn.query("DELETE FROM employee_role WHERE employee_id = ?", [id]);
+
+//     // Then delete the row from the parent table
+//     const result = await conn.query(
+//       "DELETE FROM employee WHERE employee_id = ?",
+//       [id]
+//     );
+
+//     await conn.commit(); // Commit the transaction
+//     console.log("Transaction committed.");
+
+//     // Check if any row is affected by the DELETE query
+//     return result.affectedRows > 0;
+//   } catch (error) {
+//     await conn.rollback(); // Rollback the transaction if an error occurs
+//     console.error("Error occurred during transaction:", error);
+//     throw error; // Rethrow the error for handling at a higher level
+//   }
+// }
+// const mysql = require("mysql2/promise");
+
+// async function deleteEmployeeById(id) {
+//   const pool = mysql.createPool({
+//     connectionLimit: 10,
+//     password: process.env.DB_PASS,
+//     user: process.env.DB_USER,
+//     host: process.env.DB_HOST,
+//     database: process.env.DB_NAME,
+//   });
+
+//   const conn = await pool.getConnection(); // Acquire a connection
+//   try {
+//     await conn.beginTransaction(); // Start a transaction
+
+//     // Delete rows from child tables first
+//     await conn.query("DELETE FROM employee_info WHERE employee_id = ?", [id]);
+//     await conn.query("DELETE FROM employee_pass WHERE employee_id = ?", [id]);
+//     await conn.query("DELETE FROM employee_role WHERE employee_id = ?", [id]);
+
+//     // Then delete the row from the parent table
+//     const result = await conn.query(
+//       "DELETE FROM employee WHERE employee_id = ?",
+//       [id]
+//     );
+
+//     await conn.commit(); // Commit the transaction
+//     console.log("Transaction committed.");
+
+//     // Check if any row is affected by the DELETE query
+//     return result[0].affectedRows > 0;
+//   } catch (error) {
+//     await conn.rollback(); // Rollback the transaction if an error occurs
+//     console.error("Error occurred during transaction:", error);
+//     throw error; // Rethrow the error for handling at a higher level
+//   } finally {
+//     conn.release(); // Release the connection back to the pool
+//   }
+// }
+
+async function deleteEmployeeById(id) {
+  console.log(id);
+  const conn = await pool.getConnection(); // Acquire a connection
+  try {
+    await conn.beginTransaction(); // Start a transaction
+
+    // Delete rows from child tables first
+    await query("DELETE FROM employee_info WHERE employee_id = ?", [id]);
+    await query("DELETE FROM employee_pass WHERE employee_id = ?", [id]);
+    await query("DELETE FROM employee_role WHERE employee_id = ?", [id]);
+
+    // Then delete the row from the parent table
+    const result = await query("DELETE FROM employee WHERE employee_id = ?", [
+      id,
+    ]);
+
+    await conn.commit(); // Commit the transaction
+    console.log("Transaction committed.");
+
+    // Check if any row is affected by the DELETE query
+    console.log("Affecteeddd", result.affectedRows);
+    return result.affectedRows > 0;
+  } catch (error) {
+    await conn.rollback(); // Rollback the transaction if an error occurs
+    console.error("Error occurred during transaction:", error);
+    throw error; // Rethrow the error for handling at a higher level
+  } finally {
+    conn.release(); // Release the connection back to the pool
+  }
 }
 
 // Export the functions for use in the controller
@@ -88,4 +202,5 @@ module.exports = {
   createEmployee,
   getEmployeeByEmail,
   getAllEmployees,
+  deleteEmployeeById,
 };

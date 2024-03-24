@@ -39,24 +39,31 @@ const getAllEmployees = async (token) => {
     throw error;
   }
 };
+const deleteEmployeeById = async (token, employeeId) => {
+  try {
+    const response = await axios.delete(
+      `http://localhost:8000/api/employee/${employeeId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": token,
+        },
+      }
+    );
+    console.log("Axios Resp", response.data);
+    return response.data; // If you want to return something from the delete operation
+  } catch (error) {
+    // Handle error
+    console.error("Error deleting employee:", error);
+    throw error;
+  }
+};
 
-// // A function to send get request to get all employees
-// const getAllEmployees = async (token) => {
-//   // console.log(token);
-//   const requestOptions = {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       "x-access-token": token,
-//     },
-//   };
-//   const response = await fetch(`${api_url}/api/employees`, requestOptions);
-//   return response;
-// };
 // Export the function
 const employeeService = {
   createEmployee,
   getAllEmployees,
+  deleteEmployeeById,
 };
 
 export default employeeService;

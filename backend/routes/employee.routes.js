@@ -20,11 +20,11 @@ router.get(
 );
 
 // Create a route to handle deleting an employee
-// router.delete(
-//   "/api/employee/:id",
-//   [authMiddleware.verifyToken, authMiddleware.isAdmin],
-//   employeeController.deleteEmployee
-// );
+router.delete(
+  "/api/employee/:id",
+  [authMiddleware.verifyToken, authMiddleware.isAdmin],
+  employeeController.deleteEmployee
+);
 
 // Create a route to handle editing an employee
 // router.put(

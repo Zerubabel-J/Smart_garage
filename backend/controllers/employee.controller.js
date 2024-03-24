@@ -54,9 +54,32 @@ async function getAllEmployees(req, res, next) {
     });
   }
 }
-
+// Function to delete an employee
+async function deleteEmployee(req, res, next) {
+  const { id } = req.params;
+  console.log("paramsssss", id);
+  try {
+    const deleted = await employeeService.deleteEmployeeById(id);
+    if (!deleted) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Employee not found" });
+    }
+    res.json({
+      success: true,
+      message: `Employee with id ${id} deleted successfully`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error deleting employee",
+      error: error.message,
+    });
+  }
+}
 // Export the createEmployee controller
 module.exports = {
   createEmployee,
   getAllEmployees,
+  deleteEmployee,
 };
