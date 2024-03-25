@@ -8,29 +8,25 @@ const employeeController = require("../controllers/employee.controller");
 const authMiddleware = require("../middlewares/auth.middleware");
 // Create a route to handle the add employee request on post
 router.post(
-  "/api/employee",
-  [authMiddleware.verifyToken, authMiddleware.isAdmin],
-  employeeController.createEmployee
+    "/api/employee", [authMiddleware.verifyToken, authMiddleware.isAdmin],
+    employeeController.createEmployee
 );
 // Create a route to handle the get all employees request on get
 router.get(
-  "/api/employees",
-  [authMiddleware.verifyToken, authMiddleware.isAdmin],
-  employeeController.getAllEmployees
+    "/api/employees", [authMiddleware.verifyToken, authMiddleware.isAdmin],
+    employeeController.getAllEmployees
 );
 
 // Create a route to handle deleting an employee
 router.delete(
-  "/api/employee/:id",
-  [authMiddleware.verifyToken, authMiddleware.isAdmin],
-  employeeController.deleteEmployee
+    "/api/employee/:id", [authMiddleware.verifyToken, authMiddleware.isAdmin],
+    employeeController.deleteEmployee
 );
 
 // Create a route to handle editing an employee
-// router.put(
-//   "/api/employee/:id",
-//   [authMiddleware.verifyToken, authMiddleware.isAdmin],
-//   employeeController.editEmployee
-// );
+router.put(
+    "/api/employee/:id", [authMiddleware.verifyToken, authMiddleware.isAdmin],
+    employeeController.editEmployee
+);
 // Export the router
 module.exports = router;
