@@ -33,26 +33,6 @@ const EmployeesList = () => {
     }
   };
 
-// Handle edit
-const handleEdit = async (employeeId) => {
-  try {
-    // Call the service to update the employee
-    const updatedEmployeeData=await employeeService.editEmployeeById(token, employeeId);
-    
-    // Update the state with the edited employee data
-    setEmployees(employees.map((emp) => {
-      if (emp.employee_id === employeeId) {
-        return { ...emp, ...updatedEmployeeData }; // Merge updated data with existing employee data
-      }
-      return emp; // For other employees, return unchanged
-    }));
-  } catch (error) {
-    console.error("Error editing employee:", error);
-  }
-};
-
-
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -142,21 +122,13 @@ const handleEdit = async (employeeId) => {
                           >
                             <MdDelete />
                           </Link>
-                          {/* |{" "}
+
                           <Link
                             style={{ color: "blue" }}
-                            to={`/admin/employees/edit/${employee.employee_id}`}
+                            to={`/admin/employee/edit/${employee.employee_id}`}
                           >
                             <MdEdit />
-                          </Link> */}
-                                            {/* Edit Icon */}
-                        <Link
-                          style={{ color: "blue" }}
-                          onClick={() => handleEdit(employee.employee_id)}
-                          to={`/admin/employees/edit/${employee.employee_id}`}
-                        >
-                          <MdEdit />
-                        </Link>
+                          </Link>
                         </div>
                       </td>
                     </tr>
