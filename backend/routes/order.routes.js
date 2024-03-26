@@ -1,0 +1,13 @@
+// Import the express module
+const express = require("express");
+// Call the router method from express to create the router
+const router = express.Router();
+// Import the order controller
+const orderController = require("../controllers/order.controller");
+// import authMiddleware
+const authMiddleware = require("../middlewares/auth.middleware");
+
+// Create a route to handle the add order request on post
+router.post("/api/order", orderController.createOrder);
+
+module.exports = router;

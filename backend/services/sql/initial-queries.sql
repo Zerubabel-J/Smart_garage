@@ -152,3 +152,6 @@ VALUES (1, '$2b$10$B6yvl4hECXploM.fCDbXz.brkhmgqNlawh9ZwbfkFX.F3xrs.15Xi');
 
 INSERT INTO employee_role (employee_id, company_role_id)
 VALUES (1, 3); 
+
+
+

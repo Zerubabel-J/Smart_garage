@@ -22,6 +22,10 @@ const vehicleRouter = require("./vehicle.routes");
 // Add the vehicle router to the main router
 router.use(vehicleRouter);
 
+// import the order route
+const orderRouter = require("./order.routes");
+// Add the order router to the main router
+router.use(orderRouter);
 // Add the service router to the main router
 router.use(serviceRouter);
 // Add the install router to the main router
