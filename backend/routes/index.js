@@ -12,6 +12,15 @@ const loginRouter = require("./login.routes");
 
 // import the service route
 const serviceRouter = require("./service.routes");
+// import the customer route
+const customerRouter = require("./customer.routes");
+// Add the customer router to the main router
+router.use(customerRouter);
+
+// import the vehicle route
+const vehicleRouter = require("./vehicle.routes");
+// Add the vehicle router to the main router
+router.use(vehicleRouter);
 
 // Add the service router to the main router
 router.use(serviceRouter);
