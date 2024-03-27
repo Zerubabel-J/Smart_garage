@@ -10,4 +10,15 @@ const authMiddleware = require("../middlewares/auth.middleware");
 // Create a route to handle the add order request on post
 router.post("/api/order", orderController.createOrder);
 
+// Create a route to handle the get all orders request on get
+router.get("/api/orders", orderController.getAllOrders);
+
+// Create a route to handle the get orders by id request on get
+router.get("/api/order/:id", orderController.getOrderById);
+
+// Create a route to handle the delete order request on delete
+router.delete("/api/order/:id", orderController.deleteOrderById);
+
+// Create a route to handle the update order request on put
+router.patch("/api/order/:id", orderController.editOrder);
 module.exports = router;
