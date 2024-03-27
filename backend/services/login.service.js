@@ -1,5 +1,5 @@
 // Import the query function from the db.config.js file
-const conn = require("../config/db.config");
+const { query, pool } = require("../config/db.config");
 // Import the bcrypt module to do the password comparison
 const bcrypt = require("bcrypt");
 // Import the employee service to get employee by email

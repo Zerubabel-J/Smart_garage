@@ -59,6 +59,7 @@ async function query(sql, params) {
     return rows;
   } catch (error) {
     await connection.rollback();
+    console.log(error.message);
     throw error;
   } finally {
     connection.release();
