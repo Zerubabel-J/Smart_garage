@@ -12,21 +12,23 @@ async function checkIfCustomerExists(email) {
 
 // A function to create a new customer
 async function createCustomer(customer) {
+  // console.log("Cutomerrr", customer);
+  // console.log(customer.customer_email, customer.customer_phone);
   // let createdCustomer = {};
   let customer_id = null;
   try {
-    // Generate a salt and hash the password
-    const salt = await bcrypt.genSalt(10);
-    // Hash the password
-    const customer_hash = await bcrypt.hash(customer.customer_hash, salt);
+    // // Generate a salt and hash the password
+    // const salt = await bcrypt.genSalt(10);
+    // // Hash the password
+    // const customer_hash = await bcrypt.hash(customer.customer_hash, salt);
     // Insert data into customer_identifier table
     const query =
-      "INSERT INTO customer_identifier (customer_email, customer_phone_number, customer_hash) VALUES (?, ?, ?)";
+      "INSERT INTO customer_identifier (customer_email, customer_phone_number) VALUES (?, ?)";
     const rows = await conn.query(query, [
       customer.customer_email,
-      customer.customer_phone_number,
-      customer_hash,
+      customer.customer_phone,
     ]);
+    console.log(rows);
     if (rows.affectedRows !== 1) {
       return false;
     }
@@ -34,12 +36,11 @@ async function createCustomer(customer) {
     customer_id = rows.insertId;
     // Insert data into customer_info table
     const query2 =
-      "INSERT INTO customer_info (customer_id, customer_first_name, customer_last_name, active_customer_status) VALUES (?, ?, ?, ?)";
+      "INSERT INTO customer_info (customer_id, customer_first_name, customer_last_name) VALUES (?, ?, ?)";
     const rows2 = await conn.query(query2, [
       customer_id,
       customer.customer_first_name,
       customer.customer_last_name,
-      customer.active_customer_status,
     ]);
     // construct the customer object to return
     // createdCustomer = {
