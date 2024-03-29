@@ -51,7 +51,7 @@ const AddCustomerForm = () => {
         formData,
         loggedInEmployeeToken
       );
-      console.log(response);
+      console.log("Response of customer", response);
       if (response.data.error) {
         console.log("Server Error");
         setServerError(response.data.error);

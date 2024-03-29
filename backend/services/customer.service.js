@@ -12,7 +12,7 @@ async function checkIfCustomerExists(email) {
 
 // A function to create a new customer
 async function createCustomer(customer) {
-  // console.log("Cutomerrr", customer);
+  console.log("Cutomerrr", customer);
   // console.log(customer.customer_email, customer.customer_phone);
   // let createdCustomer = {};
   let customer_id = null;

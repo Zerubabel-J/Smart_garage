@@ -2,6 +2,7 @@ import axios from "axios";
 
 const createCustomer = async (formData, loggedInEmployeeToken) => {
   try {
+    // console.log("Form dataaa", formData);
     const response = await axios.post(
       `http://localhost:8000/api/customer`,
       formData,
