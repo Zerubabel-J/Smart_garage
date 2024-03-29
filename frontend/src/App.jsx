@@ -66,6 +66,7 @@ import Footer from "./markup/components/Footer/Footer";
 // Import the PrivateAuthRoute component
 import PrivateAuthRoute from "./markup/components/Auth/PrivateAuthRoute";
 import EditEmployee from "./markup/pages/admin/EditEmployee";
+import AddCustomer from "./markup/pages/admin/AddCustomer";
 
 function App() {
   return (
@@ -97,8 +98,8 @@ function App() {
         <Route path="/admin/employees" element={<Employees />} />
         <Route path="/admin/add-employee" element={<AddEmployee />} />
         <Route path="/admin/employee/edit/:id" element={<EditEmployee />} />
-
-        {/* 
+        <Route path="/admin/add-customer" element={<AddCustomer />} />
+        {/*         
         <PrivateAuthRoute roles={[3]}>
               <AddEmployee />
             </PrivateAuthRoute>

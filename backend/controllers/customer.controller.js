@@ -3,10 +3,12 @@ const customerService = require("../services/customer.service");
 
 // Create the add customer controller
 async function createCustomer(req, res, next) {
+  // console.log("Customerr Form", req.body);
   // Check if customer email already exists in the database
   const customerExists = await customerService.checkIfCustomerExists(
     req.body.customer_email
   );
+  // console.log(customerExists);
 
   // If customer exists, send a response to the client
   if (customerExists) {
@@ -15,9 +17,11 @@ async function createCustomer(req, res, next) {
     });
   } else {
     try {
-      const customerData = req.body;
+      // const customerData = req.body;
+      console.log("customerData", customerData);
       // Create the customer
       const customer = await customerService.createCustomer(customerData);
+      // console.log("Smart Cutomerrrr", customer);
       if (!customer) {
         res.status(400).json({
           error: "Failed to add the customer!",
