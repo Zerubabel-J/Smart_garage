@@ -248,7 +248,7 @@ const EditForm = () => {
                         <input
                           type="email"
                           name="employee_email"
-                          value={employee_email}
+                          value={"employee_email"}
                           onChange={(event) => setEmail(event.target.value)}
                           placeholder="Employee email"
                         />

@@ -67,6 +67,9 @@ import Footer from "./markup/components/Footer/Footer";
 import PrivateAuthRoute from "./markup/components/Auth/PrivateAuthRoute";
 import EditEmployee from "./markup/pages/admin/EditEmployee";
 import AddCustomer from "./markup/pages/admin/AddCustomer";
+import EditCustomer from "./markup/pages/admin/EditCustomer";
+import CustomerInfo from "./markup/pages/admin/CustomerInfo";
+import CustomerProfile from "./markup/components/Admin/CustomerProfile/CustomerProfile";
 
 function App() {
   return (
@@ -99,6 +102,10 @@ function App() {
         <Route path="/admin/add-employee" element={<AddEmployee />} />
         <Route path="/admin/employee/edit/:id" element={<EditEmployee />} />
         <Route path="/admin/add-customer" element={<AddCustomer />} />
+        <Route path="/admin/customer/edit/:id" element={<EditCustomer />} />
+        <Route path="/admin/customer-profile" element={<CustomerInfo />} />
+        <Route path="/admin/customer/get/:id" element={<CustomerProfile />} />
+        {/* <Route path="/admin/customers" element={<Customers/>} /> */}
         {/*         
         <PrivateAuthRoute roles={[3]}>
               <AddEmployee />

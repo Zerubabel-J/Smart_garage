@@ -66,7 +66,7 @@ async function deleteService(id) {
     return true;
   } catch (error) {
     await conn.rollback();
-    console.error("Error occurred while deleting the service: ", error);
+    console.error("Error occurred while deleting the service: ", error.message);
     return false;
   } finally {
     conn.release();

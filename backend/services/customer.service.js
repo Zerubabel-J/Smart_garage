@@ -74,6 +74,7 @@ async function getCustomerById(id) {
   const query =
     "SELECT * FROM customer_identifier INNER JOIN customer_info ON customer_identifier.customer_id = customer_info.customer_id WHERE customer_identifier.customer_id = ?";
   const rows = await conn.query(query, [id]);
+  console.log("Singleeee customerrrrrrr with ID", rows);
   return rows;
 }
 
