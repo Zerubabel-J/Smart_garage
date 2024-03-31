@@ -10,7 +10,7 @@ const EditCustomerForm = () => {
   const [customer_email, setEmail] = useState("");
   const [customer_first_name, setFirstName] = useState("");
   const [customer_last_name, setLastName] = useState("");
-  const [customer_phone, setPhoneNumber] = useState("");
+  const [customer_phone_number, setPhoneNumber] = useState("");
 
   const navigate = useNavigate();
   const { id } = useParams(); // Get customer_id from URL params
@@ -33,26 +33,26 @@ const EditCustomerForm = () => {
   // UseEffect to fetch employee data based on the customer_id
   // You need to implement this to fetch the data for editing
 
-  useEffect(() => {
-    const fetchCustomerData = async () => {
-      // Fetch employee data based on id
-      try {
-        const data = await customerService.getCustomerById(id);
-        console.log(data);
-        // const data = await response.json();
-        console.log("Nightttttt", data);
-        // Update state with fetched data
-        setEmail(data.customer_email);
-        setFirstName(data.customer_first_name);
-        setLastName(data.customer_last_name);
-        setPhoneNumber(data.customer_phone);
-      } catch (error) {
-        console.error("Error fetching employee data:", error.message);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCustomerData = async () => {
+  //     // Fetch employee data based on id
+  //     try {
+  //       const data = await customerService.getCustomerById(id);
+  //       console.log(data?.data[0]?.customer_first_name);
+  //       // const data = await response.json();
+  //       console.log("Nightttttt", data);
+  //       // Update state with fetched data
+  //       setEmail(data?.data[0]?.customer_email);
+  //       setFirstName(data?.data[0]?.customer_first_name);
+  //       setLastName(data?.data[0]?.customer_last_name);
+  //       setPhoneNumber(data?.data[0]?.customer_phone_number);
+  //     } catch (error) {
+  //       console.error("Error fetching employee data:", error.message);
+  //     }
+  //   };
 
-    fetchCustomerData();
-  }, [id]);
+  //   fetchCustomerData();
+  // }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,7 +61,7 @@ const EditCustomerForm = () => {
       customer_email,
       customer_first_name,
       customer_last_name,
-      customer_phone,
+      customer_phone_number,
     };
 
     const isValid = validateFormData(formData);
@@ -71,7 +71,7 @@ const EditCustomerForm = () => {
     }
 
     try {
-      const response = await customerService.updateCustomer(formData, id);
+      const response = await customerService.updateCustomer(id, formData);
 
       console.log(response);
       if (!response.success) {
@@ -119,7 +119,7 @@ const EditCustomerForm = () => {
     setSuccess(true);
     setServerError("");
     setTimeout(() => {
-      navigate("/admin/employees");
+      navigate("/admin/customers");
     }, 1000);
   };
 
@@ -185,7 +185,7 @@ const EditCustomerForm = () => {
                         <input
                           type="text"
                           name="customer_phone"
-                          value={customer_phone}
+                          value={customer_phone_number}
                           onChange={(event) =>
                             setPhoneNumber(event.target.value)
                           }

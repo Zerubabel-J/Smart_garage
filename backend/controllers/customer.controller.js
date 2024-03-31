@@ -125,6 +125,52 @@ async function editCustomer(req, res, next) {
   }
 }
 
+// A function to get vehicles with customer id
+async function getVehiclesByCustomerId(req, res, next) {
+  const { id } = req.params;
+  try {
+    const vehicles = await customerService.getVehiclesByCustomerId(id);
+    if (!vehicles) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Vehicles not found" });
+    }
+    res.json({
+      success: true,
+      data: vehicles,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching vehicles",
+      error: error.message,
+    });
+  }
+}
+
+// A function to get orders with customer id
+async function getOrdersByCustomerId(req, res, next) {
+  const { id } = req.params;
+  try {
+    const orders = await customerService.getOrdersByCustomerId(id);
+    if (!orders) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Orders not found" });
+    }
+    res.json({
+      success: true,
+      data: orders,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching orders",
+      error: error.message,
+    });
+  }
+}
+
 // Export the customer controllers
 module.exports = {
   createCustomer,
@@ -132,4 +178,6 @@ module.exports = {
   getCustomerById,
   deleteCustomer,
   editCustomer,
+  getVehiclesByCustomerId,
+  getOrdersByCustomerId,
 };

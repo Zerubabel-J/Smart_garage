@@ -53,7 +53,7 @@ const getCustomerById = async (customerId) => {
 const deleteCustomerById = async (token, customerId) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8000/api/employee/${customerId}`,
+      `http://localhost:8000/api/customer/${customerId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -69,10 +69,10 @@ const deleteCustomerById = async (token, customerId) => {
     throw error;
   }
 };
-const updateCustomer = async (formData, customerId) => {
+const updateCustomer = async (customerId, formData) => {
   try {
     const response = await axios.patch(
-      `http://localhost:8000/api/employee/${customerId}`,
+      `http://localhost:8000/api/customer/${customerId}`,
       formData
     );
     console.log("Respooooo", response);
@@ -85,6 +85,36 @@ const updateCustomer = async (formData, customerId) => {
   }
 };
 
+// write a function to get vehicles data with customer id
+const getCustomerVehicles = async (customerId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/customer/vehicle/${customerId}`
+    );
+    console.log("Vehicles", response.data);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching vehicles:", error.message);
+    throw error;
+  }
+};
+
+// write a function to get customer orders with customer id
+const getCustomerOrders = async (customerId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/customer/order/${customerId}`
+    );
+    console.log("Orders", response.data);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching orders:", error.message);
+    throw error;
+  }
+};
+
 // Export the function
 const customerService = {
   createCustomer,
@@ -92,6 +122,8 @@ const customerService = {
   getCustomerById,
   deleteCustomerById,
   updateCustomer,
+  getCustomerVehicles,
+  getCustomerOrders,
 };
 
 export default customerService;

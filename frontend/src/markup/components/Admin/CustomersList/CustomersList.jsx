@@ -93,7 +93,7 @@ const CustomersList = () => {
                       <td>{customer.customer_first_name}</td>
                       <td>{customer.customer_last_name}</td>
                       <td>{customer.customer_email}</td>
-                      <td>{customer.customer_phone}</td>
+                      <td>{customer.customer_phone_number}</td>
                       <td>
                         {format(
                           new Date(customer.customer_added_date),
