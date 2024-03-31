@@ -23,17 +23,11 @@ const createCustomer = async (formData, loggedInEmployeeToken) => {
 };
 
 // A function to send get request to get all employees
-const getAllCustomer = async (token) => {
+const getAllCustomer = async () => {
   try {
-    console.log(token);
-    const response = await axios.get(`http://localhost:8000/api/customers`, {
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": token,
-      },
-    });
-    // console.log("It's me", response);
-    // console.log("It's data", response.data);
+    const response = await axios.get(`http://localhost:8000/api/customers`);
+    console.log("It's me", response);
+    console.log("It's data", response.data);
     return response.data;
   } catch (error) {
     // Handle error
@@ -42,16 +36,11 @@ const getAllCustomer = async (token) => {
   }
 };
 // A function to get an employee by id
-const getCustomerById = async (token, customerId) => {
+const getCustomerById = async (customerId) => {
   try {
+    console.log(customerId);
     const response = await axios.get(
-      `http://localhost:8000/api/customer/${employeeId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": token,
-        },
-      }
+      `http://localhost:8000/api/customer/${customerId}`
     );
     console.log("Singlee customer", response.data);
     return response.data;
@@ -64,7 +53,7 @@ const getCustomerById = async (token, customerId) => {
 const deleteCustomerById = async (token, customerId) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8000/api/employee/${customerId}`,
+      `http://localhost:8000/api/customer/${customerId}`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -80,17 +69,11 @@ const deleteCustomerById = async (token, customerId) => {
     throw error;
   }
 };
-const updateCustomer = async (formData, token, customerId) => {
+const updateCustomer = async (customerId, formData) => {
   try {
     const response = await axios.patch(
-      `http://localhost:8000/api/employee/${customerId}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": token,
-        },
-      }
+      `http://localhost:8000/api/customer/${customerId}`,
+      formData
     );
     console.log("Respooooo", response);
     console.log("Axios Resp", response.data);
@@ -102,6 +85,36 @@ const updateCustomer = async (formData, token, customerId) => {
   }
 };
 
+// write a function to get vehicles data with customer id
+const getCustomerVehicles = async (customerId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/customer/vehicle/${customerId}`
+    );
+    console.log("Vehicles", response.data);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching vehicles:", error.message);
+    throw error;
+  }
+};
+
+// write a function to get customer orders with customer id
+const getCustomerOrders = async (customerId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/customer/order/${customerId}`
+    );
+    console.log("Orders", response.data);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching orders:", error.message);
+    throw error;
+  }
+};
+
 // Export the function
 const customerService = {
   createCustomer,
@@ -109,6 +122,8 @@ const customerService = {
   getCustomerById,
   deleteCustomerById,
   updateCustomer,
+  getCustomerVehicles,
+  getCustomerOrders,
 };
 
 export default customerService;

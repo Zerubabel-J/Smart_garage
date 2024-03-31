@@ -1,12 +1,12 @@
 // Import the query function from the db.config.js file
-const conn = require("../config/db.config");
+const { query, pool } = require("../config/db.config");
 // Import the bcrypt module
 const bcrypt = require("bcrypt");
 
 // A function to check if customer exists in the database
 async function checkIfCustomerExists(email) {
-  const query = "SELECT * FROM customer_identifier WHERE customer_email = ?";
-  const rows = await conn.query(query, [email]);
+  const sql = "SELECT * FROM customer_identifier WHERE customer_email = ?";
+  const rows = await query(sql, [email]);
   return rows.length > 0;
 }
 
@@ -22,9 +22,9 @@ async function createCustomer(customer) {
     // // Hash the password
     // const customer_hash = await bcrypt.hash(customer.customer_hash, salt);
     // Insert data into customer_identifier table
-    const query =
+    const sql =
       "INSERT INTO customer_identifier (customer_email, customer_phone_number) VALUES (?, ?)";
-    const rows = await conn.query(query, [
+    const rows = await query(sql, [
       customer.customer_email,
       customer.customer_phone,
     ]);
@@ -37,7 +37,7 @@ async function createCustomer(customer) {
     // Insert data into customer_info table
     const query2 =
       "INSERT INTO customer_info (customer_id, customer_first_name, customer_last_name) VALUES (?, ?, ?)";
-    const rows2 = await conn.query(query2, [
+    const rows2 = await query(query2, [
       customer_id,
       customer.customer_first_name,
       customer.customer_last_name,
@@ -55,25 +55,27 @@ async function createCustomer(customer) {
 
 // A function to get customer by email
 async function getCustomerByEmail(customer_email) {
-  const query =
+  const sql =
     "SELECT * FROM customer_identifier INNER JOIN customer_info ON customer_identifier.customer_id = customer_info.customer_id WHERE customer_identifier.customer_email = ?";
-  const rows = await conn.query(query, [customer_email]);
+  const rows = await query(sql, [customer_email]);
   return rows;
 }
 
 // A function to get all customers
 async function getAllCustomers() {
-  const query =
+  const sql =
     "SELECT * FROM customer_identifier INNER JOIN customer_info ON customer_identifier.customer_id = customer_info.customer_id ORDER BY customer_identifier.customer_id DESC LIMIT 10";
-  const rows = await conn.query(query);
+  const rows = await query(sql);
+
   return rows;
 }
 
 // A function to get a customer by id
 async function getCustomerById(id) {
-  const query =
+  const sql =
     "SELECT * FROM customer_identifier INNER JOIN customer_info ON customer_identifier.customer_id = customer_info.customer_id WHERE customer_identifier.customer_id = ?";
-  const rows = await conn.query(query, [id]);
+  const rows = await query(sql, [id]);
+  console.log("Singleeee customerrrrrrr with ID", rows);
   return rows;
 }
 
@@ -107,28 +109,19 @@ async function deleteCustomerById(id) {
 
 // A function to edit customer details
 async function editCustomer(id, customer) {
+  console.log("Customrer editttxxxx", customer);
   const conn = await pool.getConnection();
   try {
     await conn.beginTransaction();
 
     await query(
-      "UPDATE customer_identifier SET customer_email = ?, customer_phone_number = ?, customer_hash = ? WHERE customer_id = ?",
-      [
-        customer.customer_email,
-        customer.customer_phone_number,
-        customer.customer_hash,
-        id,
-      ]
+      "UPDATE customer_identifier SET customer_email = ?, customer_phone_number = ? WHERE customer_id = ?",
+      [customer.customer_email, customer.customer_phone_number, id]
     );
 
     await query(
-      "UPDATE customer_info SET customer_first_name = ?, customer_last_name = ?, active_customer_status = ? WHERE customer_id = ?",
-      [
-        customer.customer_first_name,
-        customer.customer_last_name,
-        customer.active_customer_status,
-        id,
-      ]
+      "UPDATE customer_info SET customer_first_name = ?, customer_last_name = ? WHERE customer_id = ?",
+      [customer.customer_first_name, customer.customer_last_name, id]
     );
 
     await conn.commit();
@@ -142,7 +135,20 @@ async function editCustomer(id, customer) {
     conn.release();
   }
 }
-
+// A function to get vehicles with customer id
+async function getVehiclesByCustomerId(id) {
+  const sql =
+    "SELECT * FROM customer_vehicle_info WHERE customer_vehicle_info.customer_id = ?";
+  const rows = await query(sql, [id]);
+  return rows;
+}
+// A function to get orders with customer id
+async function getOrdersByCustomerId(id) {
+  const sql =
+    "SELECT * FROM orders INNER JOIN order_info ON orders.order_id = order_info.order_id INNER JOIN order_status ON orders.order_id = order_status.order_id   WHERE orders.customer_id = ?";
+  const rows = await query(sql, [id]);
+  return rows;
+}
 // Export the functions for use in the controller
 module.exports = {
   checkIfCustomerExists,
@@ -152,4 +158,6 @@ module.exports = {
   getCustomerById,
   deleteCustomerById,
   editCustomer,
+  getVehiclesByCustomerId,
+  getOrdersByCustomerId,
 };

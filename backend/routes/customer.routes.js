@@ -22,5 +22,13 @@ router.delete("/api/customer/:id", customerController.deleteCustomer);
 // Create a route to handle editing a customer
 router.patch("/api/customer/:id", customerController.editCustomer);
 
+// Create a route to handle getting a customer's vehicles
+router.get(
+  "/api/customer/vehicle/:id",
+  customerController.getVehiclesByCustomerId
+);
+
+// Create a route to handle getting a customer's orders
+router.get("/api/customer/order/:id", customerController.getOrdersByCustomerId);
 // Export the router
 module.exports = router;
