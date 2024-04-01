@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import customer service
-import customerService from "../../../../services/customer.service";
+import customerService from "../../../../../services/customer.service";
 // import userParams, useNavigate, Link and useParams from react-router-dom
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
@@ -8,12 +8,11 @@ import { FaHandPointUp } from "react-icons/fa";
 // import table from bootstrap
 import { Table } from "react-bootstrap";
 // import the css file
-import "./CustomerProfile.css";
+import "./CustomerVehicle.css";
 
-const CustomerProfile = () => {
+const CustomerVehicle = () => {
   const [customer, setCustomer] = useState([]);
   const [vehicles, setVehicles] = useState([]);
-  const [orders, setOrders] = useState([]);
   const [apiError, setApiError] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
   const navigate = useNavigate();
@@ -24,12 +23,8 @@ const CustomerProfile = () => {
       try {
         const data = await customerService.getCustomerById(id);
         setCustomer(data);
-
         const vehicle = await customerService.getCustomerVehicles(id);
         setVehicles(vehicle.data);
-        // console.log("Vehicle data", vehicles?.data);
-        const order = await customerService.getCustomerOrders(id);
-        setOrders(order.data);
       } catch (error) {
         console.error("Error fetching customer data:", error.message);
         setApiError(true);
@@ -108,13 +103,7 @@ const CustomerProfile = () => {
                         <div className="edit-delete-icons">
                           <Link
                             style={{ color: "blue" }}
-                            to={`/admin/vehicle/edit/${vehicle.vehicle_id}`}
-                          >
-                            <MdEdit />
-                          </Link>
-                          <Link
-                            style={{ color: "blue" }}
-                            to={`/admin/vehicle/get/${vehicle.vehicle_id}`}
+                            to={`/admin/customer-vehicle-service/get/${id}/${vehicle.vehicle_id}`}
                           >
                             <FaHandPointUp />
                           </Link>
@@ -124,56 +113,6 @@ const CustomerProfile = () => {
                   ))}
                 </tbody>
               </Table>
-              {/* ###### */}
-              <button>Add Vehicle</button>
-            </div>
-          </div>
-          <div className="customer-order customer-info">
-            <div className="orders-icon info-icon">Orders</div>
-            <div className="vehicle-lists customer-detail">
-              <h3>Orders of {customer?.data?.[0]?.customer_first_name} </h3>
-              {}
-              {/* ###### */}
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>Order Date</th>
-                    <th>Order Status</th>
-                    <th>Order Price</th>
-                    <th>Edit/View</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders?.map((order) => (
-                    <tr key={order.order_id}>
-                      <td>{order.order_id}</td>
-                      <td>{order.order_date}</td>
-                      <td>{order.order_status}</td>
-                      <td>{order.order_total_price}</td>
-
-                      <td>
-                        <div className="edit-delete-icons">
-                          <Link
-                            style={{ color: "blue" }}
-                            to={`/admin/customer/edit/${customer.customer_id}`}
-                            className="edit-icon"
-                          >
-                            <MdEdit />
-                          </Link>
-                          <Link
-                            style={{ color: "blue" }}
-                            to={`/admin/customer/get/${customer.customer_id}`}
-                          >
-                            <FaHandPointUp />
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              {/* ###### */}
             </div>
           </div>
         </div>
@@ -182,4 +121,4 @@ const CustomerProfile = () => {
   );
 };
 
-export default CustomerProfile;
+export default CustomerVehicle;

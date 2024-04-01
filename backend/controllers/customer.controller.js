@@ -171,6 +171,29 @@ async function getOrdersByCustomerId(req, res, next) {
   }
 }
 
+//write a function to search customer by name, email or phone number
+async function searchCustomers(req, res, next) {
+  const { searchTerm } = req.query;
+  try {
+    const customers = await customerService.searchCustomers(searchTerm);
+    if (!customers) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Customers not found" });
+    }
+    res.json({
+      success: true,
+      data: customers,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching customers",
+      error: error.message,
+    });
+  }
+}
+
 // Export the customer controllers
 module.exports = {
   createCustomer,
@@ -180,4 +203,5 @@ module.exports = {
   editCustomer,
   getVehiclesByCustomerId,
   getOrdersByCustomerId,
+  searchCustomers,
 };

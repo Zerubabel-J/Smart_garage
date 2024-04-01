@@ -149,6 +149,30 @@ async function getOrdersByCustomerId(id) {
   const rows = await query(sql, [id]);
   return rows;
 }
+// write a function to search customer with his first_name, last_name, email or phone_number
+async function searchCustomers(searchTerm) {
+  const sql = `
+    SELECT *
+    FROM customer_info ci
+    INNER JOIN customer_identifier c ON ci.customer_id = c.customer_id
+    WHERE ci.customer_first_name LIKE ? OR ci.customer_last_name LIKE ?
+    OR c.customer_email LIKE ? OR c.customer_phone_number LIKE ?
+    ORDER BY ci.customer_id DESC
+    LIMIT 10;
+  `;
+
+  const searchValue = `%${searchTerm}%`;
+
+  const rows = await query(sql, [
+    searchValue,
+    searchValue,
+    searchValue,
+    searchValue,
+  ]);
+
+  return rows;
+}
+
 // Export the functions for use in the controller
 module.exports = {
   checkIfCustomerExists,
@@ -160,4 +184,5 @@ module.exports = {
   editCustomer,
   getVehiclesByCustomerId,
   getOrdersByCustomerId,
+  searchCustomers,
 };

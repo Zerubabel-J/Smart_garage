@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 // import customer service
+import vehicleService from "../../../../services/vehicle.service";
 import customerService from "../../../../services/customer.service";
 // import userParams, useNavigate, Link and useParams from react-router-dom
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -8,9 +9,9 @@ import { FaHandPointUp } from "react-icons/fa";
 // import table from bootstrap
 import { Table } from "react-bootstrap";
 // import the css file
-import "./CustomerProfile.css";
+import "./VehicleProfile.css";
 
-const CustomerProfile = () => {
+const VehicleProfile = () => {
   const [customer, setCustomer] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -48,6 +49,34 @@ const CustomerProfile = () => {
         <div className="container-fluid customer-profile">
           <div className="customer-info ">
             <div className="info-icon ">Info</div>
+            <div className="customer-detail ">
+              <h3>Customer: {customer?.data?.[0]?.customer_first_name}</h3>
+              <p>
+                <b>Email: {customer?.data?.[0]?.customer_email}</b>
+              </p>
+              <p>
+                <b>
+                  Phone Number: {customer?.data?.[0]?.customer_phone_number}
+                </b>
+              </p>
+              <p>
+                <b>
+                  Active Customer: {customer?.data?.[0]?.active_customer_status}
+                </b>
+              </p>
+              <p>
+                <b>Edit customer info:</b> edit{" "}
+                <Link
+                  style={{ color: "blue" }}
+                  to={`/admin/customer/edit/${customer?.data?.[0]?.customer_id}`}
+                >
+                  <MdEdit />
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className="customer-info ">
+            <div className="info-icon ">Vehicles</div>
             <div className="customer-detail ">
               <h3>Customer: {customer?.data?.[0]?.customer_first_name}</h3>
               <p>
@@ -125,7 +154,6 @@ const CustomerProfile = () => {
                 </tbody>
               </Table>
               {/* ###### */}
-              <button>Add Vehicle</button>
             </div>
           </div>
           <div className="customer-order customer-info">
@@ -182,4 +210,4 @@ const CustomerProfile = () => {
   );
 };
 
-export default CustomerProfile;
+export default VehicleProfile;

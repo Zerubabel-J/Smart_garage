@@ -70,6 +70,9 @@ import AddCustomer from "./markup/pages/admin/AddCustomer";
 import EditCustomer from "./markup/pages/admin/EditCustomer";
 import CustomerInfo from "./markup/pages/admin/CustomerInfo";
 import CustomerProfile from "./markup/components/Admin/CustomerProfile/CustomerProfile";
+import CreateOrder from "./markup/pages/admin/CreateOrder";
+import CustomerVihicleInfo from "./markup/pages/admin/CustomerVihicleInfo";
+import Customer_vehicle_service_info from "./markup/pages/admin/Customer_vehicle_service_info";
 
 function App() {
   return (
@@ -105,6 +108,16 @@ function App() {
         <Route path="/admin/customer/edit/:id" element={<EditCustomer />} />
         <Route path="/admin/customer-profile" element={<CustomerInfo />} />
         <Route path="/admin/customer/get/:id" element={<CustomerProfile />} />
+        <Route path="/admin/add-orders" element={<CreateOrder />} />
+        <Route
+          path="/admin/customer-vehicle/get/:id"
+          element={<CustomerVihicleInfo />}
+        />
+        <Route
+          path="/admin/customer-vehicle-service/get/:id/:vehicle_id"
+          element={<Customer_vehicle_service_info />}
+        />
+
         {/* <Route path="/admin/customers" element={<Customers/>} /> */}
         {/*         
         <PrivateAuthRoute roles={[3]}>

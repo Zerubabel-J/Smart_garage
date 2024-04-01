@@ -30,5 +30,9 @@ router.get(
 
 // Create a route to handle getting a customer's orders
 router.get("/api/customer/order/:id", customerController.getOrdersByCustomerId);
+
+// // Create a route to handle searching customers
+router.get("/api/customers/search", customerController.searchCustomers);
+
 // Export the router
 module.exports = router;
