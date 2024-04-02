@@ -13,6 +13,9 @@ router.post("/api/order", orderController.createOrder);
 // Create a route to handle the get all orders request on get
 router.get("/api/orders", orderController.getAllOrders);
 
+// Create a route to handle the get order information request on get
+router.get("/api/orderinformation", orderController.getOrderInformation);
+
 // Create a route to handle the get orders by id request on get
 router.get("/api/order/:id", orderController.getOrderById);
 

@@ -22,7 +22,16 @@ async function getAllOrders(req, res, next) {
     res.status(400).json({ error: "Failed to retrieve orders" });
   }
 }
-
+// Function to get all order informations
+async function getOrderInformation(req, res, next) {
+  try {
+    const orders = await orderService.getOrderInformation();
+    res.status(200).json(orders);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ error: "Failed to retrieve orders" });
+  }
+}
 // Function to get an order by its ID
 async function getOrderById(req, res, next) {
   try {
@@ -86,6 +95,7 @@ async function editOrder(req, res, next) {
 module.exports = {
   createOrder,
   getAllOrders,
+  getOrderInformation,
   getOrderById,
   deleteOrderById,
   editOrder,

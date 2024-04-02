@@ -16,9 +16,10 @@ const searchCustomers = async (searchTerm) => {
 };
 // write a function to create new order
 const createOrder = async (formData, loggedInEmployeeToken) => {
+  console.log("Fromm dataaa", formData);
   try {
     const response = await axios.post(
-      ` http://localhost:8000/api/orders`,
+      ` http://localhost:8000/api/order`,
       formData,
       {
         headers: {
@@ -61,13 +62,27 @@ const getOrderById = async (orderId) => {
     throw error;
   }
 };
-// write a function to update order
+// Function to get all order informations using axios
+const getOrderInformation = async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/orderinformation`
+    );
+    console.log("Orders", response);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching orders:", error.message);
+    throw error;
+  }
+};
 
 const orderService = {
   searchCustomers,
   createOrder,
   getAllOrders,
   getOrderById,
+  getOrderInformation,
 };
 
 //export the functions

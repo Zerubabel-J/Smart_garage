@@ -3,8 +3,14 @@ const conn = require("../config/db.config");
 
 // Function to create a new order
 async function createOrder(orderData) {
+  console.log("From the front side", orderData);
   try {
     // console.log(orderData);
+    orderData.active_order = 1;
+    orderData.order_hash = "12345sdfknbdfvbjm";
+    orderData.notes_for_internal_use = "stay tuned";
+    orderData.notes_for_customer = "stay well";
+    orderData.additional_requests_completed = 0;
     // Create order
     const orderQuery =
       "INSERT INTO orders (employee_id, customer_id, vehicle_id, active_order, order_hash) VALUES (?, ?, ?, ?, ?)";
@@ -25,7 +31,7 @@ async function createOrder(orderData) {
       "INSERT INTO order_info (order_id, order_total_price,additional_request, notes_for_internal_use, notes_for_customer, additional_requests_completed) VALUES (?, ?, ?, ?, ?, ?)";
     const orderInfoValues = [
       orderId,
-      orderData.order_total_price,
+      orderData.price,
       orderData.additional_request,
       orderData.notes_for_internal_use,
       orderData.notes_for_customer,
@@ -43,19 +49,24 @@ async function createOrder(orderData) {
     await conn.query(orderStatusQuery, orderStatusValues);
 
     // Create order services
-    console.log(orderData.order_services);
+
     if (orderData.order_services && orderData.order_services.length > 0) {
       const orderServicesQuery =
         "INSERT INTO order_services (order_id, service_id, service_completed) VALUES (?,?,?)";
-      const [orderServicesValues] = orderData.order_services.map((service) => [
-        orderId,
-        service.service_id,
-        service.service_completed,
-      ]);
-      console.log(orderServicesValues);
-      const rows = await conn.query(orderServicesQuery, orderServicesValues);
-      console.log("Errrr", rows);
+      // const [orderServicesValues] = orderData.order_services.map((service) => [
+      //   orderId,
+      //   service.service_id,
+      //   service.service_completed,
+      // ]);
+      const orderServices = orderData.order_services;
+      for (const service of orderServices) {
+        const values = [orderId, service.service_id, 0];
+        await conn.query(orderServicesQuery, values);
+      }
+      // const rows = await conn.query(orderServicesQuery, orderServicesValues);
+      // console.log("Errrr", rows);
     }
+
     console.log("Last id", orderId);
     return orderId;
   } catch (error) {
@@ -63,7 +74,6 @@ async function createOrder(orderData) {
     throw error;
   }
 }
-
 // // Function to get all of the orders from all the of the tables
 async function getAllOrders() {
   try {
@@ -78,6 +88,36 @@ async function getAllOrders() {
     throw error;
   }
 }
+
+async function getOrderInformation() {
+  try {
+    const sql = `
+    SELECT customer_info.customer_first_name AS customer_first_name,
+    customer_info.customer_last_name AS customer_last_name,
+    customer_identifier.customer_email AS customer_email,
+    customer_identifier.customer_phone_number AS customer_phone,
+    customer_vehicle_info.vehicle_make AS vehicle_make,
+    customer_vehicle_info.vehicle_year AS vehicle_year,
+    customer_vehicle_info.vehicle_tag AS vehicle_tag,
+    orders.order_id AS order_id,
+    orders.order_date AS order_date,
+    order_status.order_status AS order_status FROM orders
+  JOIN customer_identifier ON orders.customer_id = customer_identifier.customer_id
+  JOIN customer_vehicle_info ON orders.vehicle_id = customer_vehicle_info.vehicle_id
+  JOIN order_status ON orders.order_id = order_status.order_id
+  JOIN customer_info ON customer_identifier.customer_id = customer_info.customer_id;
+    `;
+
+    // Assuming 'conn' is your database connection object
+    const rows = await conn.query(sql);
+    console.log("Orders", rows);
+    return rows;
+  } catch (error) {
+    console.error("Error fetching order information:", error.message);
+    throw error;
+  }
+}
+
 // Function to get all orders
 async function getAllOrders() {
   try {
@@ -181,6 +221,7 @@ async function editOrder(orderId, orderData) {
 module.exports = {
   createOrder,
   getAllOrders,
+  getOrderInformation,
   getOrderById,
   deleteOrderById,
   editOrder,

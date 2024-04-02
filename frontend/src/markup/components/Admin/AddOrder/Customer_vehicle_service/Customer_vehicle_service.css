@@ -1,3 +1,7 @@
+p {
+  margin: 0;
+  padding: 0;
+}
 .customer-info {
   display: flex; /* Use flexbox */
   justify-content: space-between; /* Distribute items evenly along the main axis */
@@ -40,4 +44,18 @@
 .customer-vehicle,
 .customer-order {
   margin-top: 20px;
+}
+
+/* Styling for the card container */
+.service-card {
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.service-description {
+  margin-top: 10px;
+  margin-left: 50px;
 }

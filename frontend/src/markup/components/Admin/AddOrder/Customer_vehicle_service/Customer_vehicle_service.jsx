@@ -8,9 +8,8 @@ import serviceService from "../../../../../services/service.service";
 // import userParams, useNavigate, Link and useParams from react-router-dom
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
-import { FaHandPointUp } from "react-icons/fa";
-// import table from bootstrap
-import { Table } from "react-bootstrap";
+import { useAuth } from "../../../../../Contexts/AuthContext";
+// import useAuth
 // import the css file
 import "./Customer_vehicle_service.css";
 
@@ -18,6 +17,12 @@ const Customer_vehicle_service = () => {
   const [customer, setCustomer] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
+  const { employee } = useAuth();
+  // form data
+  const [selectedServices, setSelectedServices] = useState([]);
+  const [comment, setComment] = useState("");
+  const [inputValue, setInputValue] = useState("");
+  // api error
   const [apiError, setApiError] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
   const navigate = useNavigate();
@@ -31,8 +36,8 @@ const Customer_vehicle_service = () => {
 
         const vehicle = await vehicleService.getVehicleById(vehicle_id);
         setVehicles(vehicle);
-        // console.log("Vehicle data", vehicles?.data);
-        const order = await customerService.getCustomerOrders(id);
+        // // console.log("Vehicle data", vehicles?.data);
+        // const order = await customerService.getCustomerOrders(id);
 
         const service = await serviceService.getAllServices();
         setServices(service);
@@ -45,6 +50,45 @@ const Customer_vehicle_service = () => {
 
     fetchCustomerData();
   }, [id]);
+  // a function to handle a service selection
+  const handleServiceSelection = (serviceId) => {
+    setSelectedServices((prevSelectedServices) =>
+      prevSelectedServices.includes(serviceId)
+        ? prevSelectedServices.filter((id) => id !== serviceId)
+        : [...prevSelectedServices, serviceId]
+    );
+  };
+
+  // write a function to handle a successful order creation
+  const handleOrderCreation = async (e) => {
+    try {
+      e.preventDefault();
+
+      const selectedServiceObjects = services.filter((service) =>
+        selectedServices.includes(service.service_id)
+      );
+
+      const formData = {
+        employee_id: employee.employee_id, // Assuming you have the employee id here
+        customer_id: id,
+        vehicle_id: vehicle_id,
+        additional_request: comment,
+        price: inputValue,
+        order_status: 0,
+        order_services: selectedServiceObjects.map((service) => ({
+          service_id: service.service_id,
+        })),
+      };
+      console.log("form dataaaa from front enddddd", formData);
+      const loggedInEmployeeToken = localStorage.getItem("token");
+      await orderService.createOrder(formData, loggedInEmployeeToken);
+      navigate("/admin/orders");
+    } catch (error) {
+      console.error("Error creating order:", error.message);
+      setApiError(true);
+      setApiErrorMessage(error.message);
+    }
+  };
 
   return (
     <>
@@ -112,43 +156,56 @@ const Customer_vehicle_service = () => {
           </div>
 
           <div>
-            {services?.map((service) => (
-              <Card className=" m-lg-2 " key={service.service_id}>
-                <Card.Title className=" px-lg-3  pt-3  ">
+            {services.map((service) => (
+              <Card className="m-lg-2" key={service.service_id}>
+                <Card.Title className="px-lg-3 pt-3">
                   <h4>{service.service_name}</h4>
                 </Card.Title>
                 <Card.Body className="service">
-                  <div>
+                  <div className="service-description">
                     {service.service_description}
                     <input
                       type="checkbox"
-                      id={`checkbox_${service.service_id}`}
-                      name={`checkbox_${service.service_id}`}
+                      value={service.service_id}
+                      checked={selectedServices.includes(service.service_id)}
+                      onChange={() =>
+                        handleServiceSelection(service.service_id)
+                      }
                     />
                   </div>
                 </Card.Body>
               </Card>
             ))}
           </div>
+
           <div className="m-lg-2">
-            {/* Comment Box */}
             <div className="form-group">
               <label htmlFor="comment">Comment:</label>
               <textarea
                 className="form-control"
                 id="comment"
                 rows="3"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
               ></textarea>
             </div>
 
-            {/* Input Box */}
             <div className="form-group">
               <label htmlFor="input">Input:</label>
-              <input type="text" className="form-control" id="input" />
+              <input
+                type="text"
+                className="form-control"
+                id="input"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
             </div>
 
-            {/* Submit Button */}
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={handleOrderCreation}
+            >
               Submit
             </button>
           </div>
