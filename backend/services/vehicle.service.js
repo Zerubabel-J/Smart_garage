@@ -2,12 +2,12 @@
 const conn = require("../config/db.config");
 
 // A function to create a new vehicle
-async function createVehicle(vehicle) {
+async function createVehicle(customer_id, vehicle) {
   try {
     const query =
       "INSERT INTO customer_vehicle_info (customer_id, vehicle_year, vehicle_make, vehicle_model, vehicle_type, vehicle_mileage, vehicle_tag, vehicle_serial, vehicle_color) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     const rows = await conn.query(query, [
-      vehicle.customer_id,
+      customer_id,
       vehicle.vehicle_year,
       vehicle.vehicle_make,
       vehicle.vehicle_model,

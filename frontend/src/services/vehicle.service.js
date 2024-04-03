@@ -2,10 +2,10 @@
 import axios from "axios";
 
 // write a function to add a vehicle
-const addVehicle = async (formData) => {
+const addVehicle = async (id, formData) => {
   try {
     const response = await axios.post(
-      `http://localhost:8000/api/vehicle`,
+      `http://localhost:8000/api/vehicle/${id}`,
       formData
     );
     console.log("Vehicle", response.data);

@@ -15,8 +15,22 @@ const CustomerProfile = () => {
   const [customer, setCustomer] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [showAddVehicleForm, setShowAddVehicleForm] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  // form data useState variables
+  const [vehicle_year, setVehicle_year] = useState("");
+  const [vehicle_make, setVehicle_make] = useState("");
+  const [vehicle_model, setVehicle_model] = useState("");
+  const [vehicle_type, setVehicle_type] = useState("");
+  const [vehicle_color, setVehicle_color] = useState("");
+  const [vehicle_serial, setVehicle_serial] = useState("");
+  const [vehicle_tag, setVehicle_tag] = useState("");
+  const [vehicle_mileage, setVehicle_mileage] = useState("");
+
+  //Errors
   const [apiError, setApiError] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
+  const [serverError, setServerError] = useState(null);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -38,8 +52,183 @@ const CustomerProfile = () => {
       }
     };
     fetchCustomerData();
-  }, [id]);
-  // write a function to handle adding a vehicle
+  }, [id, submitted]);
+  // // write a function to handle adding a vehicle
+  // const handleAddVehicle = async (e) => {
+  //   e.preventDefault();
+
+  //   const formData = {
+  //     vehicle_year,
+  //     vehicle_make,
+  //     vehicle_model,
+  //     vehicle_type,
+  //     vehicle_mileage,
+  //     vehicle_tag,
+  //     vehicle_serial,
+  //     vehicle_color,
+  //   };
+
+  //   try {
+  //     const response = await vehicleService.addVehicle(id, formData);
+  //     console.log("Response of customer", response);
+  //     if (response.data.error) {
+  //       console.log("Server Error");
+  //       setServerError(response.data.error);
+  //     } else {
+  //       setServerError("");
+
+  //       setTimeout(() => {
+  //         navigate("/admin/customers");
+  //       }, 1000);
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     const errorMessage =
+  //       (error.response &&
+  //         error.response.data &&
+  //         error.response.data.message) ||
+  //       error.message ||
+  //       error.toString();
+  //     setServerError(errorMessage);
+  //   }
+  // };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   await handleAddVehicle();
+  //   // Clear input fields
+  //   setVehicle_year("");
+  //   setVehicle_make("");
+  //   setVehicle_model("");
+  //   setVehicle_type("");
+  //   setVehicle_color("");
+  //   setVehicle_serial("");
+  //   setVehicle_tag("");
+  //   setVehicle_mileage("");
+
+  //   // Set submitted to true to trigger useEffect
+  //   setSubmitted(true);
+  // };
+  // const handleAddVehicle = async () => {
+  //   try {
+  //     const formData = {
+  //       vehicle_year,
+  //       vehicle_make,
+  //       vehicle_model,
+  //       vehicle_type,
+  //       vehicle_mileage,
+  //       vehicle_tag,
+  //       vehicle_serial,
+  //       vehicle_color,
+  //     };
+
+  //     const response = await vehicleService.addVehicle(id, formData);
+  //     console.log("Response of customer", response);
+  //     if (response.data.error) {
+  //       console.log("Server Error");
+  //       setServerError(response.data.error);
+  //     } else {
+  //       setServerError("");
+
+  //       // Fetch the updated list of vehicles
+  //       const updatedVehicleData = await customerService.getCustomerVehicles(
+  //         id
+  //       );
+  //       setVehicles(updatedVehicleData.data);
+
+  //       // Hide the add vehicle form
+  //       setShowAddVehicleForm(false);
+
+  //       // Clear input fields
+  //       setVehicle_year("");
+  //       setVehicle_make("");
+  //       setVehicle_model("");
+  //       setVehicle_type("");
+  //       setVehicle_color("");
+  //       setVehicle_serial("");
+  //       setVehicle_tag("");
+  //       setVehicle_mileage("");
+
+  //       // Set submitted to true to trigger useEffect
+  //       setSubmitted(true);
+
+  //       navigate("/admin/customers");
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //     const errorMessage =
+  //       (error.response &&
+  //         error.response.data &&
+  //         error.response.data.message) ||
+  //       error.message ||
+  //       error.toString();
+  //     setServerError(errorMessage);
+  //   }
+  // };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   await handleAddVehicle();
+  // };
+  const handleAddVehicle = async () => {
+    try {
+      const formData = {
+        vehicle_year,
+        vehicle_make,
+        vehicle_model,
+        vehicle_type,
+        vehicle_mileage,
+        vehicle_tag,
+        vehicle_serial,
+        vehicle_color,
+      };
+
+      const response = await vehicleService.addVehicle(id, formData);
+      console.log("Response of customer", response);
+      if (response.data.error) {
+        console.log("Server Error");
+        setServerError(response.data.error);
+      } else {
+        setServerError("");
+
+        // Fetch the updated list of vehicles
+        const updatedVehicleData = await customerService.getCustomerVehicles(
+          id
+        );
+        setVehicles(updatedVehicleData.data);
+
+        // Set submitted to true to trigger useEffec
+        // navigate("/admin/customers");
+      }
+    } catch (error) {
+      const errorMessage =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      setServerError(errorMessage);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await handleAddVehicle();
+
+    // Hide the add vehicle form
+    setShowAddVehicleForm(false);
+    // Clear input fields
+    setVehicle_year("");
+    setVehicle_make("");
+    setVehicle_model("");
+    setVehicle_type("");
+    setVehicle_color("");
+    setVehicle_serial("");
+    setVehicle_tag("");
+    setVehicle_mileage("");
+
+    setSubmitted(true);
+  };
 
   return (
     <>
@@ -80,53 +269,120 @@ const CustomerProfile = () => {
             <div className="cars-icon info-icon">Cars</div>
             <div className="vehicle-lists customer-detail">
               <h3>Vehicles of {customer?.data?.[0]?.customer_first_name}</h3>
-              {/* {console.log("Vehicle data", vehicles?.data)} */}
-              {/* ###### */}
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Vehicle Make</th>
-                    <th>Vehicle Model</th>
-                    <th>Vehicle Type</th>
-                    <th>Vehicle Tag</th>
-                    <th>Vehcile Serial</th>
-                    <th>Vehicle Color</th>
-                    <th>Vehicle Meleage</th>
-                    <th>Edit/View</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {vehicles?.map((vehicle) => (
-                    <tr key={vehicle.vehicle_id}>
-                      <td>{vehicle.vehicle_make}</td>
-                      <td>{vehicle.vehicle_model}</td>
-                      <td>{vehicle.vehicle_type}</td>
-                      <td>{vehicle.vehicle_tag}</td>
-                      <td>{vehicle.vehicle_serial}</td>
-                      <td>{vehicle.vehicle_color}</td>
-                      <td>{vehicle.vehicle_mileage}</td>
-                      <td>
-                        <div className="edit-delete-icons">
-                          <Link
-                            style={{ color: "blue" }}
-                            to={`/admin/vehicle/edit/${vehicle.vehicle_id}`}
-                          >
-                            <MdEdit />
-                          </Link>
-                          <Link
-                            style={{ color: "blue" }}
-                            to={`/admin/vehicle/get/${vehicle.vehicle_id}`}
-                          >
-                            <FaHandPointUp />
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-              {/* ###### */}
-              <button>Add Vehicle</button>
+
+              {showAddVehicleForm ? (
+                <>
+                  <h6>No vehicles found</h6>
+                  <form className="form-container" onSubmit={handleSubmit}>
+                    {/* Input fields for vehicle info */}
+                    <input
+                      type="text"
+                      placeholder="Vehicle Year"
+                      value={vehicle_year}
+                      onChange={(e) => setVehicle_year(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Vehicle Make"
+                      value={vehicle_make}
+                      onChange={(e) => setVehicle_make(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Vehicle model"
+                      value={vehicle_model}
+                      onChange={(e) => setVehicle_model(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Vehicle Type"
+                      value={vehicle_type}
+                      onChange={(e) => setVehicle_type(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Vehicle Mileage"
+                      value={vehicle_mileage}
+                      onChange={(e) => setVehicle_mileage(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Vehicle Tag"
+                      value={vehicle_tag}
+                      onChange={(e) => setVehicle_tag(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Vehicle Serial"
+                      value={vehicle_serial}
+                      onChange={(e) => setVehicle_serial(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Vehicle Color"
+                      value={vehicle_color}
+                      onChange={(e) => setVehicle_color(e.target.value)}
+                    />
+
+                    <button type="submit">Add</button>
+                    <button
+                      className="cancel-btn"
+                      onClick={() => setShowAddVehicleForm(false)}
+                    >
+                      Cancel
+                    </button>
+                  </form>
+                </>
+              ) : (
+                <>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>Vehicle Make</th>
+                        <th>Vehicle Model</th>
+                        <th>Vehicle Type</th>
+                        <th>Vehicle Tag</th>
+                        <th>Vehcile Serial</th>
+                        <th>Vehicle Color</th>
+                        <th>Vehicle Meleage</th>
+                        <th>Edit/View</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {vehicles?.map((vehicle) => (
+                        <tr key={vehicle.vehicle_id}>
+                          <td>{vehicle.vehicle_make}</td>
+                          <td>{vehicle.vehicle_model}</td>
+                          <td>{vehicle.vehicle_type}</td>
+                          <td>{vehicle.vehicle_tag}</td>
+                          <td>{vehicle.vehicle_serial}</td>
+                          <td>{vehicle.vehicle_color}</td>
+                          <td>{vehicle.vehicle_mileage}</td>
+                          <td>
+                            <div className="edit-delete-icons">
+                              <Link
+                                style={{ color: "blue" }}
+                                to={`/admin/vehicle/edit/${vehicle.vehicle_id}`}
+                              >
+                                <MdEdit />
+                              </Link>
+                              <Link
+                                style={{ color: "blue" }}
+                                to={`/admin/vehicle/get/${vehicle.vehicle_id}`}
+                              >
+                                <FaHandPointUp />
+                              </Link>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                  <button onClick={() => setShowAddVehicleForm(true)}>
+                    Add Vehicle
+                  </button>
+                </>
+              )}
             </div>
           </div>
           <div className="customer-order customer-info">

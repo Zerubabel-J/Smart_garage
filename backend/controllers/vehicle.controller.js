@@ -5,7 +5,11 @@ const vehicleService = require("../services/vehicle.service");
 async function createVehicle(req, res, next) {
   try {
     const vehicleData = req.body;
-    const vehicleId = await vehicleService.createVehicle(vehicleData);
+    const { customer_id } = req.params;
+    const vehicleId = await vehicleService.createVehicle(
+      customer_id,
+      vehicleData
+    );
     res
       .status(201)
       .json({ id: vehicleId, message: "Vehicle created successfully" });
