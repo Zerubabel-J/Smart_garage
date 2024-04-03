@@ -121,7 +121,7 @@ const ServiceList = () => {
                     <Card.Body className="service">
                       <div>{service.service_description}</div>
 
-                      <div className="edit-delete-icons">
+                      <div className="edit-delete-icons-sevice">
                         <Link to={`/admin/service/${service.service_id}`}>
                           <FaEdit size={20} />
                         </Link>

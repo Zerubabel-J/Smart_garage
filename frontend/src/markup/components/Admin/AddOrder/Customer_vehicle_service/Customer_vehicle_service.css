@@ -59,3 +59,39 @@ p {
   margin-top: 10px;
   margin-left: 50px;
 }
+
+.service {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+  background-color: #fff;
+}
+
+.service:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.service h4 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.service-description {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.service input[type="checkbox"] {
+  margin-left: 90%;
+}
+
+.service input[type="checkbox"]:checked + .service-description {
+  text-decoration: line-through;
+  color: #999;
+}

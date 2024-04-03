@@ -252,7 +252,7 @@ const CustomerProfile = () => {
                               </Link>
                               <Link
                                 style={{ color: "blue" }}
-                                to={`/admin/vehicle/get/${vehicle.vehicle_id}`}
+                                to={`/admin/customer-vehicle-service/get/${id}/${vehicle.vehicle_id}`}
                               >
                                 <FaHandPointUp />
                               </Link>

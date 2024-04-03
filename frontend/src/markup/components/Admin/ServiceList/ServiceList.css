@@ -22,8 +22,8 @@
   color: #333;
   line-height: 1.6;
 }
-/* 
-.edit-delete-icons {
+
+.edit-delete-icons-sevice {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -31,15 +31,15 @@
   align-items: center;
 }
 
-.edit-delete-icons a {
+.edit-delete-icons-sevice a {
   margin-right: 10px;
   color: #007bff;
 }
 
-.edit-delete-icons svg {
+.edit-delete-icons-sevice svg {
   cursor: pointer;
 }
 
-.edit-delete-icons svg:hover {
+.edit-delete-icons-sevice svg:hover {
   color: #0056b3;
-} */
+}

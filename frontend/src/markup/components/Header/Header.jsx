@@ -11,8 +11,8 @@ import { useAuth } from "../../../Contexts/AuthContext";
 function Header(props) {
   // Use the custom hook to access the data in the context
   const { isLogged, setIsLogged, employee } = useAuth();
-  console.log("I am from header", useAuth());
-  console.log(isLogged);
+  // console.log("I am from header", useAuth());
+  // console.log(isLogged);
   // Log out event handler function
   const logOut = () => {
     // Call the logout function from the login service
@@ -54,9 +54,9 @@ function Header(props) {
             <div className="inner-container">
               <div className="logo-box">
                 <div className="logo">
-                  <a href="/">
+                  <Link to={"/"}>
                     <img src={logo} alt="" />
-                  </a>
+                  </Link>
                 </div>
               </div>
               <div className="right-column">
@@ -71,16 +71,16 @@ function Header(props) {
                     >
                       <ul className="navigation">
                         <li className="dropdown">
-                          <a href="/">Home</a>
+                          <Link to={"/"}>Home</Link>
                         </li>
                         <li className="dropdown">
-                          <a href="/about">About Us</a>
+                          <Link to={"/about"}>About Us</Link>
                         </li>
                         <li className="dropdown">
-                          <a href="/services">Services</a>
+                          <Link to={"/admin/services"}>Services</Link>
                         </li>
                         <li>
-                          <a href="/contact">Contact Us</a>
+                          <Link to={"/contact"}>Contact Us</Link>
                         </li>
                       </ul>
                     </div>
@@ -129,9 +129,9 @@ function Header(props) {
                   </div>
                   <div className="search-btn"></div>
                   <div className="link-btn">
-                    <a href="/login" className="theme-btn btn-style-one">
+                    <Link to={"/login"} className="theme-btn btn-style-one">
                       Login
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
