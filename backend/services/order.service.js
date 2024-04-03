@@ -118,6 +118,101 @@ async function getOrderInformation() {
   }
 }
 
+async function getOrderDetail(orderId) {
+  try {
+    const sql = `
+      SELECT
+        customer_info.customer_first_name,
+        customer_info.customer_last_name,
+        customer_identifier.customer_email,
+        customer_identifier.customer_phone_number,
+        customer_vehicle_info.vehicle_year,
+        customer_vehicle_info.vehicle_make,
+        customer_vehicle_info.vehicle_model,
+        customer_vehicle_info.vehicle_type,
+        customer_vehicle_info.vehicle_mileage,
+        customer_vehicle_info.vehicle_tag,
+        customer_vehicle_info.vehicle_serial,
+        customer_vehicle_info.vehicle_color,
+        orders.order_id,
+        orders.order_date,
+        orders.active_order,
+        orders.order_hash,
+        order_info.order_total_price,
+        order_info.estimated_completion_date,
+        order_info.completion_date,
+        order_info.additional_request,
+        order_info.notes_for_internal_use,
+        order_info.notes_for_customer,
+        order_info.additional_requests_completed,
+        order_status.order_status,
+        common_services.service_name AS serviceName,
+        common_services.service_description AS serviceDescription
+      FROM
+        orders
+      JOIN
+        customer_identifier ON orders.customer_id = customer_identifier.customer_id
+      JOIN
+        customer_vehicle_info ON orders.vehicle_id = customer_vehicle_info.vehicle_id
+      JOIN
+        order_info ON orders.order_id = order_info.order_id
+      JOIN
+        order_services ON orders.order_id = order_services.order_id
+      JOIN
+        common_services ON order_services.service_id = common_services.service_id
+      JOIN
+        order_status ON orders.order_id = order_status.order_id
+      JOIN
+        customer_info ON customer_identifier.customer_id = customer_info.customer_id
+      WHERE
+        orders.order_id = ?;`;
+
+    // Assuming 'conn' is your database connection object
+    const rows = await conn.query(sql, [orderId]);
+
+    // Grouping order services by order ID
+    const orderServices = rows.map((row) => ({
+      serviceName: row.serviceName,
+      serviceDescription: row.serviceDescription,
+    }));
+
+    // Removing redundant service data from order detail
+    const orderDetail = {
+      customer_first_name: rows[0].customer_first_name,
+      customer_last_name: rows[0].customer_last_name,
+      customer_email: rows[0].customer_email,
+      customer_phone_number: rows[0].customer_phone_number,
+      vehicle_year: rows[0].vehicle_year,
+      vehicle_make: rows[0].vehicle_make,
+      vehicle_model: rows[0].vehicle_model,
+      vehicle_type: rows[0].vehicle_type,
+      vehicle_mileage: rows[0].vehicle_mileage,
+      vehicle_tag: rows[0].vehicle_tag,
+      vehicle_serial: rows[0].vehicle_serial,
+      vehicle_color: rows[0].vehicle_color,
+      order_id: rows[0].order_id,
+      order_date: rows[0].order_date,
+      active_order: rows[0].active_order,
+      order_hash: rows[0].order_hash,
+      order_total_price: rows[0].order_total_price,
+      estimated_completion_date: rows[0].estimated_completion_date,
+      completion_date: rows[0].completion_date,
+      additional_request: rows[0].additional_request,
+      notes_for_internal_use: rows[0].notes_for_internal_use,
+      notes_for_customer: rows[0].notes_for_customer,
+      additional_requests_completed: rows[0].additional_requests_completed,
+      order_status: rows[0].order_status,
+      orderServices: orderServices,
+    };
+
+    console.log("Order Detail:", orderDetail);
+    return [orderDetail]; // Returning array of order detail objects
+  } catch (error) {
+    console.error("Error fetching order detail:", error.message);
+    throw error;
+  }
+}
+
 // Function to get all orders
 async function getAllOrders() {
   try {
@@ -222,6 +317,7 @@ module.exports = {
   createOrder,
   getAllOrders,
   getOrderInformation,
+  getOrderDetail,
   getOrderById,
   deleteOrderById,
   editOrder,

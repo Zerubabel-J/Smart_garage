@@ -76,6 +76,7 @@ import CreateOrder from "./markup/pages/admin/CreateOrder";
 import CustomerVihicleInfo from "./markup/pages/admin/CustomerVihicleInfo";
 import Customer_vehicle_service_info from "./markup/pages/admin/Customer_vehicle_service_info";
 import Services from "./markup/pages/admin/Services";
+import OrderDetails from "./markup/pages/admin/OrderDetails";
 
 function App() {
   return (
@@ -120,6 +121,10 @@ function App() {
         <Route
           path="/admin/customer-vehicle-service/get/:id/:vehicle_id"
           element={<Customer_vehicle_service_info />}
+        />
+        <Route
+          path="/admin/order-detail/:order_id"
+          element={<OrderDetails />}
         />
         <Route path="/admin/services" element={<Services />} />
         {/* <Route path="/admin/customers" element={<Customers/>} /> */}

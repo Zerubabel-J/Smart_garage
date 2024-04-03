@@ -32,6 +32,16 @@ async function getOrderInformation(req, res, next) {
     res.status(400).json({ error: "Failed to retrieve orders" });
   }
 }
+
+// Function to get getOrderDetail by orderId
+async function getOrderDetail(req, res, next) {
+  try {
+    const orderDetail = await orderService.getOrderDetail(req.params.order_id);
+    res.status(200).json(orderDetail);
+  } catch (error) {
+    res.status(400).json({ error: "Failed to retrieve order detail" });
+  }
+}
 // Function to get an order by its ID
 async function getOrderById(req, res, next) {
   try {
@@ -96,6 +106,7 @@ module.exports = {
   createOrder,
   getAllOrders,
   getOrderInformation,
+  getOrderDetail,
   getOrderById,
   deleteOrderById,
   editOrder,

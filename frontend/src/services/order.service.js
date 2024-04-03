@@ -77,12 +77,28 @@ const getOrderInformation = async () => {
   }
 };
 
+// Function to get all order detail using axios
+const getOrderDetail = async (orderId) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/orderdetail/${orderId}`
+    );
+    console.log("Order detail", response);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching order detail:", error.message);
+    throw error;
+  }
+};
+
 const orderService = {
   searchCustomers,
   createOrder,
   getAllOrders,
   getOrderById,
   getOrderInformation,
+  getOrderDetail,
 };
 
 //export the functions
