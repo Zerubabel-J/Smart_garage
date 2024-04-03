@@ -115,6 +115,16 @@ const CustomerVehicle = () => {
               </Table>
             </div>
           </div>
+          <div className="form-group col-md-12">
+            <Link
+              to={"/admin/add-customer"}
+              className="theme-btn btn-style-one"
+              type="submit"
+              data-loading-text="Please wait..."
+            >
+              <span>Add Vehicle</span>
+            </Link>
+          </div>
         </div>
       )}
     </>

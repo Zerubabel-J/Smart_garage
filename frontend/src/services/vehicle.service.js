@@ -1,6 +1,22 @@
 // import axios
 import axios from "axios";
 
+// write a function to add a vehicle
+const addVehicle = async (formData) => {
+  try {
+    const response = await axios.post(
+      `http://localhost:8000/api/vehicle`,
+      formData
+    );
+    console.log("Vehicle", response.data);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error adding vehicle:", error.message);
+    throw error;
+  }
+};
+
 // write a function to get all vehicles
 const getAllVehicles = async () => {
   try {
@@ -28,6 +44,7 @@ const getVehicleById = async (id) => {
 
 // write a function to update order
 const vehicleService = {
+  addVehicle,
   getAllVehicles,
   getVehicleById,
 };

@@ -40,6 +40,7 @@ import React from "react";
 import { Routes, Route } from "react-router";
 // Import the page components
 import Home from "./markup/pages/Home";
+import About from "./markup/pages/About";
 import Login from "./markup/pages/Login";
 import AddEmployee from "./markup/pages/admin/AddEmployee";
 import Unauthorized from "./markup/pages/Unauthorized";
@@ -64,6 +65,7 @@ import Header from "./markup/components/Header/Header";
 import Footer from "./markup/components/Footer/Footer";
 
 // Import the PrivateAuthRoute component
+
 import PrivateAuthRoute from "./markup/components/Auth/PrivateAuthRoute";
 import EditEmployee from "./markup/pages/admin/EditEmployee";
 import AddCustomer from "./markup/pages/admin/AddCustomer";
@@ -80,6 +82,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
         {/* // Add the Orders Route  */}
@@ -107,7 +110,7 @@ function App() {
         <Route path="/admin/add-customer" element={<AddCustomer />} />
         <Route path="/admin/customer/edit/:id" element={<EditCustomer />} />
         <Route path="/admin/customer-profile" element={<CustomerInfo />} />
-        <Route path="/admin/customer/get/:id" element={<CustomerProfile />} />
+        <Route path="/admin/customer/get/:id" element={<CustomerInfo />} />
         <Route path="/admin/add-orders" element={<CreateOrder />} />
         <Route
           path="/admin/customer-vehicle/get/:id"

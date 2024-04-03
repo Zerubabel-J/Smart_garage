@@ -70,7 +70,9 @@ const deleteCustomerById = async (token, customerId) => {
   }
 };
 const updateCustomer = async (customerId, formData) => {
+  console.log("Active status", formData);
   try {
+    console.log(formData);
     const response = await axios.patch(
       `http://localhost:8000/api/customer/${customerId}`,
       formData

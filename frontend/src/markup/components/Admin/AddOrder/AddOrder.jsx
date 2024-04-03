@@ -53,7 +53,21 @@ const AddOrder = () => {
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-input"
       />
-      {/* <button>Search</button> */}
+      <br />
+      <br />
+
+      {searchResults.length === 0 && (
+        <div className="form-group col-md-12">
+          <Link
+            to={"/admin/add-customer"}
+            className="theme-btn btn-style-one"
+            type="submit"
+            data-loading-text="Please wait..."
+          >
+            <span>Add Customer</span>
+          </Link>
+        </div>
+      )}
 
       {apiError ? (
         <section className="contact-section">

@@ -117,17 +117,16 @@ const EmployeesList = () => {
                       <td>
                         <div className="edit-delete-icons">
                           <Link
-                            style={{ color: "red" }}
-                            onClick={() => handleDelete(employee.employee_id)}
-                          >
-                            <MdDelete />
-                          </Link>
-
-                          <Link
                             style={{ color: "blue" }}
                             to={`/admin/employee/edit/${employee.employee_id}`}
                           >
                             <MdEdit />
+                          </Link>
+                          <Link
+                            style={{ color: "red" }}
+                            onClick={() => handleDelete(employee.employee_id)}
+                          >
+                            <MdDelete />
                           </Link>
                         </div>
                       </td>

@@ -4,7 +4,7 @@ import { useAuth } from "../../../Contexts/AuthContext";
 // Import the Login component
 import LoginForm from "../../components/LoginForm/LoginForm";
 import CustomersList from "../../components/Admin/CustomersList/CustomersList";
-
+import AdminMenu from "../../components/Admin/AdminMenu/AdminMenu";
 const Customers = () => {
   // Destructure the auth hook
   // console.log(useAuth());
@@ -13,14 +13,28 @@ const Customers = () => {
   if (isLogged) {
     if (isAdmin) {
       return (
-        <div>
-          <CustomersList />
+        <div className="container-fluid admin-pages">
+          <div className="row">
+            <div className="col-md-3 admin-left-side">
+              <AdminMenu />
+            </div>
+            <div className="col-md-9 admin-right-side">
+              <CustomersList />
+            </div>
+          </div>
         </div>
       );
     } else {
       return (
-        <div>
-          <h1>You are not authorized to access this page</h1>
+        <div className="container-fluid admin-pages">
+          <div className="row">
+            <div className="col-md-3 admin-left-side">
+              <AdminMenu />
+            </div>
+            <div className="col-md-9 admin-right-side">
+              <h1>You are not authorized to access this page</h1>
+            </div>
+          </div>
         </div>
       );
     }

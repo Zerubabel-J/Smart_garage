@@ -115,13 +115,18 @@ async function editCustomer(id, customer) {
     await conn.beginTransaction();
 
     await query(
-      "UPDATE customer_identifier SET customer_email = ?, customer_phone_number = ? WHERE customer_id = ?",
-      [customer.customer_email, customer.customer_phone_number, id]
+      "UPDATE customer_identifier SET  customer_phone_number = ? WHERE customer_id = ?",
+      [customer.customer_phone_number, id]
     );
 
     await query(
-      "UPDATE customer_info SET customer_first_name = ?, customer_last_name = ? WHERE customer_id = ?",
-      [customer.customer_first_name, customer.customer_last_name, id]
+      "UPDATE customer_info SET customer_first_name = ?, customer_last_name = ?, active_customer_status=? WHERE customer_id = ?",
+      [
+        customer.customer_first_name,
+        customer.customer_last_name,
+        customer.active_customer_status,
+        id,
+      ]
     );
 
     await conn.commit();

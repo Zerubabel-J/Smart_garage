@@ -52,9 +52,9 @@ const CustomersList = () => {
   }, []);
 
   // Log customers whenever it changes
-  useEffect(() => {
-    console.log("Customers updated:", customers);
-  }, [customers]);
+  // useEffect(() => {
+  //   console.log("Customers updated:", customers);
+  // }, [customers]);
 
   return (
     <>
@@ -100,7 +100,7 @@ const CustomersList = () => {
                           "MM - dd - yyyy | kk:mm"
                         )}
                       </td>
-                      <td>{customer.active_customer ? "Yes" : "No"}</td>
+                      <td>{customer.active_customer_status ? "Yes" : "No"}</td>
                       <td>
                         <div className="edit-delete-icons">
                           <Link

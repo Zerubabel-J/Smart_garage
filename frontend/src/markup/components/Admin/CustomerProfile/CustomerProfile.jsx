@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 // import customer service
 import customerService from "../../../../services/customer.service";
+import vehicleService from "../../../../services/vehicle.service";
 // import userParams, useNavigate, Link and useParams from react-router-dom
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
@@ -36,9 +37,9 @@ const CustomerProfile = () => {
         setApiErrorMessage(error.message);
       }
     };
-
     fetchCustomerData();
   }, [id]);
+  // write a function to handle adding a vehicle
 
   return (
     <>
