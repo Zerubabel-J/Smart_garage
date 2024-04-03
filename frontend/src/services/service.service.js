@@ -4,7 +4,7 @@ import axios from "axios";
 const getAllServices = async () => {
   try {
     const response = await axios.get(`http://localhost:8000/api/services`);
-    console.log("Services", response);
+    console.log("Services", response.data);
     return response.data.data;
   } catch (error) {
     // Handle error

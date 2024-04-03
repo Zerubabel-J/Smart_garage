@@ -1,0 +1,45 @@
+.service {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+.service:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.service h4 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.service div {
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+}
+/* 
+.edit-delete-icons {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.edit-delete-icons a {
+  margin-right: 10px;
+  color: #007bff;
+}
+
+.edit-delete-icons svg {
+  cursor: pointer;
+}
+
+.edit-delete-icons svg:hover {
+  color: #0056b3;
+} */

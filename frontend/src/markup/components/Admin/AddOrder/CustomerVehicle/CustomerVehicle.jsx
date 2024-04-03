@@ -117,7 +117,7 @@ const CustomerVehicle = () => {
           </div>
           <div className="form-group col-md-12">
             <Link
-              to={"/admin/add-customer"}
+              to={`/admin/customer/get/${id}`}
               className="theme-btn btn-style-one"
               type="submit"
               data-loading-text="Please wait..."
