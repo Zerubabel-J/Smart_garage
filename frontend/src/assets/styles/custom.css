@@ -6,8 +6,7 @@
   color: #fff;
 }
 /* Placeholder style */
-input::placeholder,
-textarea::placeholder {
+input::placeholder, textarea::placeholder {
   font-weight: 400;
   opacity: 0.3;
   color: #000;
@@ -15,12 +14,11 @@ textarea::placeholder {
 }
 /* Header */
 .main-header {
-  box-shadow: rgba(9, 30, 66, 0.25) 0px 2px 5px -2px,
-    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 2px 5px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
 }
 /* Admin pages */
 .admin-left-side {
-  background-color: #222b48;
+  background-color:#222b48;
 }
 .admin-right-side {
   background: rgb(246 247 250);
@@ -62,7 +60,7 @@ textarea::placeholder {
 .admin-left-side a:hover {
   color: #fff;
 }
-.validation-error {
+.validation-error{
   color: red;
   float: right;
   font-style: italic;
@@ -116,7 +114,7 @@ input:disabled {
   padding: 30px;
 }
 /* Table style */
-.table a {
+.table a  {
   color: #0a1436;
   font-weight: 600;
 }
@@ -142,7 +140,7 @@ input:disabled {
   color: red;
   font-size: 1.5em;
   margin-bottom: -3px;
-  text-align: end;
+  text-align: end;  
   cursor: pointer;
 }
 .internal-form-wrapper {
@@ -173,7 +171,7 @@ input:disabled {
   position: relative;
   z-index: 1;
 }
-.service-item .edit-delete span {
+.service-item .edit-delete span{
   padding: 15px;
 }
 .service-item h3 {
@@ -233,7 +231,7 @@ input:disabled {
 .service-block-one .text span {
   color: #000821;
 }
-.contact-form input[type="number"] {
+.contact-form input[type="number"]{
   display: block;
   width: 100%;
   line-height: 28px;

@@ -77,7 +77,7 @@ function Header(props) {
                           <Link to={"/about"}>About Us</Link>
                         </li>
                         <li className="dropdown">
-                          <Link to={"/admin/services"}>Services</Link>
+                          <Link to={"services"}>Services</Link>
                         </li>
                         <li>
                           <Link to={"/contact"}>Contact Us</Link>

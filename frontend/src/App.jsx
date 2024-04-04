@@ -41,6 +41,8 @@ import { Routes, Route } from "react-router";
 // Import the page components
 import Home from "./markup/pages/Home";
 import About from "./markup/pages/About";
+import Service from "./markup/pages/Services";
+import Contact from "./markup/pages/Contact";
 import Login from "./markup/pages/Login";
 import AddEmployee from "./markup/pages/admin/AddEmployee";
 import Unauthorized from "./markup/pages/Unauthorized";
@@ -75,9 +77,10 @@ import CustomerProfile from "./markup/components/Admin/CustomerProfile/CustomerP
 import CreateOrder from "./markup/pages/admin/CreateOrder";
 import CustomerVihicleInfo from "./markup/pages/admin/CustomerVihicleInfo";
 import Customer_vehicle_service_info from "./markup/pages/admin/Customer_vehicle_service_info";
-import Services from "./markup/pages/admin/Services";
+
 import OrderDetails from "./markup/pages/admin/OrderDetails";
 import OrderUpdates from "./markup/pages/admin/OrderUpdates";
+import AdminDashboard from "./markup/pages/admin/AdminDashBoard";
 
 function App() {
   return (
@@ -85,8 +88,12 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/services" element={<Service />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
         {/* // Add the Orders Route  */}
         <Route
@@ -131,7 +138,7 @@ function App() {
           path="/admin/order-update/:order_id/:order_status"
           element={<OrderUpdates />}
         />
-        <Route path="/admin/services" element={<Services />} />
+        {/* <Route path="/admin/services" element={<Services />} /> */}
         {/* <Route path="/admin/customers" element={<Customers/>} /> */}
         {/*         
         <PrivateAuthRoute roles={[3]}>
