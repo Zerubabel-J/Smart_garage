@@ -110,13 +110,13 @@ const OrdersList = () => {
                         <div className="edit-delete-icons">
                           <Link
                             style={{ color: "blue" }}
-                            to={`/admin/order-detail/${order.order_id}`}
+                            to={`/admin/order-detail/${order.order_id}/${order.order_status}`}
                           >
                             <FaHandPointUp />
                           </Link>
                           <Link
                             style={{ color: "blue" }}
-                            to={`/admin/customer/edit/${order.order_id}`}
+                            to={`/admin/order-update/${order.order_id}/${order.order_status}`}
                           >
                             <MdEdit />
                           </Link>

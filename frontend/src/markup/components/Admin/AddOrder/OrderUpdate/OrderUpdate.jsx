@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
-// import customer service
-
 import orderService from "../../../../../services/order.service";
-
-// import userParams, useNavigate, Link and useParams from react-router-dom
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
 import { useAuth } from "../../../../../Contexts/AuthContext";
-// import useAuth
-// import the css file
-import "./OrderDetail.css";
+import "./OrderUpdate.css";
 
-const OrderDetail = () => {
+const OrderUpdate = () => {
   const [orders, setOrders] = useState([]);
-  const { employee } = useAuth();
-  // api error
+  const [selectedServices, setSelectedServices] = useState([]);
   const [apiError, setApiError] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
   const navigate = useNavigate();
   const { order_id, order_status } = useParams();
-
+  console.log("order_status", order_status);
   useEffect(() => {
     const fetchCustomerData = async () => {
       try {
@@ -36,15 +29,42 @@ const OrderDetail = () => {
     fetchCustomerData();
   }, [order_id]);
 
+  const handleServiceSelection = (serviceId) => {
+    setSelectedServices((prevSelectedServices) =>
+      prevSelectedServices.includes(serviceId)
+        ? prevSelectedServices.filter((id) => id !== serviceId)
+        : [...prevSelectedServices, serviceId]
+    );
+  };
+
+  const handleOrderUpdating = async (e) => {
+    try {
+      e.preventDefault();
+      const orderStatus = selectedServices.length > 0 ? 1 : 0; // If any service is selected, order status is considered completed (1), otherwise, it's pending (0)
+
+      const loggedInEmployeeToken = localStorage.getItem("token");
+      const updated = await orderService.updateOrder(
+        order_id,
+        { order_status: orderStatus },
+        loggedInEmployeeToken
+      );
+      console.log("Update info", updated);
+      navigate("/admin/orders");
+    } catch (error) {
+      console.error("Error creating order:", error.message);
+      setApiError(true);
+      setApiErrorMessage(error.message);
+    }
+  };
+
   return (
     <>
       {apiError ? (
         <div>Error: {apiErrorMessage}</div>
       ) : (
         <div className="container-fluid customer-profile">
-          <div className="cv-profiles">
+          <div className="cv-update">
             <div className="customer-info ">
-              {/* <div className="info-icon ">Info</div> */}
               <div className="customer-detail ">
                 <h3> {orders?.[0]?.customer_first_name}</h3>
                 <p>
@@ -100,7 +120,7 @@ const OrderDetail = () => {
           </div>
 
           <div>
-            <h3>Requested Service</h3>
+            <h3>Update Status</h3>
             {orders?.[0]?.orderServices?.map((service) => (
               <Card className="m-lg-2" key={service.service_id}>
                 <Card.Title className="px-lg-3 pt-3">
@@ -108,57 +128,46 @@ const OrderDetail = () => {
                 </Card.Title>
                 <Card.Body className="service">
                   <div className="service-description">
-                    {service.serviceDescription}
                     {order_status == 1 ? (
-                      <button
-                        type="submit"
-                        className="btn btn-primary customer-completed"
-                      >
-                        Completed
-                      </button>
+                      <h3 className="completed">
+                        {service.serviceDescription}
+                      </h3>
                     ) : (
-                      <button
-                        type="submit"
-                        className="btn btn-primary customer-pending"
-                      >
-                        In Progress
-                      </button>
+                      <input
+                        type="checkbox"
+                        value={service.service_id}
+                        checked={selectedServices.includes(service.service_id)}
+                        onChange={() =>
+                          handleServiceSelection(service.service_id)
+                        }
+                      />
                     )}
                   </div>
                 </Card.Body>
               </Card>
             ))}
           </div>
-
-          <div className="m-lg-2">
-            <div className="form-group">
-              <h5>Additional Information</h5>
-              <h6>
-                Additional request:
-                <span>{orders?.[0]?.orderServices?.[0]?.serviceName}</span>{" "}
-              </h6>
-            </div>
-
-            <div className="form-group">
-              <h6>Order Date:{orders?.[0]?.order_date}</h6>
-              <h6>Estimation Completion Date:</h6>
-              <h6>Total Price: {orders?.[0]?.order_total_price}</h6>
-            </div>
-
-            {order_status == 1 ? (
-              <button type="submit" className="btn btn-primary completed">
-                Completed
-              </button>
-            ) : (
-              <button type="submit" className="btn btn-primary pending">
-                In Progress
-              </button>
-            )}
-          </div>
+          {order_status == 1 ? (
+            <button
+              type="submit"
+              className="btn btn-primary completed"
+              onClick={handleOrderUpdating}
+            >
+              Completed
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="btn btn-primary pending"
+              onClick={handleOrderUpdating}
+            >
+              Pending
+            </button>
+          )}
         </div>
       )}
     </>
   );
 };
 
-export default OrderDetail;
+export default OrderUpdate;

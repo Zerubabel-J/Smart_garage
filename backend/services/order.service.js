@@ -110,7 +110,7 @@ async function getOrderInformation() {
 
     // Assuming 'conn' is your database connection object
     const rows = await conn.query(sql);
-    console.log("Orders", rows);
+    // console.log("Orders", rows);
     return rows;
   } catch (error) {
     console.error("Error fetching order information:", error.message);
@@ -146,6 +146,7 @@ async function getOrderDetail(orderId) {
         order_info.notes_for_customer,
         order_info.additional_requests_completed,
         order_status.order_status,
+        common_services.service_id AS service_id,
         common_services.service_name AS serviceName,
         common_services.service_description AS serviceDescription
       FROM
@@ -172,6 +173,7 @@ async function getOrderDetail(orderId) {
 
     // Grouping order services by order ID
     const orderServices = rows.map((row) => ({
+      service_id: row.service_id,
       serviceName: row.serviceName,
       serviceDescription: row.serviceDescription,
     }));
@@ -205,7 +207,7 @@ async function getOrderDetail(orderId) {
       orderServices: orderServices,
     };
 
-    console.log("Order Detail:", orderDetail);
+    // console.log("Order Detail:", orderDetail);
     return [orderDetail]; // Returning array of order detail objects
   } catch (error) {
     console.error("Error fetching order detail:", error.message);
@@ -256,54 +258,68 @@ async function deleteOrderById(orderId) {
 }
 
 // Function to edit an order
-async function editOrder(orderId, orderData) {
-  // console.log(orderData);
+// async function editOrder(orderId, orderData) {
+//   // console.log(orderData);
+//   try {
+//     const orderQuery =
+//       "UPDATE orders SET employee_id = ?, customer_id = ?, vehicle_id = ?, active_order = ?, order_hash = ? WHERE order_id = ?";
+//     const orderValues = [
+//       orderData.employee_id,
+//       orderData.customer_id,
+//       orderData.vehicle_id,
+//       orderData.active_order,
+//       orderData.order_hash,
+//       orderId,
+//     ];
+//     await conn.query(orderQuery, orderValues);
+
+//     const orderInfoQuery =
+//       "UPDATE order_info SET order_total_price = ?,  additional_request = ?, notes_for_internal_use = ?, notes_for_customer = ?, additional_requests_completed = ? WHERE order_id = ?";
+//     const orderInfoValues = [
+//       orderData.order_total_price,
+//       orderData.additional_request,
+//       orderData.notes_for_internal_use,
+//       orderData.notes_for_customer,
+//       orderData.additional_requests_completed,
+//       orderId,
+//     ];
+
+//     await conn.query(orderInfoQuery, orderInfoValues);
+
+//     const orderStatusQuery =
+//       "UPDATE order_status SET order_status = ? WHERE order_id = ?";
+//     const orderStatusValues = [orderData.order_status, orderId];
+//     await conn.query(orderStatusQuery, orderStatusValues);
+
+//     // Update order services
+//     await conn.query("DELETE FROM order_services WHERE order_id = ?", [
+//       orderId,
+//     ]);
+//     if (orderData.order_services && orderData.order_services.length > 0) {
+//       const orderServicesQuery =
+//         "INSERT INTO order_services (order_id, service_id, service_completed) VALUES (?,?,?)";
+//       for (const service of orderData.order_services) {
+//         await conn.query(orderServicesQuery, [
+//           orderId,
+//           service.service_id,
+//           service.service_completed,
+//         ]);
+//       }
+//     }
+
+//     return true;
+//   } catch (error) {
+//     console.log(error.message);
+//     throw error;
+//   }
+// }
+async function updateOrder(orderId, orderData) {
+  console.log(orderData);
+  console.log(orderId);
   try {
-    const orderQuery =
-      "UPDATE orders SET employee_id = ?, customer_id = ?, vehicle_id = ?, active_order = ?, order_hash = ? WHERE order_id = ?";
-    const orderValues = [
-      orderData.employee_id,
-      orderData.customer_id,
-      orderData.vehicle_id,
-      orderData.active_order,
-      orderData.order_hash,
-      orderId,
-    ];
-    await conn.query(orderQuery, orderValues);
-
-    const orderInfoQuery =
-      "UPDATE order_info SET order_total_price = ?,  additional_request = ?, notes_for_internal_use = ?, notes_for_customer = ?, additional_requests_completed = ? WHERE order_id = ?";
-    const orderInfoValues = [
-      orderData.order_total_price,
-      orderData.additional_request,
-      orderData.notes_for_internal_use,
-      orderData.notes_for_customer,
-      orderData.additional_requests_completed,
-      orderId,
-    ];
-
-    await conn.query(orderInfoQuery, orderInfoValues);
-
-    const orderStatusQuery =
-      "UPDATE order_status SET order_status = ? WHERE order_id = ?";
+    const sql = "UPDATE order_status SET order_status = ? WHERE order_id = ?";
     const orderStatusValues = [orderData.order_status, orderId];
-    await conn.query(orderStatusQuery, orderStatusValues);
-
-    // Update order services
-    await conn.query("DELETE FROM order_services WHERE order_id = ?", [
-      orderId,
-    ]);
-    if (orderData.order_services && orderData.order_services.length > 0) {
-      const orderServicesQuery =
-        "INSERT INTO order_services (order_id, service_id, service_completed) VALUES (?,?,?)";
-      for (const service of orderData.order_services) {
-        await conn.query(orderServicesQuery, [
-          orderId,
-          service.service_id,
-          service.service_completed,
-        ]);
-      }
-    }
+    await conn.query(sql, orderStatusValues);
 
     return true;
   } catch (error) {
@@ -320,5 +336,5 @@ module.exports = {
   getOrderDetail,
   getOrderById,
   deleteOrderById,
-  editOrder,
+  updateOrder,
 };

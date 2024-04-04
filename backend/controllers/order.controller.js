@@ -76,11 +76,12 @@ async function deleteOrderById(req, res, next) {
 }
 
 // Function to edit an order
-async function editOrder(req, res, next) {
+async function updateOrder(req, res, next) {
   const { id } = req.params;
   const orderData = req.body;
+  console.log("Delivereddd ????", id, orderData);
   try {
-    const updated = await orderService.editOrder(id, orderData);
+    const updated = await orderService.updateOrder(id, orderData);
     console.log("Updated:????", updated);
     if (!updated) {
       return res
@@ -109,5 +110,5 @@ module.exports = {
   getOrderDetail,
   getOrderById,
   deleteOrderById,
-  editOrder,
+  updateOrder,
 };

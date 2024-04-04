@@ -3,20 +3,14 @@ p {
   padding: 0;
 }
 
-.cv-profiles {
+.cv-update {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
 }
-
-.cv-profiles h3 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-}
-
-.customer-vehicle .service-card {
+/* Styling for the card container */
+.service-card {
   margin: 20px;
   padding: 10px;
   border: 1px solid #ccc;
@@ -65,27 +59,13 @@ p {
   color: #999;
 }
 
-.customer-pending {
+.completed,
+.pending {
+  width: 90%;
+}
+.pending {
   background-color: orange;
 }
-.customer-completed {
-  background-color: green;
-}
-.customer-completed,
-.customer-pending {
-  margin-left: 50px;
-  border-radius: 5px;
-  padding: 5px;
-  color: white;
-  font-weight: bold;
-  border: none;
-}
-
-.customer-pending:hover {
-  cursor: pointer;
-  background-color: orange;
-}
-.customer-completed:hover {
-  cursor: pointer;
+.completed {
   background-color: green;
 }

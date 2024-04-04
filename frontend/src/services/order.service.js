@@ -92,6 +92,29 @@ const getOrderDetail = async (orderId) => {
   }
 };
 
+// Function to update order status with order_id
+const updateOrder = async (order_id, formData, loggedInEmployeeToken) => {
+  console.log("Fromm dataaa", formData);
+  try {
+    const response = await axios.patch(
+      ` http://localhost:8000/api/updateOrder/${order_id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": loggedInEmployeeToken,
+        },
+      }
+    );
+    console.log("Order created", response);
+    return response;
+  } catch (error) {
+    // Handle error
+    console.error("Error updating order:", error.message);
+    throw error;
+  }
+};
+
 const orderService = {
   searchCustomers,
   createOrder,
@@ -99,6 +122,7 @@ const orderService = {
   getOrderById,
   getOrderInformation,
   getOrderDetail,
+  updateOrder,
 };
 
 //export the functions
