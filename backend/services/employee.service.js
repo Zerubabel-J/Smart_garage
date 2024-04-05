@@ -126,13 +126,14 @@ async function deleteEmployeeById(id) {
 }
 
 async function editEmployee(id, employee) {
+  console.log("Employeeee udating service", employee, id);
   const conn = await pool.getConnection();
   try {
     await conn.beginTransaction();
 
     await query(
-      "UPDATE employee SET employee_email = ?, active_employee = ? WHERE employee_id = ?",
-      [employee.employee_email, employee.active_employee, id]
+      "UPDATE employee SET  active_employee = ? WHERE employee_id = ?",
+      [employee.active_employee, id]
     );
 
     await query(
@@ -147,20 +148,8 @@ async function editEmployee(id, employee) {
 
     await query(
       "UPDATE employee_role SET company_role_id = ? WHERE employee_id = ?",
-      [employee.company_role_id, id]
+      [employee.employee_role, id]
     );
-
-    if (employee.employee_password) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(
-        employee.employee_password,
-        salt
-      );
-      await query(
-        "UPDATE employee_pass SET employee_password_hashed = ? WHERE employee_id = ?",
-        [hashedPassword, id]
-      );
-    }
 
     await conn.commit();
     console.log("Transaction committed.");
