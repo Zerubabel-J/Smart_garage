@@ -124,8 +124,10 @@ async function getOrderDetail(orderId) {
       SELECT
         customer_info.customer_first_name,
         customer_info.customer_last_name,
+        customer_info.active_customer_status,
         customer_identifier.customer_email,
         customer_identifier.customer_phone_number,
+        customer_vehicle_info.vehicle_id,
         customer_vehicle_info.vehicle_year,
         customer_vehicle_info.vehicle_make,
         customer_vehicle_info.vehicle_model,
@@ -182,8 +184,10 @@ async function getOrderDetail(orderId) {
     const orderDetail = {
       customer_first_name: rows[0].customer_first_name,
       customer_last_name: rows[0].customer_last_name,
+      active_customer_status: rows[0].active_customer_status,
       customer_email: rows[0].customer_email,
       customer_phone_number: rows[0].customer_phone_number,
+      vehicle_id: rows[0].vehicle_id,
       vehicle_year: rows[0].vehicle_year,
       vehicle_make: rows[0].vehicle_make,
       vehicle_model: rows[0].vehicle_model,
