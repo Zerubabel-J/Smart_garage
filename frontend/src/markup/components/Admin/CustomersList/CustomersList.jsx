@@ -83,7 +83,7 @@ const CustomersList = () => {
                     <th>Phone</th>
                     <th>Added date</th>
                     <th>Active</th>
-                    <th>Edit</th>
+                    <th>Edit / View</th>
                   </tr>
                 </thead>
                 <tbody>
