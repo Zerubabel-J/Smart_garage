@@ -81,6 +81,7 @@ import Customer_vehicle_service_info from "./markup/pages/admin/Customer_vehicle
 import OrderDetails from "./markup/pages/admin/OrderDetails";
 import OrderUpdates from "./markup/pages/admin/OrderUpdates";
 import AdminDashboard from "./markup/pages/admin/AdminDashBoard";
+import AddService from "./markup/pages/admin/AddService";
 
 function App() {
   return (
@@ -138,7 +139,15 @@ function App() {
           path="/admin/order-update/:order_id/:order_status"
           element={<OrderUpdates />}
         />
-
+  {/* // Add the Service Route  */}
+  <Route
+            path="/admin/services"
+            element={
+              <PrivateAuthRoute roles={[3]}>
+                <AddService/>
+              </PrivateAuthRoute>
+            }
+          />
         {/* <Route path="/admin/services" element={<Services />} /> */}
         {/* <Route path="/admin/customers" element={<Customers/>} /> */}
         {/*         

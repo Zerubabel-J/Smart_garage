@@ -7,7 +7,7 @@ import serviceService from "../../../../services/service.service";
 import { useAuth } from "../../../../Contexts/AuthContext";
 import { FaEdit } from "react-icons/fa";
 import { RiDeleteBin5Fill } from "react-icons/ri";
-import "./ServiceList.css";
+
 const ServiceList = () => {
   const [services, setServices] = useState([]);
   const [apiError, setApiError] = useState(false);
@@ -118,15 +118,15 @@ const ServiceList = () => {
                     <Card.Title className=" px-lg-3  pt-3  ">
                       <h4>{service.service_name}</h4>
                     </Card.Title>
-                    <Card.Body className="service">
+                    <Card.Body className="service d-flex justify-content-between ">
                       <div>{service.service_description}</div>
 
-                      <div className="edit-delete-icons-sevice">
-                        <Link to={`/admin/service/${service.service_id}`}>
-                          <FaEdit size={20} />
-                        </Link>
-                        <RiDeleteBin5Fill size={20} color="red" />
-                      </div>
+                      <div className="edit-delete-icons">
+                          <Link to={`/admin/service/${service.service_id}`}>
+                            <FaEdit size={20} />
+                          </Link>
+                          <RiDeleteBin5Fill size={20} color="red" />
+                        </div>
                     </Card.Body>
                   </Card>
                 ))}
