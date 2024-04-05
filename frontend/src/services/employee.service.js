@@ -78,7 +78,7 @@ const deleteEmployeeById = async (token, employeeId) => {
     throw error;
   }
 };
-const updateEmployee = async (formData, token, employeeId) => {
+const updateEmployee = async (token, formData, employeeId) => {
   try {
     const response = await axios.patch(
       `http://localhost:8000/api/employee/${employeeId}`,
