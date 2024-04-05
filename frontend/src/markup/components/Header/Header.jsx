@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // Import the Link component from react-router-dom
 import { Link } from "react-router-dom";
 // Import the logo image
@@ -12,7 +12,8 @@ function Header(props) {
   // Use the custom hook to access the data in the context
   const { isLogged, setIsLogged, employee } = useAuth();
   // console.log("I am from header", useAuth());
-  // console.log(isLogged);
+  console.log(isLogged);
+
   // Log out event handler function
   const logOut = () => {
     // Call the logout function from the login service
@@ -54,7 +55,7 @@ function Header(props) {
             <div className="inner-container">
               <div className="logo-box">
                 <div className="logo">
-                  <Link to={"/"}>
+                  <Link to="/">
                     <img src={logo} alt="" />
                   </Link>
                 </div>
@@ -71,17 +72,22 @@ function Header(props) {
                     >
                       <ul className="navigation">
                         <li className="dropdown">
-                          <Link to={"/"}>Home</Link>
+                          <Link to="/">Home</Link>
                         </li>
                         <li className="dropdown">
-                          <Link to={"/about"}>About Us</Link>
+                          <Link to="/about">About Us</Link>
                         </li>
                         <li className="dropdown">
-                          <Link to={"services"}>Services</Link>
+                          <Link to="/services">Services</Link>
                         </li>
                         <li>
-                          <Link to={"/contact"}>Contact Us</Link>
+                          <Link to="/contact">Contact Us</Link>
                         </li>
+                        {isLogged && (
+                          <li>
+                            <Link to="/admin">Admin</Link>
+                          </li>
+                        )}
                       </ul>
                     </div>
                   </nav>
@@ -114,9 +120,9 @@ function Header(props) {
               <div className="inner-container">
                 <div className="logo-box">
                   <div className="logo">
-                    <a href="/">
+                    <Link to="/">
                       <img src="assets/images/custom/logo.png" alt="" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="right-column">
@@ -129,7 +135,7 @@ function Header(props) {
                   </div>
                   <div className="search-btn"></div>
                   <div className="link-btn">
-                    <Link to={"/login"} className="theme-btn btn-style-one">
+                    <Link to="/login" className="theme-btn btn-style-one">
                       Login
                     </Link>
                   </div>
@@ -146,9 +152,9 @@ function Header(props) {
 
           <nav className="menu-box">
             <div className="nav-logo">
-              <a href="index.html">
+              <Link to="index.html">
                 <img src="assets/images/logo-two.png" alt="" title="" />
-              </a>
+              </Link>
             </div>
             <div className="menu-outer"></div>
           </nav>

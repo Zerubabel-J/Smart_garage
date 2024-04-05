@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function AdminDashboard() {
   return (
@@ -18,9 +19,9 @@ function AdminDashboard() {
             <div className="inner-box hvr-float-shadow">
               <h5>OPEN FOR ALL</h5>
               <h2>All Orders</h2>
-              <a href="#" className="read-more">
+              <Link to={"/admin/orders"} className="read-more">
                 LIST OF ORDERS +
-              </a>
+              </Link>
               <div className="icon">
                 <span className="flaticon-power"></span>
               </div>
@@ -30,9 +31,9 @@ function AdminDashboard() {
             <div className="inner-box hvr-float-shadow">
               <h5>OPEN FOR AL</h5>
               <h2>New Orders</h2>
-              <a href="#" className="read-more">
+              <Link to={"/admin/add-orders"}  className="read-more">
                 ADD ORDER +
-              </a>
+              </Link>
               <div className="icon">
                 <span className="flaticon-gearbox"></span>
               </div>
@@ -42,9 +43,9 @@ function AdminDashboard() {
             <div className="inner-box hvr-float-shadow">
               <h5>OPEN FOR ADMINS</h5>
               <h2>Employees</h2>
-              <a href="#" className="read-more">
+              <Link to={"/admin/employees"}  className="read-more">
                 LIST OF EMPLOYEES +
-              </a>
+              </Link>
               <div className="icon">
                 <span className="flaticon-brake-disc"></span>
               </div>
@@ -54,9 +55,9 @@ function AdminDashboard() {
             <div className="inner-box hvr-float-shadow">
               <h5>OPEN FOR ADMINS</h5>
               <h2>Add Employee</h2>
-              <a href="#" className="read-more">
+              <Link to={"/admin/add-employee"}  className="read-more">
                 read more +
-              </a>
+              </Link>
               <div className="icon">
                 <span className="flaticon-car-engine"></span>
               </div>
@@ -66,9 +67,9 @@ function AdminDashboard() {
             <div className="inner-box hvr-float-shadow">
               <h5>SERVICE AND REPAIRS</h5>
               <h3>Engine Service & Repair</h3>
-              <a href="#" className="read-more">
+              <Link to={"/admin/services"}  className="read-more">
                 read more +
-              </a>
+              </Link>
               <div className="icon">
                 <span className="flaticon-tire"></span>
               </div>
@@ -78,9 +79,9 @@ function AdminDashboard() {
             <div className="inner-box hvr-float-shadow">
               <h5>SERVICE AND REPAIRS</h5>
               <h2>Tyre & Wheels</h2>
-              <a href="#" className="read-more">
+              <Link to={"/admin/services"}  className="read-more">
                 read more +
-              </a>
+              </Link>
               <div className="icon">
                 <span className="flaticon-spray-gun"></span>
               </div>
@@ -90,9 +91,9 @@ function AdminDashboard() {
             <div className="inner-box hvr-float-shadow">
               <h5>SERVICE AND REPAIRS</h5>
               <h2>Denting & Painting</h2>
-              <a href="#" className="read-more">
+              <Link to={"/admin/services"}  className="read-more">
                 read more +
-              </a>
+              </Link>
               <div className="icon">
                 <span className="flaticon-car-engine"></span>
               </div>
@@ -100,11 +101,11 @@ function AdminDashboard() {
           </div>
           <div className="col-lg-4 service-block-one">
             <div className="inner-box hvr-float-shadow">
-              <h5>SERVICE AND REPAIRS</h5>
+              <h5>ORDER SERVICE</h5>
               <h3>Engine Service & Repair</h3>
-              <a href="#" className="read-more">
+              <Link to={"/admin/orders"}  className="read-more">
                 read more +
-              </a>
+              </Link>
               <div className="icon">
                 <span className="flaticon-tire"></span>
               </div>
@@ -112,11 +113,11 @@ function AdminDashboard() {
           </div>
           <div className="col-lg-4 service-block-one">
             <div className="inner-box hvr-float-shadow">
-              <h5>SERVICE AND REPAIRS</h5>
+              <h5>CUSTOMER</h5>
               <h2>Tyre & Wheels</h2>
-              <a href="#" className="read-more">
+              <Link to={"/admin/customers"}  className="read-more">
                 read more +
-              </a>
+              </Link>
               <div className="icon">
                 <span className="flaticon-spray-gun"></span>
               </div>
