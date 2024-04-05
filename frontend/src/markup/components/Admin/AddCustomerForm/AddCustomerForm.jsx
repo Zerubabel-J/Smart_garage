@@ -178,7 +178,7 @@ const AddCustomerForm = () => {
                           type="submit"
                           data-loading-text="Please wait..."
                         >
-                          <span>Customer employee</span>
+                          <span>Add Customer</span>
                         </button>
                       </div>
                     </div>

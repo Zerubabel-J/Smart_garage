@@ -260,3 +260,54 @@ input:disabled {
 .change-status {
   cursor: pointer;
 }
+/* style for vehilce adding form */
+.form-container {
+  max-width: 400px;
+  /* margin: 0 auto; */
+  padding: 20px;
+  background-color: hwb(0 98% 2%);
+  /* border: 1px solid #ddd; */
+  border-radius: 5px;
+}
+
+.form-container input[type="text"] {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 5px;
+}
+
+.form-container button {
+  width: 30%;
+  padding: 10px;
+  margin-top: 10px;
+  margin-right: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-container button[type="submit"] {
+  background-color: #28a745;
+}
+
+.form-container button[type="submit"]:hover,
+.form-container button[type="button"]:hover {
+  background-color: #218838;
+}
+
+.form-container button[type="submit"]:focus,
+.form-container button[type="button"]:focus {
+  outline: none;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+}
+
+.cancel-btn:hover {
+  background-color: #c82333;
+}
