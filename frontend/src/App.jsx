@@ -1,39 +1,3 @@
-// // Import react
-// import React from "react";
-// // Import the Routes and Route components from react-router
-// import { Routes, Route } from "react-router";
-// // Import the page components
-// import Home from "./markup/pages/Home";
-// import Login from "./markup/pages/Login";
-// import AddEmployee from "./markup/pages/admin/AddEmployee";
-
-// // Import the css files
-// import "./assets/template_assets/css/bootstrap.css";
-// import "./assets/template_assets/css/style.css";
-// import "./assets/template_assets/css/responsive.css";
-// import "./assets/template_assets/css/color.css";
-
-// // Import the custom css file
-// import "./assets/styles/custom.css";
-// import Footer from "./markup/components/Footer/Footer";
-// import Header from "./markup/components/Header/Header";
-
-// function App() {
-//   return (
-//     <>
-//       <Header />
-//       <Routes>
-//         <Route path="/" element={<Home />} />
-//         <Route path="/login" element={<Login />} />
-//         <Route path="/admin/add-employee" element={<AddEmployee />} />
-//       </Routes>
-//       <Footer />
-//     </>
-//   );
-// }
-
-// export default App;
-
 // Import react
 import React from "react";
 // Import the Routes and Route components from react-router
@@ -77,15 +41,13 @@ import CustomerProfile from "./markup/components/Admin/CustomerProfile/CustomerP
 import CreateOrder from "./markup/pages/admin/CreateOrder";
 import CustomerVihicleInfo from "./markup/pages/admin/CustomerVihicleInfo";
 import Customer_vehicle_service_info from "./markup/pages/admin/Customer_vehicle_service_info";
-
 import OrderDetails from "./markup/pages/admin/OrderDetails";
 import OrderUpdates from "./markup/pages/admin/OrderUpdates";
 import AdminDashboard from "./markup/pages/admin/AdminDashBoard";
 
+import EditVihicle from "./markup/pages/admin/EditVihicle";
+
 import Services from "./markup/pages/admin/Services";
-import AddService from "./markup/pages/admin/AddService";
-
-
 function App() {
   return (
     <>
@@ -93,7 +55,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin" element={<AdminDashboard />} />
-
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
         <Route path="/services" element={<Service />} />
@@ -123,6 +84,11 @@ function App() {
         <Route path="/admin/employee/edit/:id" element={<EditEmployee />} />
         <Route path="/admin/add-customer" element={<AddCustomer />} />
         <Route path="/admin/customer/edit/:id" element={<EditCustomer />} />
+        <Route path="/admin/services" element={<Services />} />
+        <Route
+          path="/admin/vehicle/edit/:vehicle_id"
+          element={<EditVihicle />}
+        />
         <Route path="/admin/customer-profile" element={<CustomerInfo />} />
         <Route path="/admin/customer/get/:id" element={<CustomerInfo />} />
         <Route path="/admin/add-orders" element={<CreateOrder />} />
@@ -134,6 +100,7 @@ function App() {
           path="/admin/customer-vehicle-service/get/:id/:vehicle_id"
           element={<Customer_vehicle_service_info />}
         />
+
         <Route
           path="/admin/order-detail/:order_id/:order_status"
           element={<OrderDetails />}
@@ -142,16 +109,6 @@ function App() {
           path="/admin/order-update/:order_id/:order_status"
           element={<OrderUpdates />}
         />
-
-  {/* // Add the Service Route  */}
-  <Route
-            path="/admin/services"
-            element={
-              <PrivateAuthRoute roles={[3]}>
-                <AddService/>
-              </PrivateAuthRoute>
-            }
-          />
 
         {/* <Route path="/admin/services" element={<Services />} /> */}
         {/* <Route path="/admin/customers" element={<Customers/>} /> */}
@@ -173,3 +130,39 @@ function App() {
 }
 
 export default App;
+
+// // Import react
+// import React from "react";
+// // Import the Routes and Route components from react-router
+// import { Routes, Route } from "react-router";
+// // Import the page components
+// import Home from "./markup/pages/Home";
+// import Login from "./markup/pages/Login";
+// import AddEmployee from "./markup/pages/admin/AddEmployee";
+
+// // Import the css files
+// import "./assets/template_assets/css/bootstrap.css";
+// import "./assets/template_assets/css/style.css";
+// import "./assets/template_assets/css/responsive.css";
+// import "./assets/template_assets/css/color.css";
+
+// // Import the custom css file
+// import "./assets/styles/custom.css";
+// import Footer from "./markup/components/Footer/Footer";
+// import Header from "./markup/components/Header/Header";
+
+// function App() {
+//   return (
+//     <>
+//       <Header />
+//       <Routes>
+//         <Route path="/" element={<Home />} />
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/admin/add-employee" element={<AddEmployee />} />
+//       </Routes>
+//       <Footer />
+//     </>
+//   );
+// }
+
+// export default App;

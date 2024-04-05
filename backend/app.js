@@ -18,7 +18,7 @@ const router = require("./routes");
 // Create the webserver
 const app = express();
 // Add the CORS middleware
-app.use(cors(corsOptions));
+app.use(cors());
 // app.use(cors())
 // Add the express.json middleware to the application
 app.use(express.json());

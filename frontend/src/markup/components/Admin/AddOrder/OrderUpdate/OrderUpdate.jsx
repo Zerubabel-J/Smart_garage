@@ -74,13 +74,16 @@ const OrderUpdate = () => {
                   <b>Phone Number: {orders?.[0]?.customer_phone_number}</b>
                 </p>
                 <p>
-                  <b>Active Customer: {orders?.[0]?.active_customer_status}</b>
+                  <b>
+                    Active Customer:{" "}
+                    {orders?.[0]?.active_customer_status ? "Yes" : "No"}
+                  </b>
                 </p>
                 <p>
                   <b>Edit customer info:</b> edit{" "}
                   <Link
                     style={{ color: "blue" }}
-                    to={`/admin/customer/edit/${orders?.data?.[0]?.customer_id}`}
+                    to={`/admin/customer/edit/${orders?.[0]?.customer_id}`}
                   >
                     <MdEdit />
                   </Link>

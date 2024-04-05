@@ -42,11 +42,27 @@ const getVehicleById = async (id) => {
   }
 };
 
+// write a function to update vehicle by id
+const updateVehicleById = async (id, formData) => {
+  try {
+    const response = await axios.patch(
+      `http://localhost:8000/api/vehicle/${id}`,
+      formData
+    );
+    console.log("Vehicle updated", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating vehicle:", error.message);
+    throw error;
+  }
+};
+
 // write a function to update order
 const vehicleService = {
   addVehicle,
   getAllVehicles,
   getVehicleById,
+  updateVehicleById,
 };
 
 //export the functions
