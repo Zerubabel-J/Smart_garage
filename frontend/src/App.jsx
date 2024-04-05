@@ -139,6 +139,8 @@ function App() {
           element={<OrderUpdates />}
         />
         <Route path="/admin/services" element={<Services />} />
+
+        {/* <Route path="/admin/services" element={<Services />} /> */}
         {/* <Route path="/admin/customers" element={<Customers/>} /> */}
         {/*         
         <PrivateAuthRoute roles={[3]}>
