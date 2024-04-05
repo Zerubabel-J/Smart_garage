@@ -45,6 +45,8 @@ import OrderDetails from "./markup/pages/admin/OrderDetails";
 import OrderUpdates from "./markup/pages/admin/OrderUpdates";
 import AdminDashboard from "./markup/pages/admin/AdminDashBoard";
 
+import EditVihicle from "./markup/pages/admin/EditVihicle";
+
 import Services from "./markup/pages/admin/Services";
 function App() {
   return (
@@ -82,6 +84,7 @@ function App() {
         <Route path="/admin/employee/edit/:id" element={<EditEmployee />} />
         <Route path="/admin/add-customer" element={<AddCustomer />} />
         <Route path="/admin/customer/edit/:id" element={<EditCustomer />} />
+        <Route path="/admin/services" element={<Services />} />
         <Route
           path="/admin/vehicle/edit/:vehicle_id"
           element={<EditVihicle />}

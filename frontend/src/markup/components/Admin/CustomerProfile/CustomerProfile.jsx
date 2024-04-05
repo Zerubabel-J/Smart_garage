@@ -9,7 +9,6 @@ import { FaHandPointUp } from "react-icons/fa";
 // import table from bootstrap
 import { Table } from "react-bootstrap";
 
-
 const CustomerProfile = () => {
   const [customer, setCustomer] = useState([]);
   const [vehicles, setVehicles] = useState([]);
@@ -119,216 +118,216 @@ const CustomerProfile = () => {
         <div>Error: {apiErrorMessage}</div>
       ) : (
         <section className="contact-section">
-        <div className="auto-container">
-          <div className="history-block ">
-            <div className="years">Info</div>
-            <div className="content ">
-              <h3>Customer: {customer?.data?.[0]?.customer_first_name}</h3>
-              <p>
-                <b>Email: {customer?.data?.[0]?.customer_email}</b>
-              </p>
-              <p>
-                <b>
-                  Phone Number: {customer?.data?.[0]?.customer_phone_number}
-                </b>
-              </p>
-              <p>
-                <b>
-                  Active Customer: {customer?.data?.[0]?.active_customer_status}
-                </b>
-              </p>
-              <p>
-                <b>Edit customer info:</b> edit{" "}
-                <Link
-                  style={{ color: "blue" }}
-                  to={`/admin/customer/edit/${customer?.data?.[0]?.customer_id}`}
-                >
-                  <MdEdit />
-                </Link>
-              </p>
+          <div className="auto-container">
+            <div className="history-block ">
+              <div className="years">Info</div>
+              <div className="content ">
+                <h3>Customer: {customer?.data?.[0]?.customer_first_name}</h3>
+                <p>
+                  <b>Email: {customer?.data?.[0]?.customer_email}</b>
+                </p>
+                <p>
+                  <b>
+                    Phone Number: {customer?.data?.[0]?.customer_phone_number}
+                  </b>
+                </p>
+                <p>
+                  <b>
+                    Active Customer:{" "}
+                    {customer?.data?.[0]?.active_customer_status}
+                  </b>
+                </p>
+                <p>
+                  <b>Edit customer info:</b> edit{" "}
+                  <Link
+                    style={{ color: "blue" }}
+                    to={`/admin/customer/edit/${customer?.data?.[0]?.customer_id}`}
+                  >
+                    <MdEdit />
+                  </Link>
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div className="history-block">
-            <div className="years">Cars</div>
-            <div className="content">
-              <h3>Vehicles of {customer?.data?.[0]?.customer_first_name}</h3>
+            <div className="history-block">
+              <div className="years">Cars</div>
+              <div className="content">
+                <h3>Vehicles of {customer?.data?.[0]?.customer_first_name}</h3>
 
-              {showAddVehicleForm ? (
-                <>
-                  <h6>No vehicles found</h6>
-                  <form className="form-container" onSubmit={handleSubmit}>
-                    {/* Input fields for vehicle info */}
-                    <input
-                      type="text"
-                      placeholder="Vehicle Year"
-                      value={vehicle_year}
-                      onChange={(e) => setVehicle_year(e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Vehicle Make"
-                      value={vehicle_make}
-                      onChange={(e) => setVehicle_make(e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Vehicle model"
-                      value={vehicle_model}
-                      onChange={(e) => setVehicle_model(e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Vehicle Type"
-                      value={vehicle_type}
-                      onChange={(e) => setVehicle_type(e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Vehicle Mileage"
-                      value={vehicle_mileage}
-                      onChange={(e) => setVehicle_mileage(e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Vehicle Tag"
-                      value={vehicle_tag}
-                      onChange={(e) => setVehicle_tag(e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Vehicle Serial"
-                      value={vehicle_serial}
-                      onChange={(e) => setVehicle_serial(e.target.value)}
-                    />
-                    <input
-                      type="text"
-                      placeholder="Vehicle Color"
-                      value={vehicle_color}
-                      onChange={(e) => setVehicle_color(e.target.value)}
-                    />
+                {showAddVehicleForm ? (
+                  <>
+                    <h6>No vehicles found</h6>
+                    <form className="form-container" onSubmit={handleSubmit}>
+                      {/* Input fields for vehicle info */}
+                      <input
+                        type="text"
+                        placeholder="Vehicle Year"
+                        value={vehicle_year}
+                        onChange={(e) => setVehicle_year(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Vehicle Make"
+                        value={vehicle_make}
+                        onChange={(e) => setVehicle_make(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Vehicle model"
+                        value={vehicle_model}
+                        onChange={(e) => setVehicle_model(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Vehicle Type"
+                        value={vehicle_type}
+                        onChange={(e) => setVehicle_type(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Vehicle Mileage"
+                        value={vehicle_mileage}
+                        onChange={(e) => setVehicle_mileage(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Vehicle Tag"
+                        value={vehicle_tag}
+                        onChange={(e) => setVehicle_tag(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Vehicle Serial"
+                        value={vehicle_serial}
+                        onChange={(e) => setVehicle_serial(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Vehicle Color"
+                        value={vehicle_color}
+                        onChange={(e) => setVehicle_color(e.target.value)}
+                      />
 
-                    <button type="submit">Add</button>
-                    <button
-                      className="cancel-btn"
-                      onClick={() => setShowAddVehicleForm(false)}
-                    >
-                      Cancel
-                    </button>
-                  </form>
-                </>
-              ) : (
-                <>
-                  <Table striped bordered hover>
-                    <thead>
-                      <tr>
-                        <th>Vehicle Make</th>
-                        <th>Vehicle Model</th>
-                        <th>Vehicle Type</th>
-                        <th>Vehicle Tag</th>
-                        <th>Vehcile Serial</th>
-                        <th>Vehicle Color</th>
-                        <th>Vehicle Meleage</th>
-                        <th>Edit</th>
-                        <th>View</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {vehicles?.map((vehicle) => (
-                        <tr key={vehicle.vehicle_id}>
-                          <td>{vehicle.vehicle_make}</td>
-                          <td>{vehicle.vehicle_model}</td>
-                          <td>{vehicle.vehicle_type}</td>
-                          <td>{vehicle.vehicle_tag}</td>
-                          <td>{vehicle.vehicle_serial}</td>
-                          <td>{vehicle.vehicle_color}</td>
-                          <td>{vehicle.vehicle_mileage}</td>
-                          <td>
-                            <div className="edit-delete-icons">
-                              <Link
-                                style={{ color: "blue" }}
-                                to={`/admin/vehicle/edit/${vehicle.vehicle_id}`}
-                              >
-                                <MdEdit />
-                              </Link>
-                              
-                            </div>
-                          </td>
-                          <td>
+                      <button type="submit">Add</button>
+                      <button
+                        className="cancel-btn"
+                        onClick={() => setShowAddVehicleForm(false)}
+                      >
+                        Cancel
+                      </button>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th>Vehicle Make</th>
+                          <th>Vehicle Model</th>
+                          <th>Vehicle Type</th>
+                          <th>Vehicle Tag</th>
+                          <th>Vehcile Serial</th>
+                          <th>Vehicle Color</th>
+                          <th>Vehicle Meleage</th>
+                          <th>Edit</th>
+                          <th>View</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {vehicles?.map((vehicle) => (
+                          <tr key={vehicle.vehicle_id}>
+                            <td>{vehicle.vehicle_make}</td>
+                            <td>{vehicle.vehicle_model}</td>
+                            <td>{vehicle.vehicle_type}</td>
+                            <td>{vehicle.vehicle_tag}</td>
+                            <td>{vehicle.vehicle_serial}</td>
+                            <td>{vehicle.vehicle_color}</td>
+                            <td>{vehicle.vehicle_mileage}</td>
+                            <td>
+                              <div className="edit-delete-icons">
+                                <Link
+                                  style={{ color: "blue" }}
+                                  to={`/admin/vehicle/edit/${vehicle.vehicle_id}`}
+                                >
+                                  <MdEdit />
+                                </Link>
+                              </div>
+                            </td>
+                            <td>
                               <Link
                                 style={{ color: "blue" }}
                                 to={`/admin/customer-vehicle-service/get/${id}/${vehicle.vehicle_id}`}
                               >
                                 <FaHandPointUp />
                               </Link>
-                              </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                  <div className="form-group col-md-12">
-                  <button onClick={() => setShowAddVehicleForm(true)}
-                    className="theme-btn btn-style-one"
-                    type="submit"
-                    data-loading-text="Please wait..."
-                  >
-                    <span>Add Vehicle</span>
-                  </button>
-                </div>
-                 
-                </>
-              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                    <div className="form-group col-md-12">
+                      <button
+                        onClick={() => setShowAddVehicleForm(true)}
+                        className="theme-btn btn-style-one"
+                        type="submit"
+                        data-loading-text="Please wait..."
+                      >
+                        <span>Add Vehicle</span>
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="history-block">
-            <div className="years">Orders</div>
-            <div className="content">
-              <h3>Orders of {customer?.data?.[0]?.customer_first_name} </h3>
-              {}
-              {/* ###### */}
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>Order ID</th>
-                    <th>Order Date</th>
-                    <th>Order Status</th>
-                    <th>Order Price</th>
-                    <th>Edit/View</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders?.map((order) => (
-                    <tr key={order.order_id}>
-                      <td>{order.order_id}</td>
-                      <td>{order.order_date}</td>
-                      <td>{order.order_status}</td>
-                      <td>{order.order_total_price}</td>
-
-                      <td>
-                        <div className="edit-delete-icons">
-                          <Link
-                            style={{ color: "blue" }}
-                            to={`/admin/customer/edit/${customer.customer_id}`}
-                            className="edit-icon"
-                          >
-                            <MdEdit />
-                          </Link>
-                          <Link
-                            style={{ color: "blue" }}
-                            to={`/admin/customer/get/${customer.customer_id}`}
-                          >
-                            <FaHandPointUp />
-                          </Link>
-                        </div>
-                      </td>
+            <div className="history-block">
+              <div className="years">Orders</div>
+              <div className="content">
+                <h3>Orders of {customer?.data?.[0]?.customer_first_name} </h3>
+                {}
+                {/* ###### */}
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Order Date</th>
+                      <th>Order Status</th>
+                      <th>Order Price</th>
+                      <th>Edit/View</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
-              {/* ###### */}
+                  </thead>
+                  <tbody>
+                    {orders?.map((order) => (
+                      <tr key={order.order_id}>
+                        <td>{order.order_id}</td>
+                        <td>{order.order_date}</td>
+                        <td>{order.order_status}</td>
+                        <td>{order.order_total_price}</td>
+
+                        <td>
+                          <div className="edit-delete-icons">
+                            <Link
+                              style={{ color: "blue" }}
+                              to={`/admin/customer/edit/${customer.customer_id}`}
+                              className="edit-icon"
+                            >
+                              <MdEdit />
+                            </Link>
+                            <Link
+                              style={{ color: "blue" }}
+                              to={`/admin/customer/get/${customer.customer_id}`}
+                            >
+                              <FaHandPointUp />
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+                {/* ###### */}
+              </div>
             </div>
           </div>
-        </div>
         </section>
       )}
     </>
