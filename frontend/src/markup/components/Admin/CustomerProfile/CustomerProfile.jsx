@@ -8,8 +8,7 @@ import { MdEdit } from "react-icons/md";
 import { FaHandPointUp } from "react-icons/fa";
 // import table from bootstrap
 import { Table } from "react-bootstrap";
-// import the css file
-import "./CustomerProfile.css";
+
 
 const CustomerProfile = () => {
   const [customer, setCustomer] = useState([]);
@@ -119,10 +118,11 @@ const CustomerProfile = () => {
       {apiError ? (
         <div>Error: {apiErrorMessage}</div>
       ) : (
-        <div className="container-fluid customer-profile">
-          <div className="customer-info ">
-            <div className="info-icon ">Info</div>
-            <div className="customer-detail ">
+        <section className="contact-section">
+        <div className="auto-container">
+          <div className="history-block ">
+            <div className="years">Info</div>
+            <div className="content ">
               <h3>Customer: {customer?.data?.[0]?.customer_first_name}</h3>
               <p>
                 <b>Email: {customer?.data?.[0]?.customer_email}</b>
@@ -149,9 +149,9 @@ const CustomerProfile = () => {
             </div>
           </div>
 
-          <div className="customer-vehicle customer-info">
-            <div className="cars-icon info-icon">Cars</div>
-            <div className="vehicle-lists customer-detail">
+          <div className="history-block">
+            <div className="years">Cars</div>
+            <div className="content">
               <h3>Vehicles of {customer?.data?.[0]?.customer_first_name}</h3>
 
               {showAddVehicleForm ? (
@@ -229,7 +229,8 @@ const CustomerProfile = () => {
                         <th>Vehcile Serial</th>
                         <th>Vehicle Color</th>
                         <th>Vehicle Meleage</th>
-                        <th>Edit/View</th>
+                        <th>Edit</th>
+                        <th>View</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -250,28 +251,38 @@ const CustomerProfile = () => {
                               >
                                 <MdEdit />
                               </Link>
+                              
+                            </div>
+                          </td>
+                          <td>
                               <Link
                                 style={{ color: "blue" }}
                                 to={`/admin/customer-vehicle-service/get/${id}/${vehicle.vehicle_id}`}
                               >
                                 <FaHandPointUp />
                               </Link>
-                            </div>
-                          </td>
+                              </td>
                         </tr>
                       ))}
                     </tbody>
                   </Table>
-                  <button onClick={() => setShowAddVehicleForm(true)}>
-                    Add Vehicle
+                  <div className="form-group col-md-12">
+                  <button onClick={() => setShowAddVehicleForm(true)}
+                    className="theme-btn btn-style-one"
+                    type="submit"
+                    data-loading-text="Please wait..."
+                  >
+                    <span>Add Vehicle</span>
                   </button>
+                </div>
+                 
                 </>
               )}
             </div>
           </div>
-          <div className="customer-order customer-info">
-            <div className="orders-icon info-icon">Orders</div>
-            <div className="vehicle-lists customer-detail">
+          <div className="history-block">
+            <div className="years">Orders</div>
+            <div className="content">
               <h3>Orders of {customer?.data?.[0]?.customer_first_name} </h3>
               {}
               {/* ###### */}
@@ -318,6 +329,7 @@ const CustomerProfile = () => {
             </div>
           </div>
         </div>
+        </section>
       )}
     </>
   );

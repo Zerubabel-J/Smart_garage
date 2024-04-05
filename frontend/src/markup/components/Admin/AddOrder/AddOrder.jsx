@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
+import { Table, Form } from "react-bootstrap";
 import { MdEdit } from "react-icons/md";
 import { FaHandPointUp } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -45,17 +45,25 @@ const AddOrder = () => {
   }, [searchTerm]);
 
   return (
-    <>
-      <input
-        type="text"
-        placeholder="Search by first name, last name, email, or phone number"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-input"
-      />
-      <br />
-      <br />
-
+    <section className="contact-section" >
+      <div className="auto-container">
+      <div className="contact-title">
+                <h2>Create a new order</h2>
+              </div>
+    <Form>
+                <Form.Group controlId="searchTerm" className="contact-form">
+                  <div className="search-input">
+                    <Form.Control
+                      className="form-group"
+                      type="text"
+                      placeholder="Search for customer using first name, last name, email address, or phone number"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    
+                  </div>
+                </Form.Group>
+              </Form>
       {searchResults.length === 0 && (
         <div className="form-group col-md-12">
           <Link
@@ -64,7 +72,7 @@ const AddOrder = () => {
             type="submit"
             data-loading-text="Please wait..."
           >
-            <span>Add Customer</span>
+            <span>Add New Customer</span>
           </Link>
         </div>
       )}
@@ -94,7 +102,7 @@ const AddOrder = () => {
                     <th>Phone</th>
                     <th>Added date</th>
                     <th>Active</th>
-                    <th>Edit</th>
+                    <th>Choose</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -114,12 +122,7 @@ const AddOrder = () => {
                       <td>{customer.active_customer ? "Yes" : "No"}</td>
                       <td>
                         <div className="edit-delete-icons">
-                          <Link
-                            style={{ color: "blue" }}
-                            to={`/admin/customer/edit/${customer.customer_id}`}
-                          >
-                            <MdEdit />
-                          </Link>
+                         
                           <Link
                             style={{ color: "blue" }}
                             to={`/admin/customer-vehicle/get/${customer.customer_id}`}
@@ -136,7 +139,8 @@ const AddOrder = () => {
           </section>
         )
       )}
-    </>
+      </div>
+    </section>
   );
 };
 

@@ -7,11 +7,13 @@ import vehicleService from "../../../../../services/vehicle.service";
 import serviceService from "../../../../../services/service.service";
 // import userParams, useNavigate, Link and useParams from react-router-dom
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { MdEdit } from "react-icons/md";
+
 import { useAuth } from "../../../../../Contexts/AuthContext";
 // import useAuth
 // import the css file
 import "./Customer_vehicle_service.css";
+import { FaEdit } from "react-icons/fa";
+import { CgCloseR } from "react-icons/cg";
 
 const Customer_vehicle_service = () => {
   const [customer, setCustomer] = useState([]);
@@ -95,121 +97,166 @@ const Customer_vehicle_service = () => {
       {apiError ? (
         <div>Error: {apiErrorMessage}</div>
       ) : (
-        <div className="container-fluid customer-profile">
-          <div className="customer-info ">
-            {/* <div className="info-icon ">Info</div> */}
-            <div className="customer-detail ">
-              <h3> {customer?.data?.[0]?.customer_first_name}</h3>
-              <p>
-                <b>Email: {customer?.data?.[0]?.customer_email}</b>
-              </p>
-              <p>
-                <b>
-                  Phone Number: {customer?.data?.[0]?.customer_phone_number}
-                </b>
-              </p>
-              <p>
-                <b>
-                  Active Customer: {customer?.data?.[0]?.active_customer_status}
-                </b>
-              </p>
-              <p>
-                <b>Edit customer info:</b> edit{" "}
-                <Link
-                  style={{ color: "blue" }}
-                  to={`/admin/customer/edit/${customer?.data?.[0]?.customer_id}`}
-                >
-                  <MdEdit />
-                </Link>
-              </p>
+        <section className="contact-section">
+          <div className="auto-container">
+            <div className="contact-title">
+              <h2>Create a new order</h2>
             </div>
-          </div>
-          <div className="customer-info ">
-            {/* <div className="info-icon ">Info</div> */}
-            <div className="customer-detail ">
-              <h3> {vehicles?.[0]?.vehicle_make}</h3>
-              <p>
-                <b>Color: {vehicles?.[0]?.vehicle_color}</b>
-              </p>
-              <p>
-                <b>vehicle tag: {vehicles?.[0]?.vehicle_tag}</b>
-              </p>
-              <p>
-                <b>vehicle type: {vehicles?.[0]?.vehicle_type}</b>
-              </p>
-              <p>
-                <b>Vehicle mileage: {vehicles?.[0]?.vehicle_mileage}</b>
-              </p>
-              <p>
-                <b>Vehicle serial: {vehicles?.[0]?.vehicle_serial}</b>
-              </p>
-              <p>
-                <b>Edit vehicle info:</b> edit{" "}
-                <Link
-                  style={{ color: "blue" }}
-                  to={`/admin/vehicle/edit/${vehicles?.[0]?.vehicle_id}`}
-                >
-                  <MdEdit />
-                </Link>
-              </p>
-            </div>
-          </div>
-
-          <div>
-            {services.map((service) => (
-              <Card className="m-lg-2" key={service.service_id}>
-                <Card.Title className="px-lg-3 pt-3">
-                  <h4>{service.service_name}</h4>
-                </Card.Title>
-                <Card.Body className="service">
-                  <div className="service-description">
-                    {service.service_description}
-                    <input
-                      type="checkbox"
-                      value={service.service_id}
-                      checked={selectedServices.includes(service.service_id)}
-                      onChange={() =>
-                        handleServiceSelection(service.service_id)
-                      }
-                    />
-                  </div>
+            <div className="content ">
+              <Card className="mb-3">
+                <Card.Body>
+                  <Card.Title>
+                    <h3>
+                      Customer: {customer?.data?.[0]?.customer_first_name}
+                    </h3>
+                  </Card.Title>
+                  <Card.Text className="ml-3 d-flex justify-content-between align-items-start">
+                    <div>
+                      <p>
+                        <b>Email: {customer?.data?.[0]?.customer_email}</b>
+                      </p>
+                      <p>
+                        <b>
+                          Phone Number:{" "}
+                          {customer?.data?.[0]?.customer_phone_number}
+                        </b>
+                      </p>
+                      <p>
+                        <b>
+                          Active Customer:{" "}
+                          {customer?.data?.[0]?.active_customer_status}
+                        </b>
+                      </p>
+                      <p>
+                        <b>Edit customer info:</b> edit{" "}
+                        <Link
+                          style={{ color: "blue" }}
+                          to={`/admin/customer/edit/${customer?.data?.[0]?.customer_id}`}
+                        >
+                          <FaEdit size={22} color="red" />
+                        </Link>
+                      </p>
+                    </div>
+                    <div className="text-right mr-4  ">
+                      <Link to={"/admin/add-orders"}>
+                        <CgCloseR size={25} color="red" />
+                      </Link>
+                    </div>
+                  </Card.Text>
                 </Card.Body>
               </Card>
-            ))}
-          </div>
-
-          <div className="m-lg-2">
-            <div className="form-group">
-              <label htmlFor="comment">Comment:</label>
-              <textarea
-                className="form-control"
-                id="comment"
-                rows="3"
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              ></textarea>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="input">Input:</label>
-              <input
-                type="text"
-                className="form-control"
-                id="input"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-              />
+            <div className="content  ">
+              <Card className="mb-3">
+                <Card.Body>
+                  <Card.Title>
+                    <h3>{vehicles?.[0]?.vehicle_make}</h3>
+                  </Card.Title>
+                  <Card.Text className="ml-3 d-flex justify-content-between align-items-start">
+                    <div>
+                      <p>
+                        <b>Color: {vehicles?.[0]?.vehicle_color}</b>
+                      </p>
+                      <p>
+                        <b>vehicle tag: {vehicles?.[0]?.vehicle_tag}</b>
+                      </p>
+                      <p>
+                        <b>vehicle type: {vehicles?.[0]?.vehicle_type}</b>
+                      </p>
+                      <p>
+                        <b>Vehicle mileage: {vehicles?.[0]?.vehicle_mileage}</b>
+                      </p>
+                      <p>
+                        <b>Vehicle serial: {vehicles?.[0]?.vehicle_serial}</b>
+                      </p>
+                      <p>
+                        <b>Edit vehicle info:</b> edit{" "}
+                        <Link
+                          to={`/admin/vehicle/edit/${vehicles?.[0]?.vehicle_id}`}
+                        >
+                          <FaEdit size={22} color="red" />
+                        </Link>
+                      </p>
+                    </div>
+                    <div className="text-right mr-4  ">
+                      <Link to={"/admin/add-orders"}>
+                        <CgCloseR size={25} color="red" />
+                      </Link>
+                    </div>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             </div>
 
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={handleOrderCreation}
-            >
-              Submit
-            </button>
+            <div>
+              {services.map((service) => (
+                <>
+                  <Card className="mb-3" key={service.service_id}>
+                    <Card.Body>
+                      <Card.Title>
+                        <h3>{service.service_name}</h3>
+                      </Card.Title>
+                      <Card.Text className="">
+                        <div className="service-description ml-3 d-flex justify-content-between align-items-start">
+                          {service.service_description}
+                          <input
+                            className="text-right mr-4 "
+                            type="checkbox"
+                            value={service.service_id}
+                            checked={selectedServices.includes(
+                              service.service_id
+                            )}
+                            onChange={() =>
+                              handleServiceSelection(service.service_id)
+                            }
+                          />
+                        </div>
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </>
+              ))}
+            </div>
+
+            <div className="m-lg-2">
+              <div className="form-group">
+                <label htmlFor="comment">Comment:</label>
+                <textarea
+                  className="form-control"
+                  id="comment"
+                  rows="3"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                ></textarea>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="input">Input:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="input"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                />
+              </div>
+              <div
+                className="form-group col-md-12"
+                onClick={handleOrderCreation}
+              >
+                <Link
+                  to={`/admin/customer/get/${id}`}
+                  className="theme-btn btn-style-one"
+                  type="submit"
+                  data-loading-text="Please wait..."
+                >
+                  <span>SUBMIT ORDER</span>
+                </Link>
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
       )}
     </>
   );
