@@ -48,7 +48,7 @@ import AdminDashboard from "./markup/pages/admin/AdminDashBoard";
 import EditVihicle from "./markup/pages/admin/EditVihicle";
 
 import Services from "./markup/pages/admin/Services";
-import EditServices from "./markup/components/Admin/EditServices/EditServices";
+import EditServices from "./markup/pages/admin/EditService";
 function App() {
   return (
     <>
