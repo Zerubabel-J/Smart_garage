@@ -1,7 +1,6 @@
 // Function to read the data from the user's local storage
 const getAuth = async () => {
   const employee = await JSON.parse(localStorage.getItem("employee"));
-  console.log(employee);
   // console.log(employee.data.employee_token);
   if (employee && employee.data.employee_token) {
     // console.log(employee.data.employee_token);

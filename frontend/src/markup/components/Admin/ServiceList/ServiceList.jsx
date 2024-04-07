@@ -7,7 +7,6 @@ import serviceService from "../../../../services/service.service";
 import { useAuth } from "../../../../Contexts/AuthContext";
 import { FaEdit } from "react-icons/fa";
 
-
 const ServiceList = () => {
   const [services, setServices] = useState([]);
   const [apiError, setApiError] = useState(false);
@@ -50,7 +49,7 @@ const ServiceList = () => {
     const fetchData = async () => {
       try {
         const allService = await serviceService.getAllServices();
-        console.log(allService)
+
         if (allService.length) {
           setServices(allService);
         }
@@ -79,9 +78,9 @@ const ServiceList = () => {
   return (
     <>
       {apiError ? (
-        <section className="contact-section" style={{background: "white"}}>
+        <section className="contact-section" style={{ background: "white" }}>
           <div className="auto-container">
-            <div  className="contact-title">
+            <div className="contact-title">
               <h2>{apiErrorMessage}</h2>
             </div>
           </div>
@@ -123,11 +122,12 @@ const ServiceList = () => {
                       <div>{service.service_description}</div>
 
                       <div className="edit-delete-icons">
-                          <Link to={`/admin/services/service-update/${service.service_id}`}>
-                            <FaEdit size={20} />
-                          </Link>
-                          
-                        </div>
+                        <Link
+                          to={`/admin/services/service-update/${service.service_id}`}
+                        >
+                          <FaEdit size={20} />
+                        </Link>
+                      </div>
                     </Card.Body>
                   </Card>
                 ))}

@@ -23,7 +23,7 @@ function EditServices() {
           service_id, // Pass the service_id parameter directly
           loggedInEmployeeToken
         );
-        console.log("service update ........", responseData);
+        
 
         setService({
           service_name: responseData[0].service_name || "",

@@ -49,6 +49,9 @@ import EditVihicle from "./markup/pages/admin/EditVihicle";
 
 import Services from "./markup/pages/admin/Services";
 import EditServices from "./markup/pages/admin/EditService";
+
+import EditOrders from "./markup/pages/admin/EditOrders";
+
 function App() {
   return (
     <>
@@ -105,6 +108,14 @@ function App() {
         <Route
           path="/admin/order-detail/:order_id/:order_status"
           element={<OrderDetails />}
+        />
+        <Route
+          path="/admin/order-update/:order_hash"
+          element={
+            <PrivateAuthRoute roles={[1, 2, 3]}>
+              <EditOrders />
+            </PrivateAuthRoute>
+          }
         />
         <Route
           path="/admin/order-update/:order_id/:order_status"

@@ -6,7 +6,11 @@ async function addService(formData, loggedInserviceToken) {
   };
 
   try {
-    const response = await axios.post("http://localhost:8000/api/service", formData, { headers });
+    const response = await axios.post(
+      "http://localhost:8000/api/service",
+      formData,
+      { headers }
+    );
     return response.data;
   } catch (error) {
     console.error("Error adding service:", error.message);
@@ -17,7 +21,7 @@ async function addService(formData, loggedInserviceToken) {
 async function getAllServices() {
   try {
     const response = await axios.get("http://localhost:8000/api/services");
-    console.log("Services", response.data);
+
     return response.data.data;
   } catch (error) {
     console.error("Error fetching services:", error.message);
@@ -57,8 +61,7 @@ async function singleService(service_id, loggedInEmployeeToken) {
         },
       }
     );
-    console.log(`http://localhost:8000/api/service/${service_id}`)
-    console.log("Single service", response);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching service:", error);
@@ -70,7 +73,7 @@ const serviceService = {
   addService,
   getAllServices,
   updateService,
-  singleService
+  singleService,
 };
 
 export default serviceService;
