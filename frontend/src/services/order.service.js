@@ -49,11 +49,12 @@ const getAllOrders = async () => {
   }
 };
 // write a function to get order by id
-const getOrderById = async (orderId) => {
+const getOrderById = async (order_hash) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/order/${orderId}`
+      `http://localhost:8000/api/order/${order_hash}`
     );
+    console.log(`http://localhost:8000/api/order/${order_hash}`)
     console.log("Order", response);
     return response.data;
   } catch (error) {
@@ -78,10 +79,10 @@ const getOrderInformation = async () => {
 };
 
 // Function to get all order detail using axios
-const getOrderDetail = async (orderId) => {
+const getOrderDetail = async (order_hash) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/orderdetail/${orderId}`
+      `http://localhost:8000/api/orderdetail/${order_hash}`
     );
     console.log("Order detail", response);
     return response.data;
@@ -93,11 +94,11 @@ const getOrderDetail = async (orderId) => {
 };
 
 // Function to update order status with order_id
-const updateOrder = async (order_id, formData, loggedInEmployeeToken) => {
+const updateOrder = async (order_hash, formData, loggedInEmployeeToken) => {
   console.log("Fromm dataaa", formData);
   try {
     const response = await axios.patch(
-      ` http://localhost:8000/api/updateOrder/${order_id}`,
+      ` http://localhost:8000/api/updateOrder/${order_hash}`,
       formData,
       {
         headers: {
@@ -115,6 +116,21 @@ const updateOrder = async (order_id, formData, loggedInEmployeeToken) => {
   }
 };
 
+const getSingleOrder = async (order_hash) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/order/${order_hash}`
+    );
+    console.log("Order detail", response);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching order detail:", error.message);
+    throw error;
+  }
+};
+
+
 const orderService = {
   searchCustomers,
   createOrder,
@@ -123,6 +139,7 @@ const orderService = {
   getOrderInformation,
   getOrderDetail,
   updateOrder,
+  getSingleOrder
 };
 
 //export the functions
