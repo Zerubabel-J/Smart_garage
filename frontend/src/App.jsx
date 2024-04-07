@@ -48,6 +48,7 @@ import AdminDashboard from "./markup/pages/admin/AdminDashBoard";
 import EditVihicle from "./markup/pages/admin/EditVihicle";
 
 import Services from "./markup/pages/admin/Services";
+import EditServices from "./markup/components/Admin/EditServices/EditServices";
 function App() {
   return (
     <>
@@ -109,7 +110,10 @@ function App() {
           path="/admin/order-update/:order_id/:order_status"
           element={<OrderUpdates />}
         />
-
+ <Route
+          path="/admin/services/service-update/:service_id"
+          element={<EditServices />}
+        />
         {/* <Route path="/admin/services" element={<Services />} /> */}
         {/* <Route path="/admin/customers" element={<Customers/>} /> */}
         {/*         
