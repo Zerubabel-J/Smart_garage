@@ -1,51 +1,30 @@
 import React from "react";
-// Import the auth hook
-import { useAuth } from "../../../Contexts/AuthContext";
-// Import the Login component
-import LoginForm from "../../components/LoginForm/LoginForm";
-import AdminMenu from "../../components/Admin/AdminMenu/AdminMenu";
-import OrderDetial from "../../components/Admin/AddOrder/OrderDetail/OrderDetail";
 
-function Orders() {
-  // Destructure the auth hook
-  console.log(useAuth());
+// import the auth hook context
+import { useAuth } from "../../../Contexts/AuthContext";
+
+
+
+// import the admin menu component
+import AdminMenu from "../../components/Admin/AdminMenu/AdminMenu";
+
+import OrderDetail from "../../components/Admin/OrderDetail/OrderDetail";
+
+function OrderDetails() {
   const { isLogged, isAdmin } = useAuth();
 
-  if (isLogged) {
-    if (isAdmin) {
-      return (
-        <div className="container-fluid admin-pages">
-          <div className="row">
-            <div className="col-md-3 admin-left-side">
-              <AdminMenu />
-            </div>
-            <div className="col-md-9 admin-right-side">
-              <OrderDetial />
-            </div>
+  return (
+    <div>
+      <div className="container-fluid admin-pages">
+        <div className="col-md-12">
+          <div
+            className="col-md-9 mx-auto  ">
+            <OrderDetail />
           </div>
         </div>
-      );
-    } else {
-      return (
-        <div className="container-fluid admin-pages">
-          <div className="row">
-            <div className="col-md-3 admin-left-side">
-              <AdminMenu />
-            </div>
-            <div className="col-md-9 admin-right-side">
-              <h1>You are not authorized to access this page</h1>
-            </div>
-          </div>
-        </div>
-      );
-    }
-  } else {
-    return (
-      <div>
-        <LoginForm />
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-export default Orders;
+export default OrderDetails;

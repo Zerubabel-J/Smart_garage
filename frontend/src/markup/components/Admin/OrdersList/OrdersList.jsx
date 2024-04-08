@@ -40,6 +40,7 @@ const OrdersList = () => {
         // }
 
         setOrders(orderInfo);
+        console.log(orderInfo)
       } catch (error) {
         console.error("Error fetching customers:", error);
         setApiError(true);
@@ -86,6 +87,7 @@ const OrdersList = () => {
                 </thead>
                 <tbody>
                   {orders?.map((order) => (
+                    
                     <tr key={order.order_id}>
                       <td>{order.order_id}</td>
                       <td>
@@ -116,8 +118,9 @@ const OrdersList = () => {
                           </Link>
                           <Link
                             style={{ color: "blue" }}
-                            to={`/admin/order-update/${order.order_id}/${order.order_status}`}
-                          >
+                            to={`/admin/order-update/${order.order_hash}`}
+                          > 
+                            
                             <MdEdit />
                           </Link>
                         </div>

@@ -6,7 +6,6 @@ import Card from "react-bootstrap/Card";
 import serviceService from "../../../../services/service.service";
 import { useAuth } from "../../../../Contexts/AuthContext";
 import { FaEdit } from "react-icons/fa";
-import { RiDeleteBin5Fill } from "react-icons/ri";
 
 const ServiceList = () => {
   const [services, setServices] = useState([]);
@@ -50,6 +49,7 @@ const ServiceList = () => {
     const fetchData = async () => {
       try {
         const allService = await serviceService.getAllServices();
+
         if (allService.length) {
           setServices(allService);
         }
@@ -78,7 +78,7 @@ const ServiceList = () => {
   return (
     <>
       {apiError ? (
-        <section className="contact-section">
+        <section className="contact-section" style={{ background: "white" }}>
           <div className="auto-container">
             <div className="contact-title">
               <h2>{apiErrorMessage}</h2>
@@ -122,11 +122,12 @@ const ServiceList = () => {
                       <div>{service.service_description}</div>
 
                       <div className="edit-delete-icons">
-                          <Link to={`/admin/service/${service.service_id}`}>
-                            <FaEdit size={20} />
-                          </Link>
-                          <RiDeleteBin5Fill size={20} color="red" />
-                        </div>
+                        <Link
+                          to={`/admin/services/service-update/${service.service_id}`}
+                        >
+                          <FaEdit size={20} />
+                        </Link>
+                      </div>
                     </Card.Body>
                   </Card>
                 ))}

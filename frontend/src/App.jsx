@@ -48,6 +48,10 @@ import AdminDashboard from "./markup/pages/admin/AdminDashBoard";
 import EditVihicle from "./markup/pages/admin/EditVihicle";
 
 import Services from "./markup/pages/admin/Services";
+import EditServices from "./markup/pages/admin/EditService";
+
+import EditOrders from "./markup/pages/admin/EditOrders";
+
 function App() {
   return (
     <>
@@ -106,10 +110,21 @@ function App() {
           element={<OrderDetails />}
         />
         <Route
+          path="/admin/order-update/:order_hash"
+          element={
+            <PrivateAuthRoute roles={[1, 2, 3]}>
+              <EditOrders />
+            </PrivateAuthRoute>
+          }
+        />
+        <Route
           path="/admin/order-update/:order_id/:order_status"
           element={<OrderUpdates />}
         />
-
+ <Route
+          path="/admin/services/service-update/:service_id"
+          element={<EditServices />}
+        />
         {/* <Route path="/admin/services" element={<Services />} /> */}
         {/* <Route path="/admin/customers" element={<Customers/>} /> */}
         {/*         

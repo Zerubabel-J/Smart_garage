@@ -11,12 +11,12 @@ const authMiddleware = require("../middlewares/auth.middleware");
 router.post("/api/service", serviceController.createService);
 // Create a route to handle the get all services request on get
 router.get("/api/services", serviceController.getAllServices);
-router.get("/api/service/:id", serviceController.getServiceById);
+router.get("/api/service/:service_id", serviceController.getServiceById);
 
 // Create a route to handle deleting a service
 router.delete("/api/service/:id", serviceController.deleteService);
 
 // Create a route to handle editing a service
-router.patch("/api/service/:id", serviceController.editService);
+router.patch("/api/service/:service_id", serviceController.editService);
 // Export the router
 module.exports = router;

@@ -41,9 +41,9 @@ async function createService(service) {
 }
 
 // A function to get service by id
-async function getServiceById(id) {
+async function getServiceById(service_id) {
   const query = "SELECT * FROM common_services WHERE service_id = ? ";
-  const rows = await conn.query(query, [id]);
+  const rows = await conn.query(query, [service_id]);
 
   return rows;
 }
@@ -74,13 +74,13 @@ async function deleteService(id) {
 }
 
 // a function to edit services
-async function editService(id, service) {
+async function editService(service_id, service) {
   const conn = await pool.getConnection();
   try {
     await conn.beginTransaction();
     await query(
       "UPDATE common_services SET service_name = ?, service_description = ? WHERE service_id = ?",
-      [service.service_name, service.service_description, id]
+      [service.service_name, service.service_description, service_id]
     );
     await conn.commit();
     return true;

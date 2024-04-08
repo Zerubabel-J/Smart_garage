@@ -53,20 +53,12 @@ async function getAllServices(req, res, next) {
 }
 // A function to get a service by id
 async function getServiceById(req, res, next) {
-  // Get the service id from the request parameters
-  const id = req.params.id;
-  // Call the getServiceById method from the service service
-  const service = await serviceService.getServiceById(id);
-  if (!service) {
-    res.status(400).json({
-      error: "Failed to get the service!",
-    });
-  } else {
-    res.status(200).json({
-      status: "success",
-      data: service,
-      user: "Zman",
-    });
+  try {
+    const service_id = req.params.service_id; // Extract the service_id from the request parameters
+    const service = await serviceService.getServiceById(service_id);
+    res.json(service);
+  } catch (error) {
+    next(error);
   }
 }
 
@@ -91,11 +83,11 @@ async function deleteService(req, res, next) {
 // A function to edit a service
 async function editService(req, res, next) {
   // Get the service id from the request parameters
-  const id = req.params.id;
+  const service_id = req.params.service_id;
   // Get the service data from the request body
   const serviceData = req.body;
   // Call the editService method from the service service
-  const service = await serviceService.editService(id, serviceData);
+  const service = await serviceService.editService(service_id, serviceData);
   if (!service) {
     res.status(400).json({
       error: "Failed to edit the service!",
