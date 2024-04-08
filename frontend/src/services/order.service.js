@@ -115,6 +115,29 @@ const updateOrder = async (order_id, formData, loggedInEmployeeToken) => {
   }
 };
 
+// A function to update order_service status with service id
+const updateOrderServiceStatusById = async (serviceId, service_completed) => {
+  try {
+    console.log("Singleee Serivice update", { service_completed });
+    const response = await axios.patch(
+      ` http://localhost:8000/api/updateOrderService/${serviceId}`,
+      service_completed,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": "loggedInEmployeeToken",
+        },
+      }
+    );
+    console.log("Order created", response);
+    return response;
+  } catch (error) {
+    // Handle error
+    console.error("Error updating order:", error.message);
+    throw error;
+  }
+};
+
 const orderService = {
   searchCustomers,
   createOrder,
@@ -123,6 +146,7 @@ const orderService = {
   getOrderInformation,
   getOrderDetail,
   updateOrder,
+  updateOrderServiceStatusById,
 };
 
 //export the functions

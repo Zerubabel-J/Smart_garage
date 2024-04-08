@@ -19,7 +19,7 @@ const OrderDetail = () => {
   const [apiError, setApiError] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
   const navigate = useNavigate();
-  const { order_id, order_status } = useParams();
+  let { order_id, order_status } = useParams();
 
   useEffect(() => {
     const fetchCustomerData = async () => {
@@ -34,8 +34,35 @@ const OrderDetail = () => {
     };
 
     fetchCustomerData();
+    orderStateUpdater();
   }, [order_id]);
-
+  const orderStateUpdater = async () => {
+    let serviceLength = orders?.[0]?.orderServices?.length;
+    console.log("Service Length", serviceLength);
+    let allCompleted = true; // Flag to track if all services are completed
+    for (let i = 0; i < serviceLength; i++) {
+      console.log(i, orders?.[0]?.orderServices?.[i].service_completed);
+      if (orders?.[0]?.orderServices?.[i].service_completed === 0) {
+        allCompleted = false; // Set flag to false if any service is not completed
+        break; // Break loop if any service is not completed
+      }
+    }
+    console.log(allCompleted);
+    if (allCompleted) {
+      order_status = 1; // Set order_status to 1 if all services are completed
+    } else {
+      order_status = 0;
+      console.log(
+        "Some services are not completed and the status is ",
+        order_status
+      );
+    }
+  };
+  console.log("Orders detail here lastttt", orders);
+  console.log(
+    "Orders detail here lastttt",
+    orders?.[0]?.orderServices[0].service_completed === 1
+  );
   return (
     <>
       {apiError ? (
@@ -104,7 +131,7 @@ const OrderDetail = () => {
 
           <div>
             <h3>Requested Service</h3>
-            {orders?.[0]?.orderServices?.map((service) => (
+            {orders?.[0]?.orderServices?.map((service, index) => (
               <Card className="m-lg-2" key={service.service_id}>
                 <Card.Title className="px-lg-3 pt-3">
                   <h4>{service.serviceName}</h4>
@@ -112,7 +139,8 @@ const OrderDetail = () => {
                 <Card.Body className="service">
                   <div className="service-description">
                     {service.serviceDescription}
-                    {order_status == 1 ? (
+                    {orders?.[0]?.orderServices[index].service_completed ==
+                    1 ? (
                       <button
                         type="submit"
                         className="btn btn-primary customer-completed"

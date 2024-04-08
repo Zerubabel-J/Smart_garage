@@ -148,6 +148,7 @@ async function getOrderDetail(orderId) {
         order_info.notes_for_customer,
         order_info.additional_requests_completed,
         order_status.order_status,
+        order_services.service_completed,
         common_services.service_id AS service_id,
         common_services.service_name AS serviceName,
         common_services.service_description AS serviceDescription
@@ -178,6 +179,7 @@ async function getOrderDetail(orderId) {
       service_id: row.service_id,
       serviceName: row.serviceName,
       serviceDescription: row.serviceDescription,
+      service_completed: row.service_completed,
     }));
 
     // Removing redundant service data from order detail
@@ -332,6 +334,19 @@ async function updateOrder(orderId, orderData) {
   }
 }
 
+async function updateOrderServiceStatus(service_id, service_status) {
+  try {
+    const sql =
+      "UPDATE order_services SET service_completed = ? WHERE service_id = ?";
+    const orderStatusValues = [service_status, service_id];
+    await conn.query(sql, orderStatusValues);
+    return true;
+  } catch (error) {
+    console.log(error.message);
+    throw error;
+  }
+}
+
 // Export modules
 module.exports = {
   createOrder,
@@ -341,4 +356,5 @@ module.exports = {
   getOrderById,
   deleteOrderById,
   updateOrder,
+  updateOrderServiceStatus,
 };

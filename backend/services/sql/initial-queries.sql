@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `order_info` (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `order_services` (
-  `order_service_id` int(11) NOT NULL AUTO_INCREMENT,
+  `order+_service_id` int(11) NOT NULL AUTO_INCREMENT,
   `order_id` int(11) NOT NULL,
   `service_id` int(11) NOT NULL,
   `service_completed` int(11) NOT NULL,

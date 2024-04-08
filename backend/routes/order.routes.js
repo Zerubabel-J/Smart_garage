@@ -27,5 +27,11 @@ router.delete("/api/order/:id", orderController.deleteOrderById);
 
 // Create a route to handle the update order request on put
 router.patch("/api/updateOrder/:id", orderController.updateOrder);
+router.patch(
+  "/api/updateOrderService/:id",
+  orderController.updateOrderServiceStatus
+);
+
+// router.get("/api/updateOrderServiceStatus", orderController.getAllOrders);
 
 module.exports = router;

@@ -12,8 +12,8 @@ const OrderUpdate = () => {
   const [apiError, setApiError] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
   const navigate = useNavigate();
-  const { order_id, order_status } = useParams();
-  console.log("order_status", order_status);
+  let { order_id, order_status } = useParams();
+
   useEffect(() => {
     const fetchCustomerData = async () => {
       try {
@@ -29,29 +29,97 @@ const OrderUpdate = () => {
     fetchCustomerData();
   }, [order_id]);
 
-  const handleServiceSelection = (serviceId) => {
-    setSelectedServices((prevSelectedServices) =>
-      prevSelectedServices.includes(serviceId)
-        ? prevSelectedServices.filter((id) => id !== serviceId)
-        : [...prevSelectedServices, serviceId]
-    );
+  const orderStateUpdater = async () => {
+    let serviceLength = orders?.[0]?.orderServices?.length;
+    console.log("Service Length", serviceLength);
+    let allCompleted = true; // Flag to track if all services are completed
+    for (let i = 0; i < serviceLength; i++) {
+      console.log(i, orders?.[0]?.orderServices?.[i].service_completed);
+      if (orders?.[0]?.orderServices?.[i].service_completed === 0) {
+        allCompleted = false; // Set flag to false if any service is not completed
+        break; // Break loop if any service is not completed
+      }
+    }
+    console.log(allCompleted);
+    if (allCompleted) {
+      order_status = 1; // Set order_status to 1 if all services are completed
+    } else {
+      order_status = 0;
+      console.log(
+        "Some services are not completed and the status is ",
+        order_status
+      );
+    }
   };
 
+  const updateOrderServiceStatusById = async (serviceId, status) => {
+    try {
+      await orderService.updateOrderServiceStatusById(serviceId, status);
+      console.log(`Service ${serviceId} status updated successfully.`);
+    } catch (error) {
+      console.error(
+        `Error updating service ${serviceId} status:`,
+        error.message
+      );
+      throw error;
+    }
+  };
+
+  const handleServiceSelection = async (serviceId) => {
+    try {
+      const newSelectedServices = selectedServices.includes(serviceId)
+        ? selectedServices.filter((id) => id !== serviceId)
+        : [...selectedServices, serviceId];
+
+      setSelectedServices(newSelectedServices);
+    } catch (error) {
+      setApiError(true);
+      setApiErrorMessage(error.message);
+    }
+  };
   const handleOrderUpdating = async (e) => {
     try {
       e.preventDefault();
-      const orderStatus = selectedServices.length > 0 ? 1 : 0; // If any service is selected, order status is considered completed (1), otherwise, it's pending (0)
 
+      // Check if all services are selected
+      const allServicesSelected = orders[0].orderServices.every((service) =>
+        selectedServices.includes(service.service_id)
+      );
+
+      // let order_status = order_status; // Keep the original order status
+
+      // if (allServicesSelected) {
+      //   // If all services are selected, mark order status as completed
+      //   order_status = 1;
+      // } else {
+      //   // If not all services are selected, keep order status unchanged
+      //   order_status = 0;
+      // }
+
+      // Iterate over selected services to update their statuses
+      for (const serviceId of selectedServices) {
+        const service_completed = {
+          service_completed: 1,
+        };
+        await updateOrderServiceStatusById(serviceId, service_completed);
+      }
+      // orderStateUpdater();
+      console.log("What is going on", orders?.[0]?.orderServices?.length);
+      orderStateUpdater();
+      console.log("Here is...", order_status);
+      // Update the order status
       const loggedInEmployeeToken = localStorage.getItem("token");
       const updated = await orderService.updateOrder(
         order_id,
-        { order_status: orderStatus },
+        {
+          order_status: order_status,
+        },
         loggedInEmployeeToken
       );
       console.log("Update info", updated);
       navigate("/admin/orders");
     } catch (error) {
-      console.error("Error creating order:", error.message);
+      console.error("Error updating order:", error.message);
       setApiError(true);
       setApiErrorMessage(error.message);
     }
@@ -121,35 +189,42 @@ const OrderUpdate = () => {
               </div>
             </div>
           </div>
-
           <div>
             <h3>Update Status</h3>
-            {orders?.[0]?.orderServices?.map((service) => (
+            {orders[0]?.orderServices.map((service, index) => (
               <Card className="m-lg-2" key={service.service_id}>
                 <Card.Title className="px-lg-3 pt-3">
                   <h4>{service.serviceName}</h4>
                 </Card.Title>
                 <Card.Body className="service">
                   <div className="service-description">
-                    {order_status == 1 ? (
+                    {orders?.[0]?.orderServices?.[index].service_completed ==
+                    1 ? (
                       <h3 className="completed">
                         {service.serviceDescription}
                       </h3>
                     ) : (
-                      <input
-                        type="checkbox"
-                        value={service.service_id}
-                        checked={selectedServices.includes(service.service_id)}
-                        onChange={() =>
-                          handleServiceSelection(service.service_id)
-                        }
-                      />
+                      <>
+                        <h6>{service.serviceDescription}</h6>
+                        <input
+                          type="checkbox"
+                          value={service.service_id}
+                          checked={selectedServices.includes(
+                            service.service_id
+                          )}
+                          onChange={() =>
+                            handleServiceSelection(service.service_id)
+                          }
+                        />
+                      </>
                     )}
                   </div>
                 </Card.Body>
               </Card>
             ))}
           </div>
+          {/* Update button */}
+          {console.log("Order Statusss", order_status)}
           {order_status == 1 ? (
             <button
               type="submit"

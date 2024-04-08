@@ -101,7 +101,35 @@ async function updateOrder(req, res, next) {
     });
   }
 }
-
+// Function to update order_status
+async function updateOrderServiceStatus(req, res, next) {
+  const { id } = req.params;
+  const service_completed = req.body.service_completed;
+  console.log("Delivereddd value ????", id, req.body.service_completed);
+  try {
+    const updated = await orderService.updateOrderServiceStatus(
+      id,
+      service_completed
+    );
+    console.log("Updated value:????", updated);
+    if (!updated) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
+    }
+    res.json({
+      success: true,
+      message: `Order service with ID ${id} updated successfully`,
+    });
+  } catch (error) {
+    // console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Error updating order service",
+      error: error.message,
+    });
+  }
+}
 // Export the module
 module.exports = {
   createOrder,
@@ -111,4 +139,5 @@ module.exports = {
   getOrderById,
   deleteOrderById,
   updateOrder,
+  updateOrderServiceStatus,
 };
