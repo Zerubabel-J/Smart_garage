@@ -20,8 +20,8 @@ router.get("/api/orderinformation", orderController.getOrderInformation);
 // Create a route to handle the get order detail  request on get
 router.get("/api/orderdetail/:order_id", orderController.getOrderDetail);
 router.get(
-  "/api/customer/orderdetails/:customer_hash",
-  orderController.getOrderDetailByCustomerHash
+  "/api/customer/orderdetails/:order_hash",
+  orderController.getOrderDetailByOrderHash
 );
 
 // Create a route to handle the get orders by id request on get

@@ -95,10 +95,10 @@ const getOrderDetail = async (order_id) => {
   }
 };
 // Function to get all order detail using customer hash
-const getOrderDetailByCustomerHash = async (customer_hash) => {
+const getOrderDetailByOrderHash = async (order_hash) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/customer/orderdetails/${customer_hash}`
+      `http://localhost:8000/api/customer/orderdetails/${order_hash}`
     );
     console.log("Customer details with hash", response);
     return response.data;
@@ -179,7 +179,7 @@ const orderService = {
   updateOrder,
   getSingleOrder,
   updateOrderServiceStatusById,
-  getOrderDetailByCustomerHash,
+  getOrderDetailByOrderHash,
 };
 
 //export the functions

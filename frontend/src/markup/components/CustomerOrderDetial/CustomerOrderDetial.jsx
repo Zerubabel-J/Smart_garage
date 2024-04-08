@@ -21,14 +21,12 @@ const CustomerOrderDetial = () => {
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
   const navigate = useNavigate();
   // let { order_id, order_status } = useParams();
-  let { customer_hash } = useParams();
+  let { order_hash } = useParams();
 
   useEffect(() => {
     const fetchCustomerData = async () => {
       try {
-        const order = await orderService.getOrderDetailByCustomerHash(
-          customer_hash
-        );
+        const order = await orderService.getOrderDetailByOrderHash(order_hash);
         setOrders(order);
       } catch (error) {
         console.error("Error fetching customer data:", error.message);
@@ -39,7 +37,7 @@ const CustomerOrderDetial = () => {
 
     fetchCustomerData();
     orderStateUpdater();
-  }, [customer_hash]);
+  }, [order_hash]);
 
   console.log("Customerrr Detailllll", orders);
   const orderStateUpdater = async () => {

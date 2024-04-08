@@ -111,7 +111,7 @@ const OrdersList = () => {
                         <div className="edit-delete-icons">
                           <Link
                             style={{ color: "blue" }}
-                            to={`/customer/orderdetails/${order.customer_hash}`}
+                            to={`/customer/orderdetails/${order.order_hash}`}
                           >
                             <FaHandPointUp />
                           </Link>

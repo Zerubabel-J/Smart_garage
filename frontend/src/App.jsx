@@ -41,7 +41,7 @@ import CustomerProfile from "./markup/components/Admin/CustomerProfile/CustomerP
 import CreateOrder from "./markup/pages/admin/CreateOrder";
 import CustomerVihicleInfo from "./markup/pages/admin/CustomerVihicleInfo";
 import Customer_vehicle_service_info from "./markup/pages/admin/Customer_vehicle_service_info";
-import OrderDetails from "./markup/pages/admin/OrderDetails";
+// import OrderDetails from "./markup/pages/admin/OrderDetails";
 import OrderUpdates from "./markup/pages/admin/OrderUpdates";
 
 import AdminDashboard from "./markup/pages/admin/AdminDashBoard";
@@ -107,12 +107,12 @@ function App() {
           element={<Customer_vehicle_service_info />}
         />
 
-        <Route
+        {/* <Route
           path="/admin/order-detail/:order_id/:order_status"
           element={<OrderDetails />}
-        />
+        /> */}
         <Route
-          path="customer/orderdetails/:customer_hash"
+          path="customer/orderdetails/:order_hash"
           element={<CustomerDetail />}
         />
         <Route

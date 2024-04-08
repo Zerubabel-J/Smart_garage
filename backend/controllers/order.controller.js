@@ -57,12 +57,12 @@ async function getOrderDetail(req, res, next) {
 (req, res) => {
   res.status(200).json({ message: "Hello there" });
 };
-async function getOrderDetailByCustomerHash(req, res, next) {
+async function getOrderDetailByOrderHash(req, res, next) {
   try {
     // const hash = req.params.customer_hash;
     // res.status(200).json({ message: req.params.customer_hash });
-    const orderDetail = await orderService.getOrderDetailByCustomerHash(
-      req.params.customer_hash
+    const orderDetail = await orderService.getOrderDetailByOrderHash(
+      req.params.order_hash
     );
     res.status(200).json(orderDetail);
   } catch (error) {
@@ -167,5 +167,5 @@ module.exports = {
   deleteOrderById,
   updateOrder,
   updateOrderServiceStatus,
-  getOrderDetailByCustomerHash,
+  getOrderDetailByOrderHash,
 };

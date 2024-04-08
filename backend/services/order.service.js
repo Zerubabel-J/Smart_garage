@@ -1,16 +1,20 @@
 // Import the query function from the db.config.js file
 const conn = require("../config/db.config");
+const crypto = require("crypto");
 
 // Function to create a new order
 async function createOrder(orderData) {
   console.log("From the front side", orderData);
   try {
+    // Generate order hash
+    const order_hash = crypto.randomUUID();
     // console.log(orderData);
     orderData.active_order = 1;
-    orderData.order_hash = "12345sdfknbdfvbjm";
+    orderData.order_hash = order_hash;
     orderData.notes_for_internal_use = "stay tuned";
     orderData.notes_for_customer = "stay well";
     orderData.additional_requests_completed = 0;
+
     // Create order
     const orderQuery =
       "INSERT INTO orders (employee_id, customer_id, vehicle_id, active_order, order_hash) VALUES (?, ?, ?, ?, ?)";
@@ -101,6 +105,7 @@ async function getOrderInformation() {
     customer_vehicle_info.vehicle_year AS vehicle_year,
     customer_vehicle_info.vehicle_tag AS vehicle_tag,
     orders.order_id AS order_id,
+    orders.order_hash AS order_hash,
     orders.order_date AS order_date,
     order_status.order_status AS order_status FROM orders
   JOIN customer_identifier ON orders.customer_id = customer_identifier.customer_id
@@ -226,7 +231,8 @@ async function getOrderDetail(orderId) {
     throw error;
   }
 }
-async function getOrderDetailByCustomerHash(customerHash) {
+
+async function getOrderDetailByOrderHash(orderHash) {
   try {
     const sql = `
       SELECT
@@ -278,10 +284,10 @@ async function getOrderDetailByCustomerHash(customerHash) {
       JOIN
         customer_info ON customer_identifier.customer_id = customer_info.customer_id
       WHERE
-        customer_identifier.customer_hash = ?;`;
+        orders.order_hash = ?;`;
 
     // Assuming 'conn' is your database connection object
-    const rows = await conn.query(sql, [customerHash]);
+    const rows = await conn.query(sql, [orderHash]);
 
     // Grouping order services by order ID
     const orderServices = rows.map((row) => ({
@@ -470,5 +476,5 @@ module.exports = {
   deleteOrderById,
   updateOrder,
   updateOrderServiceStatus,
-  getOrderDetailByCustomerHash,
+  getOrderDetailByOrderHash,
 };

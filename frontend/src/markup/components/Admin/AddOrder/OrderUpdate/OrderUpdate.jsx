@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Card from "react-bootstrap/Card";
 import orderService from "../../../../../services/order.service";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
 import { useAuth } from "../../../../../Contexts/AuthContext";
 import "./OrderUpdate.css";
-
 const OrderUpdate = () => {
   const [orders, setOrders] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
@@ -111,15 +109,15 @@ const OrderUpdate = () => {
         loggedInEmployeeToken
       );
       console.log("Update info", updated);
-      await fetchCustomerData();
-      navigate("/admin/orders");
+      fetchCustomerData();
+      // navigate("/admin/orders");
     } catch (error) {
       console.error("Error updating order:", error.message);
       setApiError(true);
       setApiErrorMessage(error.message);
     }
   };
-
+  fetchCustomerData();
   return (
     <>
       {apiError ? (
@@ -330,8 +328,8 @@ const OrderUpdate = () => {
             </div>
           </div>
           {/* Update button */}
-          {console.log("Order Statusss", order_status)}
-          {order_status == 1 ? (
+          {console.log("Order Statusss", orders?.[0]?.order_status)}
+          {orders?.[0]?.order_status == 1 ? (
             <button
               type="submit"
               className="btn btn-primary completed"
