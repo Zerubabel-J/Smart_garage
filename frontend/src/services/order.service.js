@@ -54,7 +54,7 @@ const getOrderById = async (order_hash) => {
     const response = await axios.get(
       `http://localhost:8000/api/order/${order_hash}`
     );
-    console.log(`http://localhost:8000/api/order/${order_hash}`)
+    console.log(`http://localhost:8000/api/order/${order_hash}`);
     console.log("Order", response);
     return response.data;
   } catch (error) {
@@ -130,7 +130,6 @@ const getSingleOrder = async (order_hash) => {
   }
 };
 
-
 // A function to update order_service status with service id
 const updateOrderServiceStatusById = async (serviceId, service_completed) => {
   try {
@@ -162,7 +161,7 @@ const orderService = {
   getOrderInformation,
   getOrderDetail,
   updateOrder,
-  getSingleOrder
+  getSingleOrder,
   updateOrderServiceStatusById,
 };
 
