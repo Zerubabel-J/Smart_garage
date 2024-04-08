@@ -17,16 +17,21 @@ async function createCustomer(customer) {
   // let createdCustomer = {};
   let customer_id = null;
   try {
-    // // Generate a salt and hash the password
-    // const salt = await bcrypt.genSalt(10);
-    // // Hash the password
-    // const customer_hash = await bcrypt.hash(customer.customer_hash, salt);
+    // Generate a salt
+    const salt = await bcrypt.genSalt(10);
+
+    // Hash the input string
+    const hash = await bcrypt.hash(customer.customer_email, salt);
+
+    // Convert the generated hash to contain only alphanumeric characters
+    const customer_hash = hash.replace(/[^a-zA-Z0-9]/g, "");
     // Insert data into customer_identifier table
     const sql =
-      "INSERT INTO customer_identifier (customer_email, customer_phone_number) VALUES (?, ?)";
+      "INSERT INTO customer_identifier (customer_email, customer_phone_number,customer_hash) VALUES (?, ?,?)";
     const rows = await query(sql, [
       customer.customer_email,
       customer.customer_phone,
+      customer_hash,
     ]);
     console.log(rows);
     if (rows.affectedRows !== 1) {

@@ -43,6 +43,7 @@ import CustomerVihicleInfo from "./markup/pages/admin/CustomerVihicleInfo";
 import Customer_vehicle_service_info from "./markup/pages/admin/Customer_vehicle_service_info";
 import OrderDetails from "./markup/pages/admin/OrderDetails";
 import OrderUpdates from "./markup/pages/admin/OrderUpdates";
+
 import AdminDashboard from "./markup/pages/admin/AdminDashBoard";
 
 import EditVihicle from "./markup/pages/admin/EditVihicle";
@@ -51,6 +52,7 @@ import Services from "./markup/pages/admin/Services";
 import EditServices from "./markup/pages/admin/EditService";
 
 import EditOrders from "./markup/pages/admin/EditOrders";
+import CustomerDetail from "./markup/pages/CustomerDetail";
 
 function App() {
   return (
@@ -110,6 +112,10 @@ function App() {
           element={<OrderDetails />}
         />
         <Route
+          path="customer/orderdetails/:customer_hash"
+          element={<CustomerDetail />}
+        />
+        <Route
           path="/admin/order-update/:order_hash"
           element={
             <PrivateAuthRoute roles={[1, 2, 3]}>
@@ -121,7 +127,7 @@ function App() {
           path="/admin/order-update/:order_id/:order_status"
           element={<OrderUpdates />}
         />
- <Route
+        <Route
           path="/admin/services/service-update/:service_id"
           element={<EditServices />}
         />

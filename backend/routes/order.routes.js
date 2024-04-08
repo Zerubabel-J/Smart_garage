@@ -2,6 +2,7 @@
 const express = require("express");
 // Call the router method from express to create the router
 const router = express.Router();
+
 // Import the order controller
 const orderController = require("../controllers/order.controller");
 // import authMiddleware
@@ -18,6 +19,10 @@ router.get("/api/orderinformation", orderController.getOrderInformation);
 
 // Create a route to handle the get order detail  request on get
 router.get("/api/orderdetail/:order_id", orderController.getOrderDetail);
+router.get(
+  "/api/customer/orderdetails/:customer_hash",
+  orderController.getOrderDetailByCustomerHash
+);
 
 // Create a route to handle the get orders by id request on get
 router.get("/api/order/:id", orderController.getOrderById);
@@ -31,7 +36,5 @@ router.patch(
   "/api/updateOrderService/:id",
   orderController.updateOrderServiceStatus
 );
-
-// router.get("/api/updateOrderServiceStatus", orderController.getAllOrders);
 
 module.exports = router;

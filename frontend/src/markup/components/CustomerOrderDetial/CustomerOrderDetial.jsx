@@ -2,30 +2,33 @@ import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 // import customer service
 
-import orderService from "../../../../../services/order.service";
+import orderService from "../../../services/order.service";
 import { format } from "date-fns";
 
 // import userParams, useNavigate, Link and useParams from react-router-dom
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
-import { useAuth } from "../../../../../Contexts/AuthContext";
+import { useAuth } from "../../../Contexts/AuthContext";
 // import useAuth
 // import the css file
-import "./OrderDetail.css";
+// import "./OrderDetail.css";
 
-const OrderDetail = () => {
+const CustomerOrderDetial = () => {
   const [orders, setOrders] = useState([]);
   const { employee } = useAuth();
   // api error
   const [apiError, setApiError] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
   const navigate = useNavigate();
-  let { order_id, order_status } = useParams();
+  // let { order_id, order_status } = useParams();
+  let { customer_hash } = useParams();
 
   useEffect(() => {
     const fetchCustomerData = async () => {
       try {
-        const order = await orderService.getOrderDetail(order_id);
+        const order = await orderService.getOrderDetailByCustomerHash(
+          customer_hash
+        );
         setOrders(order);
       } catch (error) {
         console.error("Error fetching customer data:", error.message);
@@ -36,8 +39,11 @@ const OrderDetail = () => {
 
     fetchCustomerData();
     orderStateUpdater();
-  }, [order_id]);
+  }, [customer_hash]);
+
+  console.log("Customerrr Detailllll", orders);
   const orderStateUpdater = async () => {
+    let order_status = orders?.[0]?.order_status;
     let serviceLength = orders?.[0]?.orderServices.length;
     console.log("Service Length", serviceLength);
     let allCompleted = true; // Flag to track if all services are completed
@@ -130,19 +136,6 @@ const OrderDetail = () => {
                     {orders?.[0]?.active_customer_status ? "Yes" : "No"}
                   </span>
                 </div>
-                <div>
-                  <span className="font-weight-bold mr-2">
-                    Edit customer info{" "}
-                  </span>
-                  <span>
-                    <Link
-                      style={{ color: "blue" }}
-                      to={`/admin/customer/edit/${orders?.data?.[0]?.customer_id}`}
-                    >
-                      <MdEdit />
-                    </Link>
-                  </span>
-                </div>
               </div>{" "}
               <div className="bg-white p-4 mr-2 w-100">
                 <div>
@@ -183,19 +176,6 @@ const OrderDetail = () => {
                     <span className="font-weight-bold mr-2">Serial :</span>
                     <span className="text-secondary">
                       {orders?.[0]?.vehicle_serial}
-                    </span>
-                  </div>
-                  <div>
-                    <span className="font-weight-bold mr-2">
-                      Edit vehicle info{" "}
-                    </span>
-                    <span>
-                      <Link
-                        style={{ color: "blue" }}
-                        to={`/admin/vehicle/edit/${orders?.[0]?.vehicle_id}`}
-                      >
-                        <MdEdit />
-                      </Link>
                     </span>
                   </div>
                 </div>
@@ -312,12 +292,14 @@ const OrderDetail = () => {
                           {" "}
                           <h6
                             className={
-                              order_status == 1
+                              orders?.[0]?.order_status
                                 ? "text-center rounded-pill bg-success font-weight-bold text-white py-2 py-2"
                                 : "text-center rounded-pill bg-warning font-weight-bold px-3 py-2"
                             }
                           >
-                            {orders.order_status ? "Completed" : "In Progress"}
+                            {orders?.[0]?.order_status
+                              ? "Completed"
+                              : "In Progress"}
                           </h6>
                         </div>
                       </div>
@@ -333,4 +315,4 @@ const OrderDetail = () => {
   );
 };
 
-export default OrderDetail;
+export default CustomerOrderDetial;

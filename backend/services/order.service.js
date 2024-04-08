@@ -95,6 +95,7 @@ async function getOrderInformation() {
     SELECT customer_info.customer_first_name AS customer_first_name,
     customer_info.customer_last_name AS customer_last_name,
     customer_identifier.customer_email AS customer_email,
+    customer_identifier.customer_hash AS customer_hash,
     customer_identifier.customer_phone_number AS customer_phone,
     customer_vehicle_info.vehicle_make AS vehicle_make,
     customer_vehicle_info.vehicle_year AS vehicle_year,
@@ -105,7 +106,10 @@ async function getOrderInformation() {
   JOIN customer_identifier ON orders.customer_id = customer_identifier.customer_id
   JOIN customer_vehicle_info ON orders.vehicle_id = customer_vehicle_info.vehicle_id
   JOIN order_status ON orders.order_id = order_status.order_id
-  JOIN customer_info ON customer_identifier.customer_id = customer_info.customer_id;
+  JOIN customer_info ON customer_identifier.customer_id = customer_info.customer_id
+  ORDER BY order_id DESC
+  LIMIT 5
+  ;
     `;
 
     // Assuming 'conn' is your database connection object
@@ -127,6 +131,7 @@ async function getOrderDetail(orderId) {
         customer_info.active_customer_status,
         customer_identifier.customer_email,
         customer_identifier.customer_phone_number,
+        customer_identifier.customer_hash,
         customer_vehicle_info.vehicle_id,
         customer_vehicle_info.vehicle_year,
         customer_vehicle_info.vehicle_make,
@@ -187,6 +192,7 @@ async function getOrderDetail(orderId) {
       customer_first_name: rows[0].customer_first_name,
       customer_last_name: rows[0].customer_last_name,
       active_customer_status: rows[0].active_customer_status,
+      customer_hash: rows[0].customer_hash,
       customer_email: rows[0].customer_email,
       customer_phone_number: rows[0].customer_phone_number,
       vehicle_id: rows[0].vehicle_id,
@@ -215,6 +221,113 @@ async function getOrderDetail(orderId) {
 
     // console.log("Order Detail:", orderDetail);
     return [orderDetail]; // Returning array of order detail objects
+  } catch (error) {
+    console.error("Error fetching order detail:", error.message);
+    throw error;
+  }
+}
+async function getOrderDetailByCustomerHash(customerHash) {
+  try {
+    const sql = `
+      SELECT
+        customer_info.customer_first_name,
+        customer_info.customer_last_name,
+        customer_info.active_customer_status,
+        customer_identifier.customer_email,
+        customer_identifier.customer_phone_number,
+        customer_identifier.customer_hash,
+        customer_vehicle_info.vehicle_id,
+        customer_vehicle_info.vehicle_year,
+        customer_vehicle_info.vehicle_make,
+        customer_vehicle_info.vehicle_model,
+        customer_vehicle_info.vehicle_type,
+        customer_vehicle_info.vehicle_mileage,
+        customer_vehicle_info.vehicle_tag,
+        customer_vehicle_info.vehicle_serial,
+        customer_vehicle_info.vehicle_color,
+        orders.order_id,
+        orders.order_date,
+        orders.active_order,
+        orders.order_hash,
+        order_info.order_total_price,
+        order_info.estimated_completion_date,
+        order_info.completion_date,
+        order_info.additional_request,
+        order_info.notes_for_internal_use,
+        order_info.notes_for_customer,
+        order_info.additional_requests_completed,
+        order_status.order_status,
+        order_services.service_completed,
+        common_services.service_id AS service_id,
+        common_services.service_name AS serviceName,
+        common_services.service_description AS serviceDescription
+      FROM
+        orders
+      JOIN
+        customer_identifier ON orders.customer_id = customer_identifier.customer_id
+      JOIN
+        customer_vehicle_info ON orders.vehicle_id = customer_vehicle_info.vehicle_id
+      JOIN
+        order_info ON orders.order_id = order_info.order_id
+      JOIN
+        order_services ON orders.order_id = order_services.order_id
+      JOIN
+        common_services ON order_services.service_id = common_services.service_id
+      JOIN
+        order_status ON orders.order_id = order_status.order_id
+      JOIN
+        customer_info ON customer_identifier.customer_id = customer_info.customer_id
+      WHERE
+        customer_identifier.customer_hash = ?;`;
+
+    // Assuming 'conn' is your database connection object
+    const rows = await conn.query(sql, [customerHash]);
+
+    // Grouping order services by order ID
+    const orderServices = rows.map((row) => ({
+      service_id: row.service_id,
+      serviceName: row.serviceName,
+      serviceDescription: row.serviceDescription,
+      service_completed: row.service_completed,
+    }));
+
+    // Extracting customer details from the first row
+    const customerDetails = rows[0];
+
+    // Removing redundant data from order detail
+    const orderDetails = {
+      customer_first_name: customerDetails.customer_first_name,
+      customer_last_name: customerDetails.customer_last_name,
+      active_customer_status: customerDetails.active_customer_status,
+      customer_hash: customerDetails.customer_hash,
+      customer_email: customerDetails.customer_email,
+      customer_phone_number: customerDetails.customer_phone_number,
+      vehicle_id: customerDetails.vehicle_id,
+      vehicle_year: customerDetails.vehicle_year,
+      vehicle_make: customerDetails.vehicle_make,
+      vehicle_model: customerDetails.vehicle_model,
+      vehicle_type: customerDetails.vehicle_type,
+      vehicle_mileage: customerDetails.vehicle_mileage,
+      vehicle_tag: customerDetails.vehicle_tag,
+      vehicle_serial: customerDetails.vehicle_serial,
+      vehicle_color: customerDetails.vehicle_color,
+      order_id: customerDetails.order_id,
+      order_date: customerDetails.order_date,
+      active_order: customerDetails.active_order,
+      order_hash: customerDetails.order_hash,
+      order_total_price: customerDetails.order_total_price,
+      estimated_completion_date: customerDetails.estimated_completion_date,
+      completion_date: customerDetails.completion_date,
+      additional_request: customerDetails.additional_request,
+      notes_for_internal_use: customerDetails.notes_for_internal_use,
+      notes_for_customer: customerDetails.notes_for_customer,
+      additional_requests_completed:
+        customerDetails.additional_requests_completed,
+      order_status: customerDetails.order_status,
+      orderServices: orderServices,
+    };
+
+    return [orderDetails]; // Returning array of order detail objects
   } catch (error) {
     console.error("Error fetching order detail:", error.message);
     throw error;
@@ -357,4 +470,5 @@ module.exports = {
   deleteOrderById,
   updateOrder,
   updateOrderServiceStatus,
+  getOrderDetailByCustomerHash,
 };

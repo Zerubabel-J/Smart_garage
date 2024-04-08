@@ -14,18 +14,18 @@ const OrderUpdate = () => {
   const navigate = useNavigate();
   let { order_id, order_status } = useParams();
 
-  useEffect(() => {
-    const fetchCustomerData = async () => {
-      try {
-        const order = await orderService.getOrderDetail(order_id);
-        setOrders(order);
-      } catch (error) {
-        console.error("Error fetching customer data:", error.message);
-        setApiError(true);
-        setApiErrorMessage(error.message);
-      }
-    };
+  const fetchCustomerData = async () => {
+    try {
+      const order = await orderService.getOrderDetail(order_id);
+      setOrders(order);
+    } catch (error) {
+      console.error("Error fetching customer data:", error.message);
+      setApiError(true);
+      setApiErrorMessage(error.message);
+    }
+  };
 
+  useEffect(() => {
     fetchCustomerData();
   }, [order_id]);
 
@@ -80,21 +80,11 @@ const OrderUpdate = () => {
   const handleOrderUpdating = async (e) => {
     try {
       e.preventDefault();
-
-      // Check if all services are selected
-      const allServicesSelected = orders[0].orderServices.every((service) =>
-        selectedServices.includes(service.service_id)
-      );
-
-      // let order_status = order_status; // Keep the original order status
-
-      // if (allServicesSelected) {
-      //   // If all services are selected, mark order status as completed
-      //   order_status = 1;
-      // } else {
-      //   // If not all services are selected, keep order status unchanged
-      //   order_status = 0;
-      // }
+      console.log("Current Orders??......", orders);
+      // // Check if all services are selected
+      // const allServicesSelected = orders[0].orderServices.every((service) =>
+      //   selectedServices.includes(service.service_id)
+      // );
 
       // Iterate over selected services to update their statuses
       for (const serviceId of selectedServices) {
@@ -106,7 +96,11 @@ const OrderUpdate = () => {
       // orderStateUpdater();
       console.log("What is going on", orders?.[0]?.orderServices?.length);
       orderStateUpdater();
-      console.log("Here is...", order_status);
+      console.log(
+        "Checkkkkk",
+        orders?.[0]?.orderServices?.[0].service_completed
+      );
+      console.log("Here is...???????", order_status);
       // Update the order status
       const loggedInEmployeeToken = localStorage.getItem("token");
       const updated = await orderService.updateOrder(
@@ -117,6 +111,7 @@ const OrderUpdate = () => {
         loggedInEmployeeToken
       );
       console.log("Update info", updated);
+      await fetchCustomerData();
       navigate("/admin/orders");
     } catch (error) {
       console.error("Error updating order:", error.message);
@@ -131,65 +126,115 @@ const OrderUpdate = () => {
         <div>Error: {apiErrorMessage}</div>
       ) : (
         <div className="container-fluid customer-profile">
-          <div className="cv-update">
-            <div className="customer-info ">
-              <div className="customer-detail ">
-                <h3> {orders?.[0]?.customer_first_name}</h3>
-                <p>
-                  <b>Email: {orders?.[0]?.customer_email}</b>
-                </p>
-                <p>
-                  <b>Phone Number: {orders?.[0]?.customer_phone_number}</b>
-                </p>
-                <p>
-                  <b>
-                    Active Customer:{" "}
-                    {orders?.[0]?.active_customer_status ? "Yes" : "No"}
-                  </b>
-                </p>
-                <p>
-                  <b>Edit customer info:</b> edit{" "}
+          {/* ########################## */}
+          <div className=" ml-5 pb-0  d-flex order-danger ">
+            <div className="bg-white p-4 mr-2 w-100">
+              <div className=" d-flex justify-content-between">
+                <h4 className="fw-bold font-weight-bold">
+                  <span className=" fw-bold mr-2">
+                    {orders?.[0]?.customer_first_name}
+                  </span>
+
+                  {orders?.[0]?.customer_last_name}
+                  <span></span>
+                </h4>
+              </div>
+              <div>
+                <span className="font-weight-bold mr-2">Email :</span>
+                <span className="text-secondary">
+                  {orders?.[0]?.customer_email}
+                </span>
+              </div>
+              <div>
+                <span className="font-weight-bold mr-2 ">Phone Number:</span>
+                <span className="text-secondary">
+                  {orders?.[0]?.customer_phone_number}
+                </span>
+              </div>
+              <div>
+                <span className="font-weight-bold mr-2">Order Id: </span>
+                <span className="text-secondary">{orders?.[0]?.order_id}</span>
+              </div>
+              <div>
+                <span className="font-weight-bold mr-2">Active Customer: </span>
+                <span className="text-secondary">
+                  {orders?.[0]?.active_customer_status ? "Yes" : "No"}
+                </span>
+              </div>
+              <div>
+                <span className="font-weight-bold mr-2">
+                  Edit customer info{" "}
+                </span>
+                <span>
                   <Link
                     style={{ color: "blue" }}
-                    to={`/admin/customer/edit/${orders?.[0]?.customer_id}`}
+                    to={`/admin/customer/edit/${orders?.data?.[0]?.customer_id}`}
                   >
                     <MdEdit />
                   </Link>
-                </p>
+                </span>
               </div>
-            </div>
-            <div className="customer-info ">
-              {/* <div className="info-icon ">Info</div> */}
-              <div className="customer-detail ">
-                <h3> {orders?.[0]?.vehicle_make}</h3>
-                <p>
-                  <b>Color: {orders?.[0]?.vehicle_color}</b>
-                </p>
-                <p>
-                  <b>vehicle tag: {orders?.[0]?.vehicle_tag}</b>
-                </p>
-                <p>
-                  <b>vehicle type: {orders?.[0]?.vehicle_type}</b>
-                </p>
-                <p>
-                  <b>Vehicle mileage: {orders?.[0]?.vehicle_mileage}</b>
-                </p>
-                <p>
-                  <b>Vehicle serial: {orders?.[0]?.vehicle_serial}</b>
-                </p>
-                <p>
-                  <b>Edit vehicle info:</b> edit{" "}
-                  <Link
-                    style={{ color: "blue" }}
-                    to={`/admin/vehicle/edit/${orders?.[0]?.vehicle_id}`}
-                  >
-                    <MdEdit />
-                  </Link>
-                </p>
+            </div>{" "}
+            <div className="bg-white p-4 mr-2 w-100">
+              <div>
+                <div className="d-flex justify-content-between">
+                  <h4 className="fw-bold font-weight-bold">
+                    <span className="fw-bold mr-2">
+                      {orders?.[0]?.vehicle_make}
+                    </span>
+                  </h4>
+                </div>
+                <div>
+                  <span className="font-weight-bold mr-2">Color :</span>
+                  <span className="text-secondary">
+                    {orders?.[0]?.vehicle_color}
+                  </span>
+                </div>
+                <div>
+                  <span className="font-weight-bold mr-2">Tag :</span>
+                  <span className="text-secondary">
+                    {orders?.[0]?.vehicle_tag}
+                  </span>
+                </div>
+                <div>
+                  <span className="font-weight-bold mr-2">Year :</span>
+                  <span className="text-secondary">
+                    {orders?.[0]?.vehicle_year}
+                  </span>
+                </div>
+                <div>
+                  <span className="font-weight-bold mr-2">
+                    Vehicle mileage :
+                  </span>
+                  <span className="text-secondary">
+                    {orders?.[0]?.vehicle_mileage}
+                  </span>
+                </div>
+                <div>
+                  <span className="font-weight-bold mr-2">Serial :</span>
+                  <span className="text-secondary">
+                    {orders?.[0]?.vehicle_serial}
+                  </span>
+                </div>
+                <div>
+                  <span className="font-weight-bold mr-2">
+                    Edit vehicle info{" "}
+                  </span>
+                  <span>
+                    <Link
+                      style={{ color: "blue" }}
+                      to={`/admin/vehicle/edit/${orders?.[0]?.vehicle_id}`}
+                    >
+                      <MdEdit />
+                    </Link>
+                  </span>
+                </div>
               </div>
-            </div>
+            </div>{" "}
           </div>
-          <div>
+          {/* ########################## */}
+
+          {/* <div>
             <h3>Update Status</h3>
             {orders[0]?.orderServices.map((service, index) => (
               <Card className="m-lg-2" key={service.service_id}>
@@ -222,6 +267,67 @@ const OrderUpdate = () => {
                 </Card.Body>
               </Card>
             ))}
+          </div> */}
+
+          <div className="contact-section my-0 py-4 pb-4">
+            <div className="mr-5  ">
+              <div className=" ml-5 pb-0  d-flex order-danger ">
+                <div className=" ml-4 p-3 flex-grow-1 bg-white Regular shadow">
+                  <div className="contact-title ">
+                    <div>
+                      <h2>Requested Services</h2>{" "}
+                    </div>
+
+                    {orders?.[0]?.orderServices?.map((service, index) => (
+                      <>
+                        <div
+                          key={service.service_id}
+                          className="bg-white Regular shadow my-2 d-flex "
+                        >
+                          <div className="py-4 pb-1 px-4 flex-grow-1 ">
+                            <h5 className="mb-1 font-weight-bold ">
+                              {service.serviceName}
+                            </h5>
+                            <h6 className=" mb-1 text-secondary">
+                              {service.serviceDescription}
+                            </h6>
+                          </div>
+                          <div className="order_status px-5">
+                            <h6
+                              className={
+                                orders?.[0]?.orderServices[index]
+                                  .service_completed == 1
+                                  ? "text-center rounded-pill bg-success font-weight-bold text-white px-5"
+                                  : "text-center rounded-pill  font-weight-bold px-5"
+                              }
+                            >
+                              {orders?.[0]?.orderServices[index]
+                                .service_completed == 1 ? (
+                                "Completed"
+                              ) : (
+                                <>
+                                  <input
+                                    type="checkbox"
+                                    value={service.service_id}
+                                    checked={selectedServices.includes(
+                                      service.service_id
+                                    )}
+                                    onChange={() =>
+                                      handleServiceSelection(service.service_id)
+                                    }
+                                  />
+                                </>
+                              )}
+                            </h6>
+                          </div>
+                          <div className="d-flex align-items-center px-4"></div>
+                        </div>
+                      </>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           {/* Update button */}
           {console.log("Order Statusss", order_status)}

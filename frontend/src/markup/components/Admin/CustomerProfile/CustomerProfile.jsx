@@ -156,7 +156,7 @@ const CustomerProfile = () => {
 
                 {showAddVehicleForm ? (
                   <>
-                    <h6>No vehicles found</h6>
+                    <h6>Add Vehicle</h6>
                     <form className="form-container" onSubmit={handleSubmit}>
                       {/* Input fields for vehicle info */}
                       <input

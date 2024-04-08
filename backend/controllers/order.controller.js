@@ -42,6 +42,33 @@ async function getOrderDetail(req, res, next) {
     res.status(400).json({ error: "Failed to retrieve order detail" });
   }
 }
+// // Function to get getOrderDetail by orderId
+// async function getOrderDetailByCustomerHash(req, res, next) {
+//   try {
+//     const orderDetail = await orderService.getOrderDetailByCustomerHash(
+//       req.params.customer_hash
+//     );
+//     res.status(200).json(orderDetail);
+//   } catch (error) {
+//     res.status(400).json({ error: "Failed to retrieve order detail" });
+//   }
+// }
+
+(req, res) => {
+  res.status(200).json({ message: "Hello there" });
+};
+async function getOrderDetailByCustomerHash(req, res, next) {
+  try {
+    // const hash = req.params.customer_hash;
+    // res.status(200).json({ message: req.params.customer_hash });
+    const orderDetail = await orderService.getOrderDetailByCustomerHash(
+      req.params.customer_hash
+    );
+    res.status(200).json(orderDetail);
+  } catch (error) {
+    res.status(400).json({ error: "Failed to retrieve order detail" });
+  }
+}
 // Function to get an order by its ID
 async function getOrderById(req, res, next) {
   try {
@@ -140,4 +167,5 @@ module.exports = {
   deleteOrderById,
   updateOrder,
   updateOrderServiceStatus,
+  getOrderDetailByCustomerHash,
 };

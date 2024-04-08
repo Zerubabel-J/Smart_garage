@@ -1,12 +1,11 @@
 import React from "react";
 
 // import the auth hook context
-import { useAuth } from "../../../Contexts/AuthContext";
-
-import OrderDetail from "../../components/Admin/AddOrder/OrderDetail/OrderDetail";
+import { useAuth } from "../../Contexts/AuthContext";
+import CustomerOrderDetial from "../components/CustomerOrderDetial/CustomerOrderDetial";
 // import OrderDetail from "../../components/Admin/OrderDetail/OrderDetail";
 
-function OrderDetails() {
+function CustomerDetail() {
   const { isLogged, isAdmin } = useAuth();
 
   return (
@@ -14,7 +13,7 @@ function OrderDetails() {
       <div className="container-fluid admin-pages">
         <div className="col-md-12">
           <div className="col-md-9 mx-auto  ">
-            <OrderDetail />
+            <CustomerOrderDetial />
           </div>
         </div>
       </div>
@@ -22,4 +21,4 @@ function OrderDetails() {
   );
 }
 
-export default OrderDetails;
+export default CustomerDetail;

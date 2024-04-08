@@ -69,20 +69,22 @@ const getOrderInformation = async () => {
     const response = await axios.get(
       `http://localhost:8000/api/orderinformation`
     );
-    console.log("Orders", response);
+    console.log("Orders plsss", response);
     return response.data;
   } catch (error) {
     // Handle error
     console.error("Error fetching orders:", error.message);
+    console.log(object);
     throw error;
   }
 };
 
 // Function to get all order detail using axios
-const getOrderDetail = async (order_hash) => {
+const getOrderDetail = async (order_id) => {
   try {
+    console.log(order_id);
     const response = await axios.get(
-      `http://localhost:8000/api/orderdetail/${order_hash}`
+      `http://localhost:8000/api/orderdetail/${order_id}`
     );
     console.log("Order detail", response);
     return response.data;
@@ -92,13 +94,27 @@ const getOrderDetail = async (order_hash) => {
     throw error;
   }
 };
+// Function to get all order detail using customer hash
+const getOrderDetailByCustomerHash = async (customer_hash) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/customer/orderdetails/${customer_hash}`
+    );
+    console.log("Customer details with hash", response);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching order detail:", error.message);
+    throw error;
+  }
+};
 
 // Function to update order status with order_id
-const updateOrder = async (order_hash, formData, loggedInEmployeeToken) => {
-  console.log("Fromm dataaa", formData);
+const updateOrder = async (order_id, formData, loggedInEmployeeToken) => {
+  console.log("Order statussss.....???????", formData);
   try {
     const response = await axios.patch(
-      ` http://localhost:8000/api/updateOrder/${order_hash}`,
+      ` http://localhost:8000/api/updateOrder/${order_id}`,
       formData,
       {
         headers: {
@@ -163,6 +179,7 @@ const orderService = {
   updateOrder,
   getSingleOrder,
   updateOrderServiceStatusById,
+  getOrderDetailByCustomerHash,
 };
 
 //export the functions

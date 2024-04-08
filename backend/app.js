@@ -11,9 +11,11 @@ const corsOptions = {
   origin: process.env.FRONTEND_URL,
   optionsSuccessStatus: 200,
 };
+
 // Create a variable to hold our port number
 const port = process.env.PORT;
 // Import the router
+
 const router = require("./routes");
 // Create the webserver
 const app = express();
@@ -25,6 +27,8 @@ app.use(express.json());
 // Add the sanitizer to the express middleware
 app.use(sanitize.middleware);
 // Add the routes to the application as middleware
+// Custom middleware to encode URL parameters
+
 app.use(router);
 // Start the webserver
 app.listen(port, () => {
