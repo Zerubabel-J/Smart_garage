@@ -117,7 +117,7 @@ const OrdersList = () => {
                           </Link>
                           <Link
                             style={{ color: "blue" }}
-                            to={`/admin/order-update/${order.order_id}/${order.order_status}`}
+                            to={`/admin/order-update/${order.order_id}/${order.order_hash}`}
                           >
                             <MdEdit />
                           </Link>

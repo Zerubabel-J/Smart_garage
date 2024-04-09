@@ -169,6 +169,22 @@ const updateOrderServiceStatusById = async (serviceId, service_completed) => {
   }
 };
 
+// write a function to get order by id
+const getOrderServiceById = async (order_id) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/orderServices/${order_id}`
+    );
+
+    console.log("Order Servicsssss lastttt", response);
+    return response.data;
+  } catch (error) {
+    // Handle error
+    console.error("Error fetching order:", error.message);
+    throw error;
+  }
+};
+
 const orderService = {
   searchCustomers,
   createOrder,
@@ -180,6 +196,7 @@ const orderService = {
   getSingleOrder,
   updateOrderServiceStatusById,
   getOrderDetailByOrderHash,
+  getOrderServiceById,
 };
 
 //export the functions

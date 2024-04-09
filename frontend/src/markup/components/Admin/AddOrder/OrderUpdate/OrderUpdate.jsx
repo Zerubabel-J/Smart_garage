@@ -7,11 +7,13 @@ import "./OrderUpdate.css";
 const OrderUpdate = () => {
   const [orders, setOrders] = useState([]);
   const [selectedServices, setSelectedServices] = useState([]);
+  const [serviceLists, setOrderServices] = useState([]);
   const [apiError, setApiError] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
   const navigate = useNavigate();
-  let { order_id, order_status } = useParams();
-
+  let { order_id } = useParams();
+  // let [magic, setOrderStatus] = useState(0);
+  let magic = 0;
   const fetchCustomerData = async () => {
     try {
       const order = await orderService.getOrderDetail(order_id);
@@ -27,32 +29,27 @@ const OrderUpdate = () => {
     fetchCustomerData();
   }, [order_id]);
 
-  const orderStateUpdater = async () => {
-    let serviceLength = orders?.[0]?.orderServices?.length;
-    console.log("Service Length", serviceLength);
-    let allCompleted = true; // Flag to track if all services are completed
-    for (let i = 0; i < serviceLength; i++) {
-      console.log(i, orders?.[0]?.orderServices?.[i].service_completed);
-      if (orders?.[0]?.orderServices?.[i].service_completed === 0) {
-        allCompleted = false; // Set flag to false if any service is not completed
-        break; // Break loop if any service is not completed
-      }
-    }
-    console.log(allCompleted);
-    if (allCompleted) {
-      order_status = 1; // Set order_status to 1 if all services are completed
-    } else {
-      order_status = 0;
-      console.log(
-        "Some services are not completed and the status is ",
-        order_status
-      );
+  const handleServiceSelection = (serviceId, isChecked) => {
+    try {
+      setSelectedServices((prevSelectedServices) => {
+        if (isChecked) {
+          // If checked, add the serviceId
+          return [...prevSelectedServices, serviceId];
+        } else {
+          // If unchecked, remove the serviceId
+          return prevSelectedServices.filter((id) => id !== serviceId);
+        }
+      });
+    } catch (error) {
+      setApiError(true);
+      setApiErrorMessage(error.message);
     }
   };
 
   const updateOrderServiceStatusById = async (serviceId, status) => {
     try {
       await orderService.updateOrderServiceStatusById(serviceId, status);
+      // await orderStateUpdater();
       console.log(`Service ${serviceId} status updated successfully.`);
     } catch (error) {
       console.error(
@@ -63,27 +60,10 @@ const OrderUpdate = () => {
     }
   };
 
-  const handleServiceSelection = async (serviceId) => {
-    try {
-      const newSelectedServices = selectedServices.includes(serviceId)
-        ? selectedServices.filter((id) => id !== serviceId)
-        : [...selectedServices, serviceId];
-
-      setSelectedServices(newSelectedServices);
-    } catch (error) {
-      setApiError(true);
-      setApiErrorMessage(error.message);
-    }
-  };
   const handleOrderUpdating = async (e) => {
     try {
       e.preventDefault();
       console.log("Current Orders??......", orders);
-      // // Check if all services are selected
-      // const allServicesSelected = orders[0].orderServices.every((service) =>
-      //   selectedServices.includes(service.service_id)
-      // );
-
       // Iterate over selected services to update their statuses
       for (const serviceId of selectedServices) {
         const service_completed = {
@@ -91,33 +71,48 @@ const OrderUpdate = () => {
         };
         await updateOrderServiceStatusById(serviceId, service_completed);
       }
-      // orderStateUpdater();
-      console.log("What is going on", orders?.[0]?.orderServices?.length);
-      orderStateUpdater();
-      console.log(
-        "Checkkkkk",
-        orders?.[0]?.orderServices?.[0].service_completed
+      // await orderStateUpdater();
+      const services = await orderService.getOrderServiceById(order_id);
+      setOrderServices(services);
+      console.log("Order Services###55ssssssssss", services);
+      console.log("Here is...???????", magic);
+      let allCompleted = services.every(
+        (service) => service.service_completed === 1
       );
-      console.log("Here is...???????", order_status);
-      // Update the order status
+      console.log(allCompleted);
+      if (allCompleted) {
+        // setOrderStatus(1);
+        magic = 1;
+        console.log("updatedddddd", magic); // Set order_status to 1 if all services are completed
+      } else {
+        magic = 0;
+        // setOrderStatus(0);
+        console.log(magic);
+        fetchCustomerData();
+        console.log(
+          "Some services are not completed and the status is ",
+          magic
+        );
+      }
+      // Update the order status resdf
       const loggedInEmployeeToken = localStorage.getItem("token");
       const updated = await orderService.updateOrder(
         order_id,
         {
-          order_status: order_status,
+          order_status: magic,
         },
         loggedInEmployeeToken
       );
-      console.log("Update info", updated);
       fetchCustomerData();
       // navigate("/admin/orders");
     } catch (error) {
       console.error("Error updating order:", error.message);
+      fetchCustomerData();
       setApiError(true);
       setApiErrorMessage(error.message);
     }
   };
-  fetchCustomerData();
+
   return (
     <>
       {apiError ? (
@@ -232,41 +227,6 @@ const OrderUpdate = () => {
           </div>
           {/* ########################## */}
 
-          {/* <div>
-            <h3>Update Status</h3>
-            {orders[0]?.orderServices.map((service, index) => (
-              <Card className="m-lg-2" key={service.service_id}>
-                <Card.Title className="px-lg-3 pt-3">
-                  <h4>{service.serviceName}</h4>
-                </Card.Title>
-                <Card.Body className="service">
-                  <div className="service-description">
-                    {orders?.[0]?.orderServices?.[index].service_completed ==
-                    1 ? (
-                      <h3 className="completed">
-                        {service.serviceDescription}
-                      </h3>
-                    ) : (
-                      <>
-                        <h6>{service.serviceDescription}</h6>
-                        <input
-                          type="checkbox"
-                          value={service.service_id}
-                          checked={selectedServices.includes(
-                            service.service_id
-                          )}
-                          onChange={() =>
-                            handleServiceSelection(service.service_id)
-                          }
-                        />
-                      </>
-                    )}
-                  </div>
-                </Card.Body>
-              </Card>
-            ))}
-          </div> */}
-
           <div className="contact-section my-0 py-4 pb-4">
             <div className="mr-5  ">
               <div className=" ml-5 pb-0  d-flex order-danger ">
@@ -304,7 +264,7 @@ const OrderUpdate = () => {
                                 "Completed"
                               ) : (
                                 <>
-                                  <input
+                                  {/* <input
                                     type="checkbox"
                                     value={service.service_id}
                                     checked={selectedServices.includes(
@@ -313,7 +273,23 @@ const OrderUpdate = () => {
                                     onChange={() =>
                                       handleServiceSelection(service.service_id)
                                     }
+                                  /> */}
+                                  <input
+                                    type="checkbox"
+                                    onChange={(e) =>
+                                      handleServiceSelection(
+                                        service.service_id,
+                                        e.target.checked
+                                      )
+                                    }
+                                    checked={selectedServices.includes(
+                                      service.service_id
+                                    )}
                                   />
+                                  {console.log(
+                                    "Selectedddd sreviceddd",
+                                    selectedServices
+                                  )}
                                 </>
                               )}
                             </h6>

@@ -37,4 +37,7 @@ router.patch(
   orderController.updateOrderServiceStatus
 );
 
+// Create a route to handle the get orders services by id request on get
+router.get("/api/orderServices/:order_id", orderController.getOrderServices);
+
 module.exports = router;
