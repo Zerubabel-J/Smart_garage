@@ -490,25 +490,3 @@ module.exports = {
   getOrderDetailByOrderHash,
   getOrderServices,
 };
-
-// let serviceLength = orders?.[0]?.orderServices?.length;
-// console.log("Service Length", serviceLength);
-// let allCompleted = true; // Flag to track if all services are completed
-
-// for (let i = 0; i < serviceLength; i++) {
-//   console.log(i, orders?.[0]?.orderServices?.[i].service_completed);
-//   if (orders?.[0]?.orderServices?.[i].service_completed == 0) {
-//     allCompleted = false; // Set flag to false if any service is not completed
-//     break; // Break loop if any service is not completed
-//   }
-// }
-// console.log("??????????????", allCompleted);
-// if (allCompleted) {
-//   order_status = 1; // Set order_status to 1 if all services are completed
-// } else {
-//   order_status = 0;
-//   console.log(
-//     "Some services are not completed and the status is ",
-//     order_status
-//   );
-// }
