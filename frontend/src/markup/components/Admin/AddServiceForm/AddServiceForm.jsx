@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import serviceService from '../../../../services/service.service';
-import { useAuth } from "../../../../Contexts/AuthContext";
+import { useAuth } from '../../../../Contexts/AuthContext';
+import Notification from './Notification'; // Import the custom Notification component
 
 function AddServiceForm(props) {
   const [service_name, setServiceName] = useState('');
@@ -15,7 +16,7 @@ function AddServiceForm(props) {
     loggedInserviceToken = service.service_token;
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let valid = true;
     if (!service_name) {
@@ -36,34 +37,30 @@ function AddServiceForm(props) {
     }
     const formData = {
       service_name,
-      service_description
+      service_description,
     };
 
-    const newService = serviceService.createService(formData, loggedInserviceToken);
-    newService
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.error) {
-            setServerError(data.error);
-          } else {
-            setSuccess(true);
-            setServerError('');
-            setTimeout(() => {
-              window.location.reload();
-            }, 2000);
-          }
-      })
-      .catch((error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-        setServerError(resMessage);
-      });
-  }
+    try {
+      const newService = await serviceService.addService(formData, loggedInserviceToken);
+      console.log(newService);
+      if (newService.error) {
+        setServerError(newService.error);
+      } else {
+        setSuccess(true);
+        setServerError('');
+        setTimeout(() => {
+          setSuccess(false); // Clear the success state after a certain time
+          window.location.reload();
+        }, 2000);
+      }
+    } catch (error) {
+      const resMessage =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      setServerError(resMessage);
+    }
+  };
 
   return (
     <section className="contact-section">
@@ -75,8 +72,12 @@ function AddServiceForm(props) {
           <div className="form-column col-lg-9">
             <div className="inner-column">
               <div className="contact-form">
+                <h3 className=' fw-bold  text-success '>
+                {success && <Notification  message="Service added successfully!" type="success" />}
+                {serverError && <Notification message={serverError} type="error" />}
+                </h3>
                 <form onSubmit={handleSubmit}>
-                  <div className="row clearfix">
+                <div className="row clearfix">
                     <div className="form-group col-md-12">
                       <input
                         type="text"
