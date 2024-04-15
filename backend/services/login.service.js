@@ -1,6 +1,3 @@
-// Import the query function from the db.config.js file
-const { query, pool } = require("../config/db.config");
-// Import the bcrypt module to do the password comparison
 const bcrypt = require("bcrypt");
 // Import the employee service to get employee by email
 const employeeService = require("./employee.service");
@@ -35,7 +32,7 @@ async function logIn(employeeData) {
     };
     return returnData;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 }
 

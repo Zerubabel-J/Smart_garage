@@ -50,7 +50,8 @@ async function getServiceById(service_id) {
 
 // A function to get all services
 async function getAllServices() {
-  const query = "SELECT * FROM common_services";
+  const query =
+    "SELECT * FROM common_services ORDER BY service_id DESC LIMIT 8";
   const rows = await conn.query(query);
 
   return rows;

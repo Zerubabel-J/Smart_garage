@@ -1,13 +1,10 @@
 // import axios
-import axios from "axios";
+import axios from "../axiosConfig";
 
 // write a function to add a vehicle
 const addVehicle = async (id, formData) => {
   try {
-    const response = await axios.post(
-      `http://localhost:8000/api/vehicle/${id}`,
-      formData
-    );
+    const response = await axios.post(`/api/vehicle/${id}`, formData);
     console.log("Vehicle", response.data);
     return response.data;
   } catch (error) {
@@ -20,7 +17,7 @@ const addVehicle = async (id, formData) => {
 // write a function to get all vehicles
 const getAllVehicles = async () => {
   try {
-    const response = await axios.get(`http://localhost:8000/api/vehicles`);
+    const response = await axios.get(`/api/vehicles`);
     console.log("Vehicles", response);
     return response.data;
   } catch (error) {
@@ -33,7 +30,7 @@ const getAllVehicles = async () => {
 // write a function to get vehicle by id
 const getVehicleById = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:8000/api/vehicle/${id}`);
+    const response = await axios.get(`/api/vehicle/${id}`);
     console.log("Vehicle", response.data);
     return response.data;
   } catch (error) {
@@ -45,10 +42,7 @@ const getVehicleById = async (id) => {
 // write a function to update vehicle by id
 const updateVehicleById = async (id, formData) => {
   try {
-    const response = await axios.patch(
-      `http://localhost:8000/api/vehicle/${id}`,
-      formData
-    );
+    const response = await axios.patch(`/api/vehicle/${id}`, formData);
     console.log("Vehicle updated", response.data);
     return response.data;
   } catch (error) {

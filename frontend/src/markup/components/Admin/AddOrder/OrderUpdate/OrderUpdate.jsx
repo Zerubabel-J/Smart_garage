@@ -319,7 +319,7 @@ const OrderUpdate = () => {
               className="btn btn-primary pending"
               onClick={handleOrderUpdating}
             >
-              Pending
+              Update
             </button>
           )}
         </div>

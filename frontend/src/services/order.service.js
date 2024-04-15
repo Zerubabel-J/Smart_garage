@@ -1,10 +1,10 @@
-//import axios
-import axios from "axios";
+import axios from "../axiosConfig";
+
 //  write a function to customers with customer name, email or phone number
 const searchCustomers = async (searchTerm) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/customers/search?searchTerm=${searchTerm}`
+      `/api/customers/search?searchTerm=${searchTerm}`
     );
     console.log("Search", response.data);
     return response.data;
@@ -18,16 +18,12 @@ const searchCustomers = async (searchTerm) => {
 const createOrder = async (formData, loggedInEmployeeToken) => {
   console.log("Fromm dataaa", formData);
   try {
-    const response = await axios.post(
-      ` http://localhost:8000/api/order`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": loggedInEmployeeToken,
-        },
-      }
-    );
+    const response = await axios.post(`/api/order`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": loggedInEmployeeToken,
+      },
+    });
     console.log("Order created", response);
     return response.data;
   } catch (error) {
@@ -39,7 +35,7 @@ const createOrder = async (formData, loggedInEmployeeToken) => {
 // write a function to get all orders
 const getAllOrders = async () => {
   try {
-    const response = await axios.get(`http://localhost:8000/api/orders`);
+    const response = await axios.get(`/api/orders`);
     console.log("Orders", response);
     return response.data;
   } catch (error) {
@@ -51,10 +47,8 @@ const getAllOrders = async () => {
 // write a function to get order by id
 const getOrderById = async (order_hash) => {
   try {
-    const response = await axios.get(
-      `http://localhost:8000/api/order/${order_hash}`
-    );
-    console.log(`http://localhost:8000/api/order/${order_hash}`);
+    const response = await axios.get(`/api/order/${order_hash}`);
+    console.log(`/api/order/${order_hash}`);
     console.log("Order", response);
     return response.data;
   } catch (error) {
@@ -66,9 +60,7 @@ const getOrderById = async (order_hash) => {
 // Function to get all order informations using axios
 const getOrderInformation = async () => {
   try {
-    const response = await axios.get(
-      `http://localhost:8000/api/orderinformation`
-    );
+    const response = await axios.get(`/api/orderinformation`);
     console.log("Orders plsss", response);
     return response.data;
   } catch (error) {
@@ -83,9 +75,7 @@ const getOrderInformation = async () => {
 const getOrderDetail = async (order_id) => {
   try {
     console.log(order_id);
-    const response = await axios.get(
-      `http://localhost:8000/api/orderdetail/${order_id}`
-    );
+    const response = await axios.get(`/api/orderdetail/${order_id}`);
     console.log("Order detail", response);
     return response.data;
   } catch (error) {
@@ -98,7 +88,7 @@ const getOrderDetail = async (order_id) => {
 const getOrderDetailByOrderHash = async (order_hash) => {
   try {
     const response = await axios.get(
-      `http://localhost:8000/api/customer/orderdetails/${order_hash}`
+      `/api/customer/orderdetails/${order_hash}`
     );
     console.log("Customer details with hash", response);
     return response.data;
@@ -114,7 +104,7 @@ const updateOrder = async (order_id, formData, loggedInEmployeeToken) => {
   console.log("Order statussss.....???????", formData);
   try {
     const response = await axios.patch(
-      ` http://localhost:8000/api/updateOrder/${order_id}`,
+      `/api/updateOrder/${order_id}`,
       formData,
       {
         headers: {
@@ -134,9 +124,7 @@ const updateOrder = async (order_id, formData, loggedInEmployeeToken) => {
 
 const getSingleOrder = async (order_hash) => {
   try {
-    const response = await axios.get(
-      `http://localhost:8000/api/order/${order_hash}`
-    );
+    const response = await axios.get(`/api/order/${order_hash}`);
     console.log("Order detail", response);
     return response.data;
   } catch (error) {
@@ -151,7 +139,7 @@ const updateOrderServiceStatusById = async (serviceId, service_completed) => {
   try {
     console.log("Singleee Serivice update", { service_completed });
     const response = await axios.patch(
-      ` http://localhost:8000/api/updateOrderService/${serviceId}`,
+      `/api/updateOrderService/${serviceId}`,
       service_completed,
       {
         headers: {
@@ -172,9 +160,7 @@ const updateOrderServiceStatusById = async (serviceId, service_completed) => {
 // write a function to get order by id
 const getOrderServiceById = async (order_id) => {
   try {
-    const response = await axios.get(
-      `http://localhost:8000/api/orderServices/${order_id}`
-    );
+    const response = await axios.get(`/api/orderServices/${order_id}`);
 
     console.log("Order Servicsssss lastttt", response);
     return response.data;

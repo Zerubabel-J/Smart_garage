@@ -43,9 +43,6 @@ async function getOrderDetail(req, res, next) {
   }
 }
 
-(req, res) => {
-  res.status(200).json({ message: "Hello there" });
-};
 async function getOrderDetailByOrderHash(req, res, next) {
   try {
     // const hash = req.params.customer_hash;
