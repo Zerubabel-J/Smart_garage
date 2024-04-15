@@ -507,7 +507,10 @@ img {
 /* Header Top */
 .header-top {
     position: relative;
-    background-color: #08194a;
+    background-color: #071f68;
+    height: 70px;
+    
+    
 }
 
 .header-top .inner-container {
@@ -526,7 +529,8 @@ img {
 }
 
 .header-top .left-column .text {
-    padding: 12px 35px;
+    padding: 20px 35px;
+    height: 70px;
 }
 
 .header-top .text {
@@ -548,14 +552,14 @@ img {
 }
 
 .header-top .right-column .phone-number {
-    font-size: 18px;
+    font-size: 20px;
     color: #fff;
 }
 
 .header-top .right-column .phone-number strong {
     font-weight: 700;
-    font-size: 22px;
-    margin-left: 20px;
+    font-size: 25px;
+    margin-right: 30px;
 }
 
 .header-top #polyglotLanguageSwitcher {
