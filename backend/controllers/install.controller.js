@@ -1,16 +1,6 @@
 // Import the install service to handle communication with the database
 const installService = require("../services/install.service");
 
-function welcome(req, res, next) {
-  let responseMsg = installService.yes();
-  // console.log(responseMsg);
-  if (responseMsg) {
-    res.send("Yess there & Welcome to the Smart Garage API");
-  } else {
-    res.send("Visit us latter");
-  }
-}
-
 // Create a function to handle the install request
 async function install(req, res, next) {
   // Call the install service to create the database tables
@@ -29,4 +19,4 @@ async function install(req, res, next) {
   }
 }
 // Export the install function
-module.exports = { install, welcome };
+module.exports = { install };

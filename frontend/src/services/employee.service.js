@@ -1,17 +1,13 @@
-import axios from "axios";
+import axios from "../axiosConfig";
 
 const createEmployee = async (formData, loggedInEmployeeToken) => {
   try {
-    const response = await axios.post(
-      `http://localhost:8000/api/employee`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": loggedInEmployeeToken,
-        },
-      }
-    );
+    const response = await axios.post(`/api/employee`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": loggedInEmployeeToken,
+      },
+    });
     return response;
   } catch (error) {
     // Handle error
@@ -24,7 +20,7 @@ const createEmployee = async (formData, loggedInEmployeeToken) => {
 const getAllEmployees = async (token) => {
   try {
     console.log(token);
-    const response = await axios.get(`http://localhost:8000/api/employees`, {
+    const response = await axios.get(`/api/employees`, {
       headers: {
         "Content-Type": "application/json",
         "x-access-token": token,
@@ -42,15 +38,12 @@ const getAllEmployees = async (token) => {
 // A function to get an employee by id
 const getEmployeeById = async (token, employeeId) => {
   try {
-    const response = await axios.get(
-      `http://localhost:8000/api/employee/${employeeId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": token,
-        },
-      }
-    );
+    const response = await axios.get(`/api/employee/${employeeId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    });
     console.log("Singlee Employeeeeee", response.data);
     return response.data;
   } catch (error) {
@@ -61,15 +54,12 @@ const getEmployeeById = async (token, employeeId) => {
 };
 const deleteEmployeeById = async (token, employeeId) => {
   try {
-    const response = await axios.delete(
-      `http://localhost:8000/api/employee/${employeeId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": token,
-        },
-      }
-    );
+    const response = await axios.delete(`/api/employee/${employeeId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token,
+      },
+    });
     console.log("Axios Resp", response.data);
     return response.data; // If you want to return something from the delete operation
   } catch (error) {
@@ -81,7 +71,7 @@ const deleteEmployeeById = async (token, employeeId) => {
 const updateEmployee = async (token, formData, employeeId) => {
   try {
     const response = await axios.patch(
-      `http://localhost:8000/api/employee/${employeeId}`,
+      `/api/employee/${employeeId}`,
       formData,
       {
         headers: {
