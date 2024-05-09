@@ -59,7 +59,6 @@ const LoginForm = () => {
 
         if (location.pathname === "/login") {
           navigate("/admin");
-        } else {
           window.location.reload();
         }
       } else {
