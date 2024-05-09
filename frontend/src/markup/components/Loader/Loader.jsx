@@ -1,4 +1,4 @@
-import { FadeLoader } from "react-spinners";
+import { RingLoader } from "react-spinners";
 const Loader = () => {
   return (
     <div
@@ -6,10 +6,11 @@ const Loader = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        height: "50vh",
+        height: "100vh",
       }}
     >
-      <FadeLoader color="#36d7b7" />
+      {/* <FadeLoader color="#071f68" /> */}
+      <RingLoader color="#071f68" size={80} />
     </div>
   );
 };
