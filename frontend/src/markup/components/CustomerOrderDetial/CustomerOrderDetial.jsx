@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 // import customer service
 
 import orderService from "../../../services/order.service";
+
 import { format } from "date-fns";
 
 // import userParams, useNavigate, Link and useParams from react-router-dom
@@ -247,11 +248,15 @@ const CustomerOrderDetial = () => {
                             <h5 className="mb-1 font-weight-bold ">
                               Order Date:
                               <span className="additional">
-                                {/* {format(
-                                  new Date(orders?.[0]?.order_date),
-                                  "MM - dd - yyyy | kk:mm"
-                                )} */}
-                                {orders?.[0]?.order_date}
+                                {new Date(
+                                  orders?.[0]?.order_date
+                                ).toLocaleString("en-US", {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                })}
                               </span>
                             </h5>
                           </div>
