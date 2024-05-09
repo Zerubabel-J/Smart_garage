@@ -264,16 +264,6 @@ const OrderUpdate = () => {
                                 "Completed"
                               ) : (
                                 <>
-                                  {/* <input
-                                    type="checkbox"
-                                    value={service.service_id}
-                                    checked={selectedServices.includes(
-                                      service.service_id
-                                    )}
-                                    onChange={() =>
-                                      handleServiceSelection(service.service_id)
-                                    }
-                                  /> */}
                                   <input
                                     type="checkbox"
                                     onChange={(e) =>
