@@ -19,32 +19,6 @@ const ServiceList = () => {
     token = employee.employee_token;
   }
 
-  // useEffect(() => {
-  //   const allService = serviceService.getAllServices();
-  //   allService
-  //     .then((res) => {
-  //       if (!res.ok) {
-  //         setApiError(true);
-  //         if (res.status === 401) {
-  //           setApiErrorMessage("Please login again");
-  //         } else if (res.status === 403) {
-  //           setApiErrorMessage("You are not authorized to view this page");
-  //         } else {
-  //           setApiErrorMessage("Please try again later");
-  //         }
-  //       }
-  //       return res.json();
-  //     })
-  //     .then((data) => {
-  //       if (data.data.length !== 0) {
-  //         setServices(data.data);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
